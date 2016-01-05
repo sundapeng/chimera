@@ -47,9 +47,9 @@ public class CryptoCodecTest {
   private int count = 10000;
 
   private final String jceCodecClass = 
-      "com.intel.chimera.codec.JceAesCtrCryptoCodec";
+      "com.intel.chimera.codec.JceAesCbcCryptoCodec";
   private final String opensslCodecClass = 
-      "com.intel.chimera.codec.OpensslAesCtrCryptoCodec";
+      "com.intel.chimera.codec.OpensslAesCbcCryptoCodec";
 
   private Properties props;
 
