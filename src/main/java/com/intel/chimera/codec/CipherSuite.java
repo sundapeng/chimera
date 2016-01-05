@@ -23,7 +23,8 @@ package com.intel.chimera.codec;
  */
 public enum CipherSuite {
   UNKNOWN("Unknown", 0),
-  AES_CTR_NOPADDING("AES/CTR/NoPadding", 16);
+  AES_CTR_NOPADDING("AES/CTR/NoPadding", 16),
+  AES_CBC_NOPADDING("AES/CBC/NoPadding", 16);
 
   private final String name;
   private final int algoBlockSize;

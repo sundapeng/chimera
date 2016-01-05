@@ -34,7 +34,7 @@ import com.intel.chimera.utils.NativeCodeLoader;
 
 /**
  * OpenSSL cipher using JNI.
- * Currently only AES-CTR is supported. It's flexible to add 
+ * Currently only AES-CTR is supported. It's flexible to add
  * other crypto algorithms/modes.
  */
 public final class OpensslCipher {
@@ -45,8 +45,9 @@ public final class OpensslCipher {
   
   /** Currently only support AES/CTR/NoPadding. */
   private static enum AlgMode {
-    AES_CTR;
-    
+    AES_CTR,
+    AES_CBC;
+
     static int get(String algorithm, String mode) 
         throws NoSuchAlgorithmException {
       try {
@@ -59,7 +60,8 @@ public final class OpensslCipher {
   }
   
   private static enum Padding {
-    NoPadding;
+    NoPadding,
+    PKCS5Padding;
     
     static int get(String padding) throws NoSuchPaddingException {
       try {
@@ -264,5 +266,4 @@ public final class OpensslCipher {
     clean();
   }
 
-  
 }

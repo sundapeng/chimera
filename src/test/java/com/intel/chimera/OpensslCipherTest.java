@@ -40,12 +40,30 @@ public class OpensslCipherTest {
     Assume.assumeTrue(OpensslCipher.getLoadingFailureReason() == null);
     OpensslCipher cipher = OpensslCipher.getInstance("AES/CTR/NoPadding");
     Assert.assertTrue(cipher != null);
+    cipher.clean();
+    cipher = null;
+
+    cipher = OpensslCipher.getInstance("AES/CTR/PKCS5Padding");
+    Assert.assertTrue(cipher != null);
+    cipher.clean();
+    cipher = null;
+
+    cipher = OpensslCipher.getInstance("AES/CBC/NoPadding");
+    Assert.assertTrue(cipher != null);
+    cipher.clean();
+    cipher = null;
+
+    cipher = OpensslCipher.getInstance("AES/CBC/PKCS5Padding");
+    Assert.assertTrue(cipher != null);
+    cipher.clean();
+    cipher = null;
 
     try {
       cipher = OpensslCipher.getInstance("AES2/CTR/NoPadding");
       Assert.fail("Should specify correct algorithm.");
     } catch (NoSuchAlgorithmException e) {
       // Expect NoSuchAlgorithmException
+      cipher = null;
     }
 
     try {
@@ -53,6 +71,15 @@ public class OpensslCipherTest {
       Assert.fail("Should specify correct padding.");
     } catch (NoSuchPaddingException e) {
       // Expect NoSuchPaddingException
+      cipher = null;
+    }
+
+    try {
+      cipher = OpensslCipher.getInstance("AES/CTS/NoPadding");
+      Assert.fail("Should specify correct padding.");
+    } catch (NoSuchAlgorithmException e) {
+      // Expect NoSuchPaddingException
+      cipher = null;
     }
   }
 

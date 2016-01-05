@@ -187,8 +187,10 @@ public class Utils {
 
   /** AES/CTR/NoPadding is required */
   public static void checkCodec(CryptoCodec codec) {
-    if (codec.getCipherSuite() != CipherSuite.AES_CTR_NOPADDING) {
-      throw new UnsupportedCodecException("AES/CTR/NoPadding is required");
+    if (codec.getCipherSuite() != CipherSuite.AES_CTR_NOPADDING
+        && codec.getCipherSuite() != CipherSuite.AES_CBC_NOPADDING) {
+      throw new UnsupportedCodecException(codec.getCipherSuite()
+          .getName() + "is not support.");
     }
   }
 
