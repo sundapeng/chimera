@@ -182,8 +182,8 @@ public class NativeCodeLoader {
         InputStream nativeIn = null;
         InputStream extractedLibIn = null;
         try {
-          nativeIn = NativeCodeLoader.class
-              .getResourceAsStream(nativeLibraryFilePath);
+          nativeIn =
+              NativeCodeLoader.class.getResourceAsStream(nativeLibraryFilePath);
           extractedLibIn = new FileInputStream(extractedLibFile);
           if (!contentsEquals(nativeIn, extractedLibIn))
             throw new RuntimeException(String.format(
