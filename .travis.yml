@@ -4,5 +4,7 @@ jdk:
   - oraclejdk7
 script:
   - mvn apache-rat:check
+  - mvn clean test
+  - jdk_switcher use oraclejdk7
   - mvn clean test -Pfindbugs
 
