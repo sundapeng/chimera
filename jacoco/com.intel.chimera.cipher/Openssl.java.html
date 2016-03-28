@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Openssl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.cipher</a> &gt; <span class="el_source">Openssl.java</span></div><h1>Openssl.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.cipher;
+
+import java.nio.ByteBuffer;
+import java.security.NoSuchAlgorithmException;
+import java.util.StringTokenizer;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.ShortBufferException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.intel.chimera.utils.NativeCodeLoader;
+import com.intel.chimera.utils.Utils;
+
+/**
+ * OpenSSL cryptographic wrapper using JNI.
+ * Currently only AES-CTR is supported. It's flexible to add
+ * other crypto algorithms/modes.
+ */
+public final class Openssl {
+<span class="fc" id="L41">  private static final Log LOG = LogFactory.getLog(Openssl.class.getName());</span>
+
+  // Mode constant defined by Openssl JNI
+  public static final int ENCRYPT_MODE = 1;
+  public static final int DECRYPT_MODE = 0;
+
+  /** Currently only support AES/CTR/NoPadding. */
+<span class="fc" id="L48">  private static enum AlgorithmMode {</span>
+<span class="fc" id="L49">    AES_CTR,</span>
+<span class="fc" id="L50">    AES_CBC;</span>
+
+    static int get(String algorithm, String mode)
+        throws NoSuchAlgorithmException {
+      try {
+<span class="fc" id="L55">        return AlgorithmMode.valueOf(algorithm + &quot;_&quot; + mode).ordinal();</span>
+<span class="fc" id="L56">      } catch (Exception e) {</span>
+<span class="fc" id="L57">        throw new NoSuchAlgorithmException(&quot;Doesn't support algorithm: &quot; +</span>
+            algorithm + &quot; and mode: &quot; + mode);
+      }
+    }
+  }
+
+<span class="fc" id="L63">  private static enum Padding {</span>
+<span class="fc" id="L64">    NoPadding,</span>
+<span class="fc" id="L65">    PKCS5Padding;</span>
+
+    static int get(String padding) throws NoSuchPaddingException {
+      try {
+<span class="fc" id="L69">        return Padding.valueOf(padding).ordinal();</span>
+<span class="fc" id="L70">      } catch (Exception e) {</span>
+<span class="fc" id="L71">        throw new NoSuchPaddingException(&quot;Doesn't support padding: &quot; + padding);</span>
+      }
+    }
+  }
+
+<span class="fc" id="L76">  private long context = 0;</span>
+  private final int algorithm;
+  private final int padding;
+
+  private static final String loadingFailureReason;
+
+  static {
+<span class="fc" id="L83">    String loadingFailure = null;</span>
+    try {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">      if (NativeCodeLoader.isNativeCodeLoaded()) {</span>
+<span class="fc" id="L86">        OpensslNative.initIDs();</span>
+      }
+<span class="nc" id="L88">    } catch (Throwable t) {</span>
+<span class="nc" id="L89">      loadingFailure = t.getMessage();</span>
+<span class="nc" id="L90">      LOG.debug(&quot;Failed to load OpenSSL Cipher.&quot;, t);</span>
+    } finally {
+<span class="pc" id="L92">      loadingFailureReason = loadingFailure;</span>
+<span class="pc" id="L93">    }</span>
+<span class="fc" id="L94">  }</span>
+
+  public static String getLoadingFailureReason() {
+<span class="fc" id="L97">    return loadingFailureReason;</span>
+  }
+
+<span class="fc" id="L100">  private Openssl(long context, int algorithm, int padding) {</span>
+<span class="fc" id="L101">    this.context = context;</span>
+<span class="fc" id="L102">    this.algorithm = algorithm;</span>
+<span class="fc" id="L103">    this.padding = padding;</span>
+<span class="fc" id="L104">  }</span>
+
+  /**
+   * Return an &lt;code&gt;OpensslCipher&lt;code&gt; object that implements the specified
+   * transformation.
+   *
+   * @param transformation the name of the transformation, e.g.,
+   * AES/CTR/NoPadding.
+   * @return OpensslCipher an &lt;code&gt;OpensslCipher&lt;code&gt; object
+   * @throws NoSuchAlgorithmException if &lt;code&gt;transformation&lt;/code&gt; is null,
+   * empty, in an invalid format, or if Openssl doesn't implement the
+   * specified algorithm.
+   * @throws NoSuchPaddingException if &lt;code&gt;transformation&lt;/code&gt; contains
+   * a padding scheme that is not available.
+   */
+  public static final Openssl getInstance(String transformation)
+      throws NoSuchAlgorithmException, NoSuchPaddingException {
+<span class="fc" id="L121">    Transform transform = tokenizeTransformation(transformation);</span>
+<span class="fc" id="L122">    int algorithmMode = AlgorithmMode.get(transform.algorithm, transform.mode);</span>
+<span class="fc" id="L123">    int padding = Padding.get(transform.padding);</span>
+<span class="fc" id="L124">    long context = OpensslNative.initContext(algorithmMode, padding);</span>
+<span class="fc" id="L125">    return new Openssl(context, algorithmMode, padding);</span>
+  }
+
+  /** Nested class for algorithm, mode and padding. */
+  private static class Transform {
+    final String algorithm;
+    final String mode;
+    final String padding;
+
+<span class="fc" id="L134">    public Transform(String algorithm, String mode, String padding) {</span>
+<span class="fc" id="L135">      this.algorithm = algorithm;</span>
+<span class="fc" id="L136">      this.mode = mode;</span>
+<span class="fc" id="L137">      this.padding = padding;</span>
+<span class="fc" id="L138">    }</span>
+  }
+
+  private static Transform tokenizeTransformation(String transformation)
+      throws NoSuchAlgorithmException {
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">    if (transformation == null) {</span>
+<span class="nc" id="L144">      throw new NoSuchAlgorithmException(&quot;No transformation given.&quot;);</span>
+    }
+
+    /*
+     * Array containing the components of a Cipher transformation:
+     *
+     * index 0: algorithm (e.g., AES)
+     * index 1: mode (e.g., CTR)
+     * index 2: padding (e.g., NoPadding)
+     */
+<span class="fc" id="L154">    String[] parts = new String[3];</span>
+<span class="fc" id="L155">    int count = 0;</span>
+<span class="fc" id="L156">    StringTokenizer parser = new StringTokenizer(transformation, &quot;/&quot;);</span>
+<span class="pc bpc" id="L157" title="1 of 4 branches missed.">    while (parser.hasMoreTokens() &amp;&amp; count &lt; 3) {</span>
+<span class="fc" id="L158">      parts[count++] = parser.nextToken().trim();</span>
+    }
+<span class="pc bpc" id="L160" title="2 of 4 branches missed.">    if (count != 3 || parser.hasMoreTokens()) {</span>
+<span class="nc" id="L161">      throw new NoSuchAlgorithmException(&quot;Invalid transformation format: &quot; +</span>
+          transformation);
+    }
+<span class="fc" id="L164">    return new Transform(parts[0], parts[1], parts[2]);</span>
+  }
+
+  /**
+   * Initialize this cipher with a key and IV.
+   *
+   * @param mode {@link #ENCRYPT_MODE} or {@link #DECRYPT_MODE}
+   * @param key crypto key
+   * @param iv crypto iv
+   */
+  public void init(int mode, byte[] key, byte[] iv) {
+<span class="fc" id="L175">    context = OpensslNative.init(context, mode, algorithm, padding, key, iv);</span>
+<span class="fc" id="L176">  }</span>
+
+  /**
+   * Continues a multiple-part encryption or decryption operation. The data
+   * is encrypted or decrypted, depending on how this cipher was initialized.
+   * &lt;p/&gt;
+   *
+   * All &lt;code&gt;input.remaining()&lt;/code&gt; bytes starting at
+   * &lt;code&gt;input.position()&lt;/code&gt; are processed. The result is stored in
+   * the output buffer.
+   * &lt;p/&gt;
+   *
+   * Upon return, the input buffer's position will be equal to its limit;
+   * its limit will not have changed. The output buffer's position will have
+   * advanced by n, when n is the value returned by this method; the output
+   * buffer's limit will not have changed.
+   * &lt;p/&gt;
+   *
+   * If &lt;code&gt;output.remaining()&lt;/code&gt; bytes are insufficient to hold the
+   * result, a &lt;code&gt;ShortBufferException&lt;/code&gt; is thrown.
+   *
+   * @param input the input ByteBuffer
+   * @param output the output ByteBuffer
+   * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
+   * @throws ShortBufferException if there is insufficient space in the
+   * output buffer
+   */
+  public int update(ByteBuffer input, ByteBuffer output)
+      throws ShortBufferException {
+<span class="fc" id="L205">    checkState();</span>
+<span class="pc bpc" id="L206" title="1 of 4 branches missed.">    Utils.checkArgument(input.isDirect() &amp;&amp; output.isDirect(),</span>
+        &quot;Direct buffers are required.&quot;);
+<span class="fc" id="L208">    int len = OpensslNative.update(context, input, input.position(),</span>
+        input.remaining(), output, output.position(), output.remaining());
+<span class="fc" id="L210">    input.position(input.limit());</span>
+<span class="fc" id="L211">    output.position(output.position() + len);</span>
+<span class="fc" id="L212">    return len;</span>
+  }
+
+  /**
+   * Continues a multiple-part encryption/decryption operation. The data
+   * is encrypted or decrypted, depending on how this cipher was initialized.
+   *
+   * @param input the input byte array
+   * @param inputOffset the offset in input where the input starts
+   * @param inputLen the input length
+   * @param output the byte array for the result
+   * @param outputOffset the offset in output where the result is stored
+   * @return the number of bytes stored in output
+   * @throws ShortBufferException if there is insufficient space in the output byte array
+   */
+  public int update(byte[] input, int inputOffset, int inputLen,
+      byte[] output, int outputOffset)
+      throws ShortBufferException {
+<span class="fc" id="L230">    checkState();</span>
+<span class="fc" id="L231">    return OpensslNative.updateByteArray(context, input, inputOffset, inputLen,</span>
+        output, outputOffset, output.length - outputOffset);
+  }
+
+  /**
+   * Finishes a multiple-part operation. The data is encrypted or decrypted,
+   * depending on how this cipher was initialized.
+   * &lt;p/&gt;
+   *
+   * The result is stored in the output buffer. Upon return, the output buffer's
+   * position will have advanced by n, where n is the value returned by this
+   * method; the output buffer's limit will not have changed.
+   * &lt;p/&gt;
+   *
+   * If &lt;code&gt;output.remaining()&lt;/code&gt; bytes are insufficient to hold the result,
+   * a &lt;code&gt;ShortBufferException&lt;/code&gt; is thrown.
+   * &lt;p/&gt;
+   *
+   * Upon finishing, this method resets this cipher object to the state it was
+   * in when previously initialized. That is, the object is available to encrypt
+   * or decrypt more data.
+   * &lt;p/&gt;
+   *
+   * If any exception is thrown, this cipher object need to be reset before it
+   * can be used again.
+   *
+   * @param output the output ByteBuffer
+   * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
+   * @throws ShortBufferException
+   * @throws IllegalBlockSizeException
+   * @throws BadPaddingException
+   */
+  public int doFinal(ByteBuffer output)
+      throws ShortBufferException, IllegalBlockSizeException,
+      BadPaddingException {
+<span class="fc" id="L266">    checkState();</span>
+<span class="fc" id="L267">    Utils.checkArgument(output.isDirect(), &quot;Direct buffer is required.&quot;);</span>
+<span class="fc" id="L268">    int len = OpensslNative.doFinal(context, output, output.position(), output.remaining());</span>
+<span class="fc" id="L269">    output.position(output.position() + len);</span>
+<span class="fc" id="L270">    return len;</span>
+  }
+
+  /**
+   * Encrypts or decrypts data in a single-part operation, or finishes a
+   * multiple-part operation.
+   *
+   * @param output the byte array for the result
+   * @param outputOffset the offset in output where the result is stored
+   * @return the number of bytes stored in output
+   * @throws ShortBufferException if the given output byte array is too small
+   * to hold the result
+   * @throws BadPaddingException if this cipher is in decryption mode,
+   * and (un)padding has been requested, but the decrypted data is not
+   * bounded by the appropriate padding bytes
+   * @throws IllegalBlockSizeException if this cipher is a block cipher,
+   * no padding has been requested (only in encryption mode), and the total
+   * input length of the data processed by this cipher is not a multiple of
+   * block size; or if this encryption algorithm is unable to
+   * process the input data provided.
+   */
+  public int doFinal(byte[] output, int outputOffset)
+      throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
+<span class="fc" id="L293">    checkState();</span>
+<span class="fc" id="L294">    return OpensslNative.doFinalByteArray(context,</span>
+        output, outputOffset, output.length - outputOffset);
+  }
+
+  /** Forcibly clean the context. */
+  public void clean() {
+<span class="pc bpc" id="L300" title="1 of 2 branches missed.">    if (context != 0) {</span>
+<span class="fc" id="L301">      OpensslNative.clean(context);</span>
+<span class="fc" id="L302">      context = 0;</span>
+    }
+<span class="fc" id="L304">  }</span>
+
+  /** Check whether context is initialized. */
+  private void checkState() {
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">    Utils.checkState(context != 0);</span>
+<span class="fc" id="L309">  }</span>
+
+  @Override
+  protected void finalize() throws Throwable {
+<span class="nc" id="L313">    clean();</span>
+<span class="nc" id="L314">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OpensslCipher.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.cipher</a> &gt; <span class="el_source">OpensslCipher.java</span></div><h1>OpensslCipher.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.cipher;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.util.Properties;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.ShortBufferException;
+
+import com.intel.chimera.utils.Utils;
+
+/**
+ * Implement the Cipher using JNI into OpenSSL.
+ */
+public class OpensslCipher implements Cipher {
+  private final Properties props;
+  private final CipherTransformation transformation;
+  private final Openssl cipher;
+
+  /**
+   * Constructs a {@link com.intel.chimera.cipher.Cipher} using JNI into OpenSSL
+   * @param props properties for OpenSSL cipher
+   * @param transformation transformation for OpenSSL cipher
+   * @throws GeneralSecurityException if OpenSSL cipher initialize failed
+   */
+  public OpensslCipher(Properties props, CipherTransformation transformation)
+<span class="fc" id="L46">      throws GeneralSecurityException {</span>
+<span class="fc" id="L47">    this.props = props;</span>
+<span class="fc" id="L48">    this.transformation = transformation;</span>
+
+<span class="fc" id="L50">    String loadingFailureReason = Openssl.getLoadingFailureReason();</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">    if (loadingFailureReason != null) {</span>
+<span class="nc" id="L52">      throw new RuntimeException(loadingFailureReason);</span>
+    }
+
+<span class="fc" id="L55">    cipher = Openssl.getInstance(transformation.getName());</span>
+<span class="fc" id="L56">  }</span>
+
+  @Override
+  public CipherTransformation getTransformation() {
+<span class="fc" id="L60">    return transformation;</span>
+  }
+
+  @Override
+  public Properties getProperties() {
+<span class="fc" id="L65">    return props;</span>
+  }
+
+  /**
+   * Initializes the cipher with mode, key and iv.
+   * @param mode {@link #ENCRYPT_MODE} or {@link #DECRYPT_MODE}
+   * @param key crypto key for the cipher
+   * @param iv Initialization vector for the cipher
+   * @throws IOException if cipher initialize fails
+   */
+  @Override
+  public void init(int mode, byte[] key, byte[] iv) {
+<span class="fc" id="L77">    Utils.checkNotNull(key);</span>
+<span class="fc" id="L78">    Utils.checkNotNull(iv);</span>
+
+<span class="fc" id="L80">    int cipherMode = Openssl.DECRYPT_MODE;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">    if (mode == ENCRYPT_MODE)</span>
+<span class="fc" id="L82">      cipherMode = Openssl.ENCRYPT_MODE;</span>
+
+<span class="fc" id="L84">    cipher.init(cipherMode, key, iv);</span>
+<span class="fc" id="L85">  }</span>
+
+  /**
+   * Continues a multiple-part encryption/decryption operation. The data
+   * is encrypted or decrypted, depending on how this cipher was initialized.
+   * @param inBuffer the input ByteBuffer
+   * @param outBuffer the output ByteBuffer
+   * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
+   * @throws ShortBufferException if there is insufficient space
+   * in the output buffer
+   */
+  @Override
+  public int update(ByteBuffer inBuffer, ByteBuffer outBuffer)
+      throws ShortBufferException {
+<span class="fc" id="L99">    return cipher.update(inBuffer, outBuffer);</span>
+  }
+
+  /**
+   * Continues a multiple-part encryption/decryption operation. The data
+   * is encrypted or decrypted, depending on how this cipher was initialized.
+   *
+   * @param input the input byte array
+   * @param inputOffset the offset in input where the input starts
+   * @param inputLen the input length
+   * @param output the byte array for the result
+   * @param outputOffset the offset in output where the result is stored
+   * @return the number of bytes stored in output
+   * @throws ShortBufferException if there is insufficient space in the output byte array
+   */
+  @Override
+  public int update(byte[] input, int inputOffset, int inputLen,
+      byte[] output, int outputOffset)
+      throws ShortBufferException {
+<span class="fc" id="L118">    return cipher.update(input, inputOffset, inputLen,</span>
+                         output, outputOffset);
+  }
+
+  /**
+   * Encrypts or decrypts data in a single-part operation, or finishes a
+   * multiple-part operation. The data is encrypted or decrypted, depending
+   * on how this cipher was initialized.
+   * @param inBuffer the input ByteBuffer
+   * @param outBuffer the output ByteBuffer
+   * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
+   * @throws BadPaddingException if this cipher is in decryption mode,
+   * and (un)padding has been requested, but the decrypted data is not
+   * bounded by the appropriate padding bytes
+   * @throws IllegalBlockSizeException if this cipher is a block cipher,
+   * no padding has been requested (only in encryption mode), and the total
+   * input length of the data processed by this cipher is not a multiple of
+   * block size; or if this encryption algorithm is unable to
+   * process the input data provided.
+   * @throws ShortBufferException if the given output buffer is too small
+   * to hold the result
+   */
+  @Override
+  public int doFinal(ByteBuffer inBuffer, ByteBuffer outBuffer)
+      throws ShortBufferException, IllegalBlockSizeException,
+      BadPaddingException {
+<span class="fc" id="L144">    int n = cipher.update(inBuffer, outBuffer);</span>
+<span class="fc" id="L145">    return n + cipher.doFinal(outBuffer);</span>
+  }
+
+  /**
+   * Encrypts or decrypts data in a single-part operation, or finishes a
+   * multiple-part operation.
+   *
+   * @param input the input byte array
+   * @param inputOffset the offset in input where the input starts
+   * @param inputLen the input length
+   * @param output the byte array for the result
+   * @param outputOffset the offset in output where the result is stored
+   * @return the number of bytes stored in output
+   * @throws ShortBufferException if the given output byte array is too small
+   * to hold the result
+   * @throws BadPaddingException if this cipher is in decryption mode,
+   * and (un)padding has been requested, but the decrypted data is not
+   * bounded by the appropriate padding bytes
+   * @throws IllegalBlockSizeException if this cipher is a block cipher,
+   * no padding has been requested (only in encryption mode), and the total
+   * input length of the data processed by this cipher is not a multiple of
+   * block size; or if this encryption algorithm is unable to
+   * process the input data provided.
+   */
+  @Override
+  public int doFinal(byte[] input, int inputOffset, int inputLen,
+      byte[] output, int outputOffset)
+      throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
+<span class="fc" id="L173">    int n = cipher.update(input, inputOffset, inputLen,</span>
+                          output, outputOffset);
+<span class="fc" id="L175">    return n + cipher.doFinal(output, outputOffset + n);</span>
+  }
+
+  /**
+   * Closes the OpenSSL cipher. Clean the Openssl native context.
+   */
+  @Override
+  public void close() {
+<span class="fc" id="L183">    cipher.clean();</span>
+<span class="fc" id="L184">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

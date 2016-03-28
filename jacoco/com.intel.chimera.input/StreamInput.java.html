@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>StreamInput.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.input</a> &gt; <span class="el_source">StreamInput.java</span></div><h1>StreamInput.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.input;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/**
+ * The StreamInput class takes a &lt;code&gt;InputStream&lt;/code&gt; object and
+ * wraps it as &lt;code&gt;Input&lt;/code&gt; object acceptable by &lt;code&gt;CryptoInputStream&lt;/code&gt;.
+ */
+public class StreamInput implements Input {
+  private byte[] buf;
+  private int bufferSize;
+  InputStream in;
+
+<span class="fc" id="L33">  public StreamInput(InputStream inputStream, int bufferSize) {</span>
+<span class="fc" id="L34">    this.in = inputStream;</span>
+<span class="fc" id="L35">    this.bufferSize = bufferSize;</span>
+<span class="fc" id="L36">  }</span>
+
+  @Override
+  public int read(ByteBuffer dst) throws IOException {
+<span class="fc" id="L40">    int remaining = dst.remaining();</span>
+<span class="fc" id="L41">    final byte[] tmp = getBuf();</span>
+<span class="fc" id="L42">    int read = 0;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    while (remaining &gt; 0) {</span>
+<span class="fc" id="L44">      final int n = in.read(tmp, 0, Math.min(remaining, bufferSize));</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">      if (n == -1) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (read == 0) {</span>
+<span class="fc" id="L47">          read = -1;</span>
+        }
+        break;
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">      } else if (n &gt; 0) {</span>
+<span class="fc" id="L51">        dst.put(tmp, 0, n);</span>
+<span class="fc" id="L52">        read += n;</span>
+<span class="fc" id="L53">        remaining -= n;</span>
+      }
+<span class="fc" id="L55">    }</span>
+<span class="fc" id="L56">    return read;</span>
+  }
+
+  @Override
+  public long skip(long n) throws IOException {
+<span class="fc" id="L61">    return in.skip(n);</span>
+  }
+
+  @Override
+  public int available() throws IOException {
+<span class="nc" id="L66">    return in.available();</span>
+  }
+
+  @Override
+  public int read(long position, byte[] buffer, int offset, int length)
+      throws IOException {
+<span class="nc" id="L72">    throw new UnsupportedOperationException(</span>
+        &quot;Positioned read is not supported by this implementation&quot;);
+  }
+
+  @Override
+  public void readFully(long position, byte[] buffer, int offset, int length)
+      throws IOException {
+<span class="nc" id="L79">    throw new UnsupportedOperationException(</span>
+        &quot;Positioned readFully is not supported by this implementation&quot;);
+  }
+
+  @Override
+  public void seek(long pos) throws IOException {
+<span class="nc" id="L85">    throw new UnsupportedOperationException(</span>
+        &quot;Seek is not supported by this implementation&quot;);
+  }
+
+  @Override
+  public void close() throws IOException {
+<span class="fc" id="L91">    in.close();</span>
+<span class="fc" id="L92">  }</span>
+
+  private byte[] getBuf() {
+<span class="fc bfc" id="L95" title="All 2 branches covered.">    if (buf == null) {</span>
+<span class="fc" id="L96">      buf = new byte[bufferSize];</span>
+    }
+<span class="fc" id="L98">    return buf;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

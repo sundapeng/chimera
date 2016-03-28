@@ -1,0 +1,505 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="iso-8859-1">
+<title>OpensslCipher (Apache Commons Chimera 1.0.0-SNAPSHOT API)</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OpensslCipher (Apache Commons Chimera 1.0.0-SNAPSHOT API)";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/OpensslCipher.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-all.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../com/intel/chimera/cipher/Openssl.html" title="class in com.intel.chimera.cipher"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../com/intel/chimera/cipher/OpensslNative.html" title="class in com.intel.chimera.cipher"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?com/intel/chimera/cipher/OpensslCipher.html" target="_top">Frames</a></li>
+<li><a href="OpensslCipher.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">com.intel.chimera.cipher</div>
+<h2 title="Class OpensslCipher" class="title">Class OpensslCipher</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li><a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">java.lang.Object</a></li>
+<li>
+<ul class="inheritance">
+<li>com.intel.chimera.cipher.OpensslCipher</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a></dd>
+</dl>
+<hr>
+<br>
+<pre>public class <a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.34">OpensslCipher</a>
+extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
+implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></pre>
+<div class="block">Implement the Cipher using JNI into OpenSSL.</div>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_com.intel.chimera.cipher.Cipher">
+<!--   -->
+</a>
+<h3>Fields inherited from interface&nbsp;com.intel.chimera.cipher.<a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></h3>
+<code><a href="../../../../com/intel/chimera/cipher/Cipher.html#DECRYPT_MODE">DECRYPT_MODE</a>, <a href="../../../../com/intel/chimera/cipher/Cipher.html#ENCRYPT_MODE">ENCRYPT_MODE</a></code></li>
+</ul>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#OpensslCipher(java.util.Properties, com.intel.chimera.cipher.CipherTransformation)">OpensslCipher</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props,
+                          <a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation)</code>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JNI into OpenSSL</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#close()">close</a></strong>()</code>
+<div class="block">Closes the OpenSSL cipher.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#doFinal(byte[], int, int, byte[], int)">doFinal</a></strong>(byte[]&nbsp;input,
+              int&nbsp;inputOffset,
+              int&nbsp;inputLen,
+              byte[]&nbsp;output,
+              int&nbsp;outputOffset)</code>
+<div class="block">Encrypts or decrypts data in a single-part operation, or finishes a
+ multiple-part operation.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#doFinal(java.nio.ByteBuffer, java.nio.ByteBuffer)">doFinal</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+              <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)</code>
+<div class="block">Encrypts or decrypts data in a single-part operation, or finishes a
+ multiple-part operation.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#getProperties()">getProperties</a></strong>()</code>
+<div class="block">Get the properties for this cipher.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#init(int, byte[], byte[])">init</a></strong>(int&nbsp;mode,
+        byte[]&nbsp;key,
+        byte[]&nbsp;iv)</code>
+<div class="block">Initializes the cipher with mode, key and iv.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#update(byte[], int, int, byte[], int)">update</a></strong>(byte[]&nbsp;input,
+            int&nbsp;inputOffset,
+            int&nbsp;inputLen,
+            byte[]&nbsp;output,
+            int&nbsp;outputOffset)</code>
+<div class="block">Continues a multiple-part encryption/decryption operation.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/OpensslCipher.html#update(java.nio.ByteBuffer, java.nio.ByteBuffer)">update</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+            <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)</code>
+<div class="block">Continues a multiple-part encryption/decryption operation.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.<a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></h3>
+<code><a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#clone()" title="class or interface in java.lang">clone</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#equals(java.lang.Object)" title="class or interface in java.lang">equals</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#finalize()" title="class or interface in java.lang">finalize</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#getClass()" title="class or interface in java.lang">getClass</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#hashCode()" title="class or interface in java.lang">hashCode</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notify()" title="class or interface in java.lang">notify</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#notifyAll()" title="class or interface in java.lang">notifyAll</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#toString()" title="class or interface in java.lang">toString</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait()" title="class or interface in java.lang">wait</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long)" title="class or interface in java.lang">wait</a>, <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true#wait(long, int)" title="class or interface in java.lang">wait</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="OpensslCipher(java.util.Properties, com.intel.chimera.cipher.CipherTransformation)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>OpensslCipher</h4>
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.45">OpensslCipher</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props,
+             <a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation)
+              throws <a href="http://download.oracle.com/javase/6/docs/api/java/security/GeneralSecurityException.html?is-external=true" title="class or interface in java.security">GeneralSecurityException</a></pre>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JNI into OpenSSL</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>props</code> - properties for OpenSSL cipher</dd><dd><code>transformation</code> - transformation for OpenSSL cipher</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/security/GeneralSecurityException.html?is-external=true" title="class or interface in java.security">GeneralSecurityException</a></code> - if OpenSSL cipher initialize failed</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getTransformation()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTransformation</h4>
+<pre>public&nbsp;<a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.59">getTransformation</a>()</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Returns:</span></dt><dd>the CipherTransformation for this cipher.</dd></dl>
+</li>
+</ul>
+<a name="getProperties()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getProperties</h4>
+<pre>public&nbsp;<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.64">getProperties</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getProperties()">Cipher</a></code></strong></div>
+<div class="block">Get the properties for this cipher.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getProperties()">getProperties</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="init(int, byte[], byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>init</h4>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.76">init</a>(int&nbsp;mode,
+        byte[]&nbsp;key,
+        byte[]&nbsp;iv)</pre>
+<div class="block">Initializes the cipher with mode, key and iv.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#init(int, byte[], byte[])">init</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>mode</code> - <a href="../../../../com/intel/chimera/cipher/Cipher.html#ENCRYPT_MODE"><code>Cipher.ENCRYPT_MODE</code></a> or <a href="../../../../com/intel/chimera/cipher/Cipher.html#DECRYPT_MODE"><code>Cipher.DECRYPT_MODE</code></a></dd><dd><code>key</code> - crypto key for the cipher</dd><dd><code>iv</code> - Initialization vector for the cipher</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if cipher initialize fails</dd></dl>
+</li>
+</ul>
+<a name="update(java.nio.ByteBuffer, java.nio.ByteBuffer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>update</h4>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.97">update</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+         <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
+           throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></pre>
+<div class="block">Continues a multiple-part encryption/decryption operation. The data
+ is encrypted or decrypted, depending on how this cipher was initialized.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#update(java.nio.ByteBuffer, java.nio.ByteBuffer)">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>inBuffer</code> - the input ByteBuffer</dd><dd><code>outBuffer</code> - the output ByteBuffer</dd>
+<dt><span class="strong">Returns:</span></dt><dd>int number of bytes stored in <code>output</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></code> - if there is insufficient space
+ in the output buffer</dd></dl>
+</li>
+</ul>
+<a name="update(byte[], int, int, byte[], int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>update</h4>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.115">update</a>(byte[]&nbsp;input,
+         int&nbsp;inputOffset,
+         int&nbsp;inputLen,
+         byte[]&nbsp;output,
+         int&nbsp;outputOffset)
+           throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></pre>
+<div class="block">Continues a multiple-part encryption/decryption operation. The data
+ is encrypted or decrypted, depending on how this cipher was initialized.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#update(byte[], int, int, byte[], int)">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>input</code> - the input byte array</dd><dd><code>inputOffset</code> - the offset in input where the input starts</dd><dd><code>inputLen</code> - the input length</dd><dd><code>output</code> - the byte array for the result</dd><dd><code>outputOffset</code> - the offset in output where the result is stored</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the number of bytes stored in output</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></code> - if there is insufficient space in the output byte array</dd></dl>
+</li>
+</ul>
+<a name="doFinal(java.nio.ByteBuffer, java.nio.ByteBuffer)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>doFinal</h4>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.141">doFinal</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+          <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
+            throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a>,
+                   <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a>,
+                   <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/BadPaddingException.html?is-external=true" title="class or interface in javax.crypto">BadPaddingException</a></pre>
+<div class="block">Encrypts or decrypts data in a single-part operation, or finishes a
+ multiple-part operation. The data is encrypted or decrypted, depending
+ on how this cipher was initialized.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#doFinal(java.nio.ByteBuffer, java.nio.ByteBuffer)">doFinal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>inBuffer</code> - the input ByteBuffer</dd><dd><code>outBuffer</code> - the output ByteBuffer</dd>
+<dt><span class="strong">Returns:</span></dt><dd>int number of bytes stored in <code>output</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/BadPaddingException.html?is-external=true" title="class or interface in javax.crypto">BadPaddingException</a></code> - if this cipher is in decryption mode,
+ and (un)padding has been requested, but the decrypted data is not
+ bounded by the appropriate padding bytes</dd>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a></code> - if this cipher is a block cipher,
+ no padding has been requested (only in encryption mode), and the total
+ input length of the data processed by this cipher is not a multiple of
+ block size; or if this encryption algorithm is unable to
+ process the input data provided.</dd>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></code> - if the given output buffer is too small
+ to hold the result</dd></dl>
+</li>
+</ul>
+<a name="doFinal(byte[], int, int, byte[], int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>doFinal</h4>
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.170">doFinal</a>(byte[]&nbsp;input,
+          int&nbsp;inputOffset,
+          int&nbsp;inputLen,
+          byte[]&nbsp;output,
+          int&nbsp;outputOffset)
+            throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a>,
+                   <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a>,
+                   <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/BadPaddingException.html?is-external=true" title="class or interface in javax.crypto">BadPaddingException</a></pre>
+<div class="block">Encrypts or decrypts data in a single-part operation, or finishes a
+ multiple-part operation.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#doFinal(byte[], int, int, byte[], int)">doFinal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>input</code> - the input byte array</dd><dd><code>inputOffset</code> - the offset in input where the input starts</dd><dd><code>inputLen</code> - the input length</dd><dd><code>output</code> - the byte array for the result</dd><dd><code>outputOffset</code> - the offset in output where the result is stored</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the number of bytes stored in output</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></code> - if the given output byte array is too small
+ to hold the result</dd>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/BadPaddingException.html?is-external=true" title="class or interface in javax.crypto">BadPaddingException</a></code> - if this cipher is in decryption mode,
+ and (un)padding has been requested, but the decrypted data is not
+ bounded by the appropriate padding bytes</dd>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a></code> - if this cipher is a block cipher,
+ no padding has been requested (only in encryption mode), and the total
+ input length of the data processed by this cipher is not a multiple of
+ block size; or if this encryption algorithm is unable to
+ process the input data provided.</dd></dl>
+</li>
+</ul>
+<a name="close()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>close</h4>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/OpensslCipher.html#line.182">close</a>()</pre>
+<div class="block">Closes the OpenSSL cipher. Clean the Openssl native context.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io">close</a></code>&nbsp;in interface&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></code></dd>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang">close</a></code>&nbsp;in interface&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true" title="class or interface in java.lang">AutoCloseable</a></code></dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/OpensslCipher.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-all.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../com/intel/chimera/cipher/Openssl.html" title="class in com.intel.chimera.cipher"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../com/intel/chimera/cipher/OpensslNative.html" title="class in com.intel.chimera.cipher"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?com/intel/chimera/cipher/OpensslCipher.html" target="_top">Frames</a></li>
+<li><a href="OpensslCipher.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+<p class="legalCopy"><small>Copyright &#169; 2016 <a href="http://www.apache.org/">The Apache Software Foundation</a>. All rights reserved.</small></p>
+</body>
+</html>

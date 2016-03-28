@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CTRCryptoOutputStream.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.stream</a> &gt; <span class="el_source">CTRCryptoOutputStream.java</span></div><h1>CTRCryptoOutputStream.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.stream;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.WritableByteChannel;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.util.Properties;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.ShortBufferException;
+
+import com.intel.chimera.cipher.Cipher;
+import com.intel.chimera.cipher.CipherTransformation;
+import com.intel.chimera.output.ChannelOutput;
+import com.intel.chimera.output.Output;
+import com.intel.chimera.output.StreamOutput;
+import com.intel.chimera.utils.Utils;
+
+/**
+ * CTRCryptoOutputStream encrypts data. It is not thread-safe. AES CTR mode is
+ * required in order to ensure that the plain text and cipher text have a 1:1
+ * mapping. The encryption is buffer based. The key points of the encryption are
+ * (1) calculating counter and (2) padding through stream position.
+ * &lt;p/&gt;
+ * counter = base + pos/(algorithm blocksize);
+ * padding = pos%(algorithm blocksize);
+ * &lt;p/&gt;
+ * The underlying stream offset is maintained as state.
+ */
+public class CTRCryptoOutputStream extends CryptoOutputStream {
+  /**
+   * Underlying stream offset.
+   */
+<span class="fc" id="L54">  protected long streamOffset = 0;</span>
+
+  /**
+   * Padding = pos%(algorithm blocksize); Padding is put into {@link #inBuffer}
+   * before any other data goes in. The purpose of padding is to put input data
+   * at proper position.
+   */
+  private byte padding;
+
+  /**
+   * Flag to mark whether the cipher has been reset
+   */
+<span class="fc" id="L66">  private boolean cipherReset = false;</span>
+
+  public CTRCryptoOutputStream(Properties props, OutputStream out,
+      byte[] key, byte[] iv)
+      throws IOException {
+<span class="nc" id="L71">    this(props, out, key, iv, 0);</span>
+<span class="nc" id="L72">  }</span>
+
+  public CTRCryptoOutputStream(Properties props, WritableByteChannel out,
+      byte[] key, byte[] iv)
+      throws IOException {
+<span class="nc" id="L77">    this(props, out, key, iv, 0);</span>
+<span class="nc" id="L78">  }</span>
+
+  public CTRCryptoOutputStream(OutputStream out, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv) throws IOException {
+<span class="fc" id="L82">    this(out, cipher, bufferSize, key, iv, 0);</span>
+<span class="fc" id="L83">  }</span>
+
+  public CTRCryptoOutputStream(WritableByteChannel channel, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv) throws IOException {
+<span class="fc" id="L87">    this(channel, cipher, bufferSize, key, iv, 0);</span>
+<span class="fc" id="L88">  }</span>
+
+  public CTRCryptoOutputStream(Output output, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv)
+      throws IOException {
+<span class="nc" id="L93">    this(output, cipher, bufferSize, key, iv, 0);</span>
+<span class="nc" id="L94">  }</span>
+
+  public CTRCryptoOutputStream(Properties props, OutputStream out,
+      byte[] key, byte[] iv, long streamOffset)
+      throws IOException {
+<span class="nc" id="L99">    this(out, Utils.getCipherInstance(CipherTransformation.AES_CTR_NOPADDING, props),</span>
+        Utils.getBufferSize(props), key, iv, streamOffset);
+<span class="nc" id="L101">  }</span>
+
+  public CTRCryptoOutputStream(Properties props, WritableByteChannel out,
+      byte[] key, byte[] iv, long streamOffset)
+      throws IOException {
+<span class="nc" id="L106">    this(out, Utils.getCipherInstance(CipherTransformation.AES_CTR_NOPADDING, props),</span>
+        Utils.getBufferSize(props), key, iv, streamOffset);
+<span class="nc" id="L108">  }</span>
+
+  public CTRCryptoOutputStream(OutputStream out, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv, long streamOffset) throws IOException {
+<span class="fc" id="L112">    this(new StreamOutput(out, bufferSize), cipher,</span>
+        bufferSize, key, iv, streamOffset);
+<span class="fc" id="L114">  }</span>
+
+  public CTRCryptoOutputStream(WritableByteChannel channel, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv, long streamOffset) throws IOException {
+<span class="fc" id="L118">    this(new ChannelOutput(channel), cipher,</span>
+        bufferSize, key, iv, streamOffset);
+<span class="fc" id="L120">  }</span>
+
+  public CTRCryptoOutputStream(Output output, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv, long streamOffset)
+      throws IOException {
+<span class="fc" id="L125">    super(output, cipher, bufferSize, key, iv);</span>
+
+<span class="fc" id="L127">    Utils.checkStreamCipher(cipher);</span>
+<span class="fc" id="L128">    this.streamOffset = streamOffset;</span>
+
+<span class="fc" id="L130">    resetCipher();</span>
+<span class="fc" id="L131">  }</span>
+
+  /**
+   * Do the encryption, input is {@link #inBuffer} and output is
+   * {@link #outBuffer}.
+   */
+  @Override
+  protected void encrypt() throws IOException {
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">    Utils.checkState(inBuffer.position() &gt;= padding);</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">    if (inBuffer.position() == padding) {</span>
+      // There is no real data in the inBuffer.
+<span class="fc" id="L142">      return;</span>
+    }
+
+<span class="fc" id="L145">    inBuffer.flip();</span>
+<span class="fc" id="L146">    outBuffer.clear();</span>
+<span class="fc" id="L147">    encryptBuffer(outBuffer);</span>
+<span class="fc" id="L148">    inBuffer.clear();</span>
+<span class="fc" id="L149">    outBuffer.flip();</span>
+
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">    if (padding &gt; 0) {</span>
+      /*
+       * The plain text and cipher text have a 1:1 mapping, they start at the
+       * same position.
+       */
+<span class="nc" id="L156">      outBuffer.position(padding);</span>
+<span class="nc" id="L157">      padding = 0;</span>
+    }
+
+<span class="fc" id="L160">    final int len = output.write(outBuffer);</span>
+<span class="fc" id="L161">    streamOffset += len;</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">    if (cipherReset) {</span>
+      /*
+       * This code is generally not executed since the encryptor usually
+       * maintains encryption context (e.g. the counter) internally. However,
+       * some implementations can't maintain context so a re-init is necessary
+       * after each encryption call.
+       */
+<span class="nc" id="L169">      resetCipher();</span>
+    }
+<span class="fc" id="L171">  }</span>
+
+  /**
+   * Do final encryption of the last data
+   */
+  @Override
+  protected void encryptFinal() throws IOException {
+    // The same as the normal encryption for Counter mode
+<span class="fc" id="L179">    encrypt();</span>
+<span class="fc" id="L180">  }</span>
+
+  /** Initialize the cipher. */
+  @Override
+  protected void initCipher() {
+    // Do nothing for initCipher
+    // Will reset the cipher considering the stream offset
+<span class="fc" id="L187">  }</span>
+
+  /** Reset the {@link #cipher}: calculate counter and {@link #padding}. */
+  private void resetCipher() throws IOException {
+<span class="fc" id="L191">    final long counter =</span>
+        streamOffset / cipher.getTransformation().getAlgorithmBlockSize();
+<span class="fc" id="L193">    padding =</span>
+        (byte)(streamOffset % cipher.getTransformation().getAlgorithmBlockSize());
+<span class="fc" id="L195">    inBuffer.position(padding); // Set proper position for input data.</span>
+
+<span class="fc" id="L197">    Utils.calculateIV(initIV, counter, iv);</span>
+    try {
+<span class="fc" id="L199">      cipher.init(Cipher.ENCRYPT_MODE, key, iv);</span>
+<span class="nc" id="L200">    } catch (InvalidKeyException e) {</span>
+<span class="nc" id="L201">      throw new IOException(e);</span>
+<span class="nc" id="L202">    }catch (InvalidAlgorithmParameterException e) {</span>
+<span class="nc" id="L203">      throw new IOException(e);</span>
+<span class="fc" id="L204">    }</span>
+<span class="fc" id="L205">    cipherReset = false;</span>
+<span class="fc" id="L206">  }</span>
+
+  private void encryptBuffer(ByteBuffer out)
+      throws IOException {
+<span class="fc" id="L210">    int inputSize = inBuffer.remaining();</span>
+    try {
+<span class="fc" id="L212">      int n = cipher.update(inBuffer, out);</span>
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">      if (n &lt; inputSize) {</span>
+        /**
+         * Typically code will not get here. Cipher#update will consume all
+         * input data and put result in outBuffer.
+         * Cipher#doFinal will reset the cipher context.
+         */
+<span class="nc" id="L219">        cipher.doFinal(inBuffer, out);</span>
+<span class="nc" id="L220">        cipherReset = true;</span>
+      }
+<span class="nc" id="L222">    } catch (ShortBufferException e) {</span>
+<span class="nc" id="L223">      throw new IOException(e);</span>
+<span class="nc" id="L224">    } catch (BadPaddingException e) {</span>
+<span class="nc" id="L225">      throw new IOException(e);</span>
+<span class="nc" id="L226">    } catch (IllegalBlockSizeException e) {</span>
+<span class="nc" id="L227">      throw new IOException(e);</span>
+<span class="fc" id="L228">    }</span>
+<span class="fc" id="L229">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

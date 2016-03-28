@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReflectionUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.utils</a> &gt; <span class="el_source">ReflectionUtils.java</span></div><h1>ReflectionUtils.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.utils;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Constructor;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import com.intel.chimera.cipher.Cipher;
+
+<span class="nc" id="L28">public class ReflectionUtils {</span>
+
+  private static final Map&lt;ClassLoader, Map&lt;String, WeakReference&lt;Class&lt;?&gt;&gt;&gt;&gt;
+<span class="fc" id="L31">    CACHE_CLASSES = new WeakHashMap&lt;ClassLoader, Map&lt;String, WeakReference&lt;Class&lt;?&gt;&gt;&gt;&gt;();</span>
+
+  private static ClassLoader classLoader;
+  static {
+<span class="fc" id="L35">    classLoader = Thread.currentThread().getContextClassLoader();</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">    if (classLoader == null) {</span>
+<span class="nc" id="L37">      classLoader = Cipher.class.getClassLoader();</span>
+    }
+  }
+
+  /**
+   * Sentinel value to store negative cache results in {@link #CACHE_CLASSES}.
+   */
+<span class="fc" id="L44">  private static final Class&lt;?&gt; NEGATIVE_CACHE_SENTINEL =</span>
+    NegativeCacheSentinel.class;
+
+  /**
+   * A unique class which is used as a sentinel value in the caching
+   * for getClassByName. {@link Cipher#getClassByNameOrNull(String)}
+   */
+<span class="nc" id="L51">  private static abstract class NegativeCacheSentinel {}</span>
+
+  @SuppressWarnings(&quot;rawtypes&quot;)
+  public static &lt;T&gt; T newInstance(Class&lt;T&gt; klass, Object ... args) {
+    try {
+<span class="fc" id="L56">      Constructor&lt;T&gt; ctor = null;</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">      if (args.length == 0) {</span>
+<span class="nc" id="L59">        ctor = klass.getDeclaredConstructor(new Class[] {});</span>
+      } else {
+<span class="fc" id="L61">        Class[] argClses = new Class[args.length];</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        for (int i = 0; i &lt; args.length; i++) {</span>
+<span class="fc" id="L63">          argClses[i] = args[i].getClass();</span>
+        }
+<span class="fc" id="L65">        ctor = klass.getDeclaredConstructor(argClses);</span>
+      }
+<span class="fc" id="L67">      ctor.setAccessible(true);</span>
+<span class="fc" id="L68">      return ctor.newInstance(args);</span>
+<span class="nc" id="L69">    } catch (Exception e) {</span>
+<span class="nc" id="L70">      throw new RuntimeException(e);</span>
+    }
+  }
+
+  /** 
+   * Get the value of the &lt;code&gt;name&lt;/code&gt; property as a &lt;code&gt;Class&lt;/code&gt;
+   * implementing the interface specified by &lt;code&gt;xface&lt;/code&gt;.
+   *   
+   * If no such property is specified, then &lt;code&gt;defaultValue&lt;/code&gt; is 
+   * returned.
+   * 
+   * An exception is thrown if the returned class does not implement the named
+   * interface. 
+   * 
+   * @param name the class name.
+   * @param defaultValue default value.
+   * @param xface the interface implemented by the named class.
+   * @return property value as a &lt;code&gt;Class&lt;/code&gt;, 
+   *         or &lt;code&gt;defaultValue&lt;/code&gt;.
+   */
+  public static &lt;U&gt; Class&lt;? extends U&gt; getClass(String name, 
+                                         Class&lt;? extends U&gt; defaultValue, 
+                                         Class&lt;U&gt; xface) {
+    try {
+<span class="nc" id="L94">      Class&lt;?&gt; theClass = null;</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">      if (name != null &amp;&amp; !name.isEmpty()) {</span>
+<span class="nc" id="L96">        theClass = getClassByName(name);</span>
+      }
+<span class="nc bnc" id="L98" title="All 2 branches missed.">      if (theClass == null) {</span>
+<span class="nc" id="L99">        theClass = defaultValue;</span>
+      }
+<span class="nc bnc" id="L101" title="All 4 branches missed.">      if (theClass != null &amp;&amp; !xface.isAssignableFrom(theClass))</span>
+<span class="nc" id="L102">        throw new RuntimeException(theClass+&quot; not &quot;+xface.getName());</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      else if (theClass != null)</span>
+<span class="nc" id="L104">        return theClass.asSubclass(xface);</span>
+      else
+<span class="nc" id="L106">        return null;</span>
+<span class="nc" id="L107">    } catch (Exception e) {</span>
+<span class="nc" id="L108">      throw new RuntimeException(e);</span>
+    }
+  }
+
+  /** 
+   * Get the value of the &lt;code&gt;name&lt;/code&gt; property as a &lt;code&gt;Class&lt;/code&gt;.  
+   * If no such property is specified, then &lt;code&gt;defaultValue&lt;/code&gt; is 
+   * returned.
+   * 
+   * @param name the class name.
+   * @param defaultValue default value.
+   * @return property value as a &lt;code&gt;Class&lt;/code&gt;, 
+   *         or &lt;code&gt;defaultValue&lt;/code&gt;. 
+   */
+  public static Class&lt;?&gt; getClass(String name, Class&lt;?&gt; defaultValue) {
+<span class="nc" id="L123">    String valueString = System.getProperty(name);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    if (valueString == null)</span>
+<span class="nc" id="L125">      return defaultValue;</span>
+    try {
+<span class="nc" id="L127">      return getClassByName(valueString);</span>
+<span class="nc" id="L128">    } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L129">      throw new RuntimeException(e);</span>
+    }
+  }
+
+  /**
+   * Load a class by name.
+   * 
+   * @param name the class name.
+   * @return the class object.
+   * @throws ClassNotFoundException if the class is not found.
+   */
+  public static Class&lt;?&gt; getClassByName(String name)
+      throws ClassNotFoundException {
+<span class="fc" id="L142">    Class&lt;?&gt; ret = getClassByNameOrNull(name);</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">    if (ret == null) {</span>
+<span class="nc" id="L144">      throw new ClassNotFoundException(&quot;Class &quot; + name + &quot; not found&quot;);</span>
+    }
+<span class="fc" id="L146">    return ret;</span>
+  }
+  
+  /**
+   * Load a class by name, returning null rather than throwing an exception
+   * if it couldn't be loaded. This is to avoid the overhead of creating
+   * an exception.
+   * 
+   * @param name the class name
+   * @return the class object, or null if it could not be found.
+   */
+  private static Class&lt;?&gt; getClassByNameOrNull(String name) {
+    Map&lt;String, WeakReference&lt;Class&lt;?&gt;&gt;&gt; map;
+
+<span class="fc" id="L160">    synchronized (CACHE_CLASSES) {</span>
+<span class="fc" id="L161">      map = CACHE_CLASSES.get(classLoader);</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">      if (map == null) {</span>
+<span class="fc" id="L163">        map = Collections.synchronizedMap(</span>
+          new WeakHashMap&lt;String, WeakReference&lt;Class&lt;?&gt;&gt;&gt;());
+<span class="fc" id="L165">        CACHE_CLASSES.put(classLoader, map);</span>
+      }
+<span class="pc" id="L167">    }</span>
+
+<span class="fc" id="L169">    Class&lt;?&gt; clazz = null;</span>
+<span class="fc" id="L170">    WeakReference&lt;Class&lt;?&gt;&gt; ref = map.get(name); </span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">    if (ref != null) {</span>
+<span class="fc" id="L172">       clazz = ref.get();</span>
+    }
+     
+<span class="fc bfc" id="L175" title="All 2 branches covered.">    if (clazz == null) {</span>
+      try {
+<span class="fc" id="L177">        clazz = Class.forName(name, true, classLoader);</span>
+<span class="nc" id="L178">      } catch (ClassNotFoundException e) {</span>
+        // Leave a marker that the class isn't found
+<span class="nc" id="L180">        map.put(name, new WeakReference&lt;Class&lt;?&gt;&gt;(NEGATIVE_CACHE_SENTINEL));</span>
+<span class="nc" id="L181">        return null;</span>
+<span class="fc" id="L182">      }</span>
+      // two putters can race here, but they'll put the same class
+<span class="fc" id="L184">      map.put(name, new WeakReference&lt;Class&lt;?&gt;&gt;(clazz));</span>
+<span class="fc" id="L185">      return clazz;</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">    } else if (clazz == NEGATIVE_CACHE_SENTINEL) {</span>
+<span class="nc" id="L187">      return null; // not found</span>
+    } else {
+      // cache hit
+<span class="fc" id="L190">      return clazz;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

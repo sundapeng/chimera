@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Utils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.utils</a> &gt; <span class="el_source">Utils.java</span></div><h1>Utils.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.utils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
+
+import com.intel.chimera.cipher.Cipher;
+import com.intel.chimera.cipher.CipherFactory;
+import com.intel.chimera.cipher.CipherTransformation;
+
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_DEFAULT;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_CIPHER_CLASSES_DEFAULT;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_CIPHER_CLASSES_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_CIPHER_JCE_PROVIDER_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_LIB_NAME_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_LIB_PATH_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_DEFAULT;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_KEY;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_SYSTEM_PROPERTIES_FILE;
+import static com.intel.chimera.conf.ConfigurationKeys.CHIMERA_CRYPTO_LIB_TEMPDIR_KEY;
+
+<span class="nc" id="L45">public class Utils {</span>
+  private static final int MIN_BUFFER_SIZE = 512;
+
+<span class="fc" id="L48">  protected static final CipherTransformation AES_CTR_NOPADDING = CipherTransformation.AES_CTR_NOPADDING;</span>
+
+  /**
+   * For AES, the algorithm block is fixed size of 128 bits.
+   * @see http://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+   */
+<span class="fc" id="L54">  private static final int AES_BLOCK_SIZE = AES_CTR_NOPADDING.getAlgorithmBlockSize();</span>
+
+  static {
+<span class="fc" id="L57">    loadChimeraSystemProperties();</span>
+<span class="fc" id="L58">  }</span>
+
+  /**
+   * load system properties when configuration file of the name
+   * {@link #CHIMERA_SYSTEM_PROPERTIES_FILE} is found
+   */
+  private static void loadChimeraSystemProperties() {
+    try {
+<span class="fc" id="L66">      InputStream is = Thread.currentThread().getContextClassLoader()</span>
+          .getResourceAsStream(CHIMERA_SYSTEM_PROPERTIES_FILE);
+
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">      if (is == null)</span>
+<span class="fc" id="L70">        return; // no configuration file is found</span>
+
+      // Load property file
+<span class="nc" id="L73">      Properties props = new Properties();</span>
+<span class="nc" id="L74">      props.load(is);</span>
+<span class="nc" id="L75">      is.close();</span>
+<span class="nc" id="L76">      Enumeration&lt;?&gt; names = props.propertyNames();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">      while (names.hasMoreElements()) {</span>
+<span class="nc" id="L78">        String name = (String) names.nextElement();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (name.startsWith(&quot;chimera.&quot;)) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">          if (System.getProperty(name) == null) {</span>
+<span class="nc" id="L81">            System.setProperty(name, props.getProperty(name));</span>
+          }
+        }
+<span class="nc" id="L84">      }</span>
+<span class="nc" id="L85">    } catch (Throwable ex) {</span>
+<span class="nc" id="L86">      System.err.println(&quot;Could not load '&quot;</span>
+          + CHIMERA_SYSTEM_PROPERTIES_FILE + &quot;' from classpath: &quot;
+          + ex.toString());
+<span class="nc" id="L89">    }</span>
+<span class="nc" id="L90">  }</span>
+
+  /** Forcibly free the direct buffer. */
+  public static void freeDirectBuffer(ByteBuffer buffer) {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">    if (buffer instanceof sun.nio.ch.DirectBuffer) {</span>
+<span class="fc" id="L95">      final sun.misc.Cleaner bufferCleaner =</span>
+          ((sun.nio.ch.DirectBuffer) buffer).cleaner();
+<span class="fc" id="L97">      bufferCleaner.clean();</span>
+    }
+<span class="fc" id="L99">  }</span>
+
+  /** Read crypto buffer size */
+  public static int getBufferSize(Properties props) {
+<span class="nc" id="L103">    String bufferSizeStr = props.getProperty(</span>
+        CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_KEY);
+<span class="nc bnc" id="L105" title="All 4 branches missed.">    if (bufferSizeStr == null || bufferSizeStr.isEmpty()) {</span>
+<span class="nc" id="L106">      bufferSizeStr = System</span>
+        .getProperty(CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_KEY);
+    }
+<span class="nc bnc" id="L109" title="All 4 branches missed.">    if (bufferSizeStr == null || bufferSizeStr.isEmpty()) {</span>
+<span class="nc" id="L110">      return CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_DEFAULT;</span>
+    } else {
+<span class="nc" id="L112">      return Integer.parseInt(bufferSizeStr);</span>
+    }
+  }
+
+  public static String getCipherClassString(Properties props) {
+<span class="fc" id="L117">    final String configName = CHIMERA_CRYPTO_CIPHER_CLASSES_KEY;</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">    return props.getProperty(configName) != null ? props.getProperty(configName) : System</span>
+        .getProperty(configName, CHIMERA_CRYPTO_CIPHER_CLASSES_DEFAULT);
+  }
+
+  public static String getJCEProvider(Properties props) {
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">    return props.getProperty(CHIMERA_CRYPTO_CIPHER_JCE_PROVIDER_KEY) != null ?</span>
+        props.getProperty(CHIMERA_CRYPTO_CIPHER_JCE_PROVIDER_KEY) :
+        System.getProperty(CHIMERA_CRYPTO_CIPHER_JCE_PROVIDER_KEY);
+  }
+
+  public static String getRandomDevPath(Properties props) {
+<span class="fc" id="L129">    String devPath = props.getProperty(</span>
+        CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_KEY);
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">    if (devPath == null) {</span>
+<span class="fc" id="L132">      devPath = System.getProperty(</span>
+          CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_KEY,
+          CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_DEFAULT);
+    }
+<span class="fc" id="L136">    return devPath;</span>
+  }
+
+  public static String getLibPath() {
+<span class="fc" id="L140">    return System.getProperty(CHIMERA_CRYPTO_LIB_PATH_KEY);</span>
+  }
+
+  public static String getLibName() {
+<span class="fc" id="L144">    return System.getProperty(CHIMERA_CRYPTO_LIB_NAME_KEY);</span>
+  }
+
+  public static String getTmpDir() {
+<span class="fc" id="L148">    return System.getProperty(CHIMERA_CRYPTO_LIB_TEMPDIR_KEY,</span>
+        System.getProperty(&quot;java.io.tmpdir&quot;));
+  }
+
+  /** AES/CTR/NoPadding is required */
+  public static void checkStreamCipher(Cipher cipher) throws IOException {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">    if (cipher.getTransformation() != CipherTransformation.AES_CTR_NOPADDING) {</span>
+<span class="nc" id="L155">      throw new IOException(&quot;AES/CTR/NoPadding is required&quot;);</span>
+    }
+<span class="fc" id="L157">  }</span>
+
+  /** Check and floor buffer size */
+  public static int checkBufferSize(Cipher cipher, int bufferSize) {
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">    checkArgument(bufferSize &gt;= MIN_BUFFER_SIZE,</span>
+        &quot;Minimum value of buffer size is &quot; + MIN_BUFFER_SIZE + &quot;.&quot;);
+<span class="fc" id="L163">    return bufferSize - bufferSize % cipher.getTransformation()</span>
+        .getAlgorithmBlockSize();
+  }
+
+  /**
+   * This method is only for Counter (CTR) mode. Generally the Cipher calculates the IV and maintain encryption context internally.
+   * For example a {@link javax.crypto.Cipher} will maintain its encryption
+   * context internally when we do encryption/decryption using the
+   * Cipher#update interface.
+   * &lt;p/&gt;
+   * Encryption/Decryption is not always on the entire file. For example,
+   * in Hadoop, a node may only decrypt a portion of a file (i.e. a split).
+   * In these situations, the counter is derived from the file position.
+   * &lt;p/&gt;
+   * The IV can be calculated by combining the initial IV and the counter with
+   * a lossless operation (concatenation, addition, or XOR).
+   * @see http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_.28CTR.29
+   *
+   * @param initIV initial IV
+   * @param counter counter for input stream position
+   * @param IV the IV for input stream position
+   */
+  public static void calculateIV(byte[] initIV, long counter, byte[] IV) {
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">    checkArgument(initIV.length == AES_BLOCK_SIZE);</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">    checkArgument(IV.length == AES_BLOCK_SIZE);</span>
+
+<span class="fc" id="L189">    int i = IV.length; // IV length</span>
+<span class="fc" id="L190">    int j = 0; // counter bytes index</span>
+<span class="fc" id="L191">    int sum = 0;</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">    while (i-- &gt; 0) {</span>
+      // (sum &gt;&gt;&gt; Byte.SIZE) is the carry for addition
+<span class="fc" id="L194">      sum = (initIV[i] &amp; 0xff) + (sum &gt;&gt;&gt; Byte.SIZE);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">      if (j++ &lt; 8) { // Big-endian, and long is 8 bytes length</span>
+<span class="fc" id="L196">        sum += (byte) counter &amp; 0xff;</span>
+<span class="fc" id="L197">        counter &gt;&gt;&gt;= 8;</span>
+      }
+<span class="fc" id="L199">      IV[i] = (byte) sum;</span>
+    }
+<span class="fc" id="L201">  }</span>
+
+  /**
+   * Helper method to create a Cipher instance and throws only IOException
+   */
+  public static Cipher getCipherInstance(CipherTransformation transformation,
+      Properties props) throws IOException {
+    try {
+<span class="nc" id="L209">      return CipherFactory.getInstance(transformation, props);</span>
+<span class="nc" id="L210">    } catch (GeneralSecurityException e) {</span>
+<span class="nc" id="L211">      throw new IOException(e);</span>
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving one or more parameters to
+   * the calling method.
+   *
+   * @param expression a boolean expression
+   * @throws IllegalArgumentException if expression is false
+   */
+  public static void checkArgument(boolean expression) {
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">    if(!expression) {</span>
+<span class="nc" id="L224">      throw new IllegalArgumentException();</span>
+    }
+<span class="fc" id="L226">  }</span>
+
+  /**
+   * @param expression   a boolean expression
+   * @param errorMessage the exception message to use if the check fails;
+   *                     will be converted to a string using &lt;code&gt;String
+   *                     .valueOf(Object)&lt;/code&gt;
+   * @throws IllegalArgumentException if expression is false
+   */
+  public static void checkArgument(boolean expression, Object errorMessage) {
+<span class="fc bfc" id="L236" title="All 2 branches covered.">    if (!expression) {</span>
+<span class="fc" id="L237">      throw new IllegalArgumentException(String.valueOf(errorMessage));</span>
+    }
+<span class="fc" id="L239">  }</span>
+
+  /**
+   * Ensures that an object reference passed as a parameter to the calling
+   * method is not null.
+   *
+   * @param reference an object reference
+   * @return the non-null reference that was validated
+   * @throws NullPointerException if reference is null
+   */
+  public static &lt;T&gt; T checkNotNull(T reference) {
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">    if(reference == null) {</span>
+<span class="nc" id="L251">      throw new NullPointerException();</span>
+    } else {
+<span class="fc" id="L253">      return reference;</span>
+    }
+  }
+
+  /**
+   * Ensures the truth of an expression involving the state of the calling
+   * instance, but not involving any parameters to the calling method.
+   *
+   * @param expression a boolean expression
+   * @throws IllegalStateException if expression is false
+   */
+  public static void checkState(boolean expression) {
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">    if(!expression) {</span>
+<span class="nc" id="L266">      throw new IllegalStateException();</span>
+    }
+<span class="fc" id="L268">  }</span>
+
+  /**
+   * Split class names sequence into substrings, Trim each substring into an
+   * entry,and returns an list of the entries.
+   *
+   * @param clazzNames a string consist of a list of the entries joined by a
+   *                   delimiter
+   * @param separator  a delimiter for the input string
+   * @return a list of entries
+   */
+  public static List&lt;String&gt; splitClassNames(String clazzNames,
+      String separator) {
+<span class="fc" id="L281">    List&lt;String&gt; res = new ArrayList&lt;String&gt;();</span>
+<span class="pc bpc" id="L282" title="1 of 4 branches missed.">    if (clazzNames == null || clazzNames.isEmpty()) {</span>
+<span class="fc" id="L283">      return res;</span>
+    }
+
+<span class="fc bfc" id="L286" title="All 2 branches covered.">    for (String clazzName : clazzNames.split(separator)) {</span>
+<span class="fc" id="L287">      clazzName = clazzName.trim();</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">      if (!clazzName.isEmpty()) {</span>
+<span class="fc" id="L289">        res.add(clazzName);</span>
+      }
+    }
+<span class="fc" id="L292">    return res;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

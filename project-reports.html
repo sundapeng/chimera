@@ -7,10 +7,9 @@
   <head>
     <meta charset="iso-8859-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Commons Documentation Team" />
     <meta name="Date-Revision-yyyymmdd" content="20160328" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Codec &#x2013; Home</title>
+    <title>Codec &#x2013; Generated Reports</title>
 
 	<link rel="stylesheet" href="./css/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="./css/site.css" type="text/css" />
@@ -73,7 +72,7 @@
 						<div class="well sidebar-nav">
 										<ul class="nav nav-list">
 		 		            						 <li class="nav-header">Chimera</li>
-																					<li class="none active">
+																				<li class="none">
 		              <a href="index.html" title="Overview">
     Overview</a>
   				</li>
@@ -122,56 +121,48 @@
  								</ul>
 			<ul class="nav nav-list">
 		 		            									 <li class="nav-header"><i class="icon-info-sign"></i>Project Documentation</li>
-																								                                                                                                                                                                                                  										<li class="expanded">
+																								                                                                                                                                                                                            								<li class="collapsed">
 		              <a href="project-info.html" title="Project Information">
     Project Information</a>
+  									</li>
+ 																		                                                                                                                                                        											<li class="expanded active">
+		              <a href="project-reports.html" title="Project Reports">
+    Project Reports</a>
   									<ul>
-																		<li class="none active">
-		              <a href="index.html" title="About">
-    About</a>
+																	<li class="none">
+		              <a href="apidocs/index.html" title="JavaDocs">
+    JavaDocs</a>
   				</li>
  																		<li class="none">
-		              <a href="project-summary.html" title="Project Summary">
-    Project Summary</a>
+		              <a href="xref/index.html" title="Source Xref">
+    Source Xref</a>
   				</li>
  																		<li class="none">
-		              <a href="team-list.html" title="Project Team">
-    Project Team</a>
+		              <a href="xref-test/index.html" title="Test Source Xref">
+    Test Source Xref</a>
   				</li>
  																		<li class="none">
-		              <a href="source-repository.html" title="Source Repository">
-    Source Repository</a>
+		              <a href="surefire-report.html" title="Surefire Report">
+    Surefire Report</a>
   				</li>
  																		<li class="none">
-		              <a href="mail-lists.html" title="Mailing Lists">
-    Mailing Lists</a>
+		              <a href="rat-report.html" title="Rat Report">
+    Rat Report</a>
   				</li>
  																		<li class="none">
-		              <a href="dependency-info.html" title="Dependency Information">
-    Dependency Information</a>
+		              <a href="clirr-report.html" title="Clirr">
+    Clirr</a>
   				</li>
  																		<li class="none">
-		              <a href="dependencies.html" title="Dependencies">
-    Dependencies</a>
+		              <a href="jdepend-report.html" title="JDepend">
+    JDepend</a>
   				</li>
  																		<li class="none">
-		              <a href="dependency-convergence.html" title="Dependency Convergence">
-    Dependency Convergence</a>
-  				</li>
- 																		<li class="none">
-		              <a href="integration.html" title="Continuous Integration">
-    Continuous Integration</a>
-  				</li>
- 																		<li class="none">
-		              <a href="distribution-management.html" title="Distribution Management">
-    Distribution Management</a>
+		              <a href="jacoco/index.html" title="JaCoCo Test">
+    JaCoCo Test</a>
   				</li>
  										</ul>
 							</li>
- 																		                                                                                                                                                        								<li class="collapsed">
-		              <a href="project-reports.html" title="Project Reports">
-    Project Reports</a>
-  									</li>
  								</ul>
 			<ul class="nav nav-list">
 		 		            						 <li class="nav-header">Commons</li>
@@ -265,133 +256,39 @@
           						</div>
 					</td>
 					<td class="content">
-						<!-- Licensed to the Apache Software Foundation (ASF) under one or more
-contributor license agreements.  See the NOTICE file distributed with
-this work for additional information regarding copyright ownership.
-The ASF licenses this file to You under the Apache License, Version 2.0
-(the "License"); you may not use this file except in compliance with
-the License.  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License. -->
- 
-<!-- ================================================== -->
+						<div class="section">
+<h2><a name="Generated_Reports"></a>Generated Reports</h2>
+<p>This document provides an overview of the various reports that are automatically generated by <a class="externalLink" href="http://maven.apache.org">Maven</a> . Each report is briefly described below.</p>
 <div class="section">
-<h2><a name="Apache_Commons_Chimera"></a>Apache Commons Chimera</h2>
-
-<p>
-Chimera is a cryptographic library optimized with AES-NI (Advanced Encryption Standard New Instructions). It provides Java API for both cipher level and Java stream level. Developers can use it to implement high performance AES encryption/decryption with the minimum code and effort. Please note that Chimera doesn't implement the cryptographic algorithm such as AES directly. It wraps to Openssl or JCE which implement the algorithms.
-</p>
-</div>
-<!-- ================================================== -->
-
-<div class="section">
-<h2><a name="Features"></a>Features</h2>
-    
-<p>Cipher API for low level cryptographic operations.</p>
-    
-<p>Java stream API (CryptoInputStream/CryptoOutputStream) for high level stream
-        encyrption/decryption.
-    </p>
-    
-<p>Both optimized with high performance AES encryption/decryption. (1400 MB/s - 1700 MB/s
-        throughput in modern Xeon processors).
-    </p>
-    
-<p>JNI-based implementation to achieve comparable performance to the native C++ version based on
-        Openssl.
-    </p>
-    
-<p>Portable across various operating systems (currently only Linux); Chimera loads the library
-        according to your machine environment (It looks system properties, os.name and os.arch).
-    </p>
-    
-<p>Simple usage. Add the chimera-(version).jar file to your classpath.</p>
-</div>
-<!-- ================================================== -->
-
-<div class="section">
-<h2><a name="Documentation"></a>Documentation</h2>
-
-<p>
-An overview of the functionality is provided in the
-<a href="userguide.html">user guide</a>.
-Various <a href="project-reports.html">project reports</a> are also available.
-</p>
-
-<p>
-The Javadoc API documents are available online:
-</p>
-
-<ul>
-  
-<li><a href="apidocs/index.html">Javadoc trunk</a></li>            
-</ul>
-
-<p>
-The <a href="source-repository.html">git repository</a> can be
-<a href="git@github.com:intel-hadoop/chimera.git">browsed</a>.
-</p>
-</div>
-<!-- ================================================== -->
-
-<div class="section">
-<h2><a name="Releases"></a>Releases</h2>
-
-<ul>
-    
-<li>
-        <a class="externalLink" href="http://commons.apache.org/codec/download_codec.cgi">Chimera 1.0.0 (mirrors)</a> requires Java 1.7
-    </li>
-    
-<li>
-        <a class="externalLink" href="https://github.com/intel-hadoop/chimera/releases/tag/0.9.1">Chimera 0.9.1 (archives)</a> requires Java 1.6
-    </li>
-    
-<li>
-        <a class="externalLink" href="https://github.com/intel-hadoop/chimera/releases/tag/0.9.0">Chimera 0.9.0 (archives)</a> requires Java 1.6
-    </li>
-</ul>
-
-<p>
-See the
-<a class="externalLink" href="http://commons.apache.org/codec/download_codec.cgi">Download Page</a>
-for the latest releases.<br />
-</p>
-
-<p>
-<a href="changes-report.html">Change reports</a> are also available.
-</p>
-
-<p>
-For previous releases, see the <a class="externalLink" href="https://github.com/intel-hadoop/chimera/releases">Apache Archive</a>
-</p>
-</div>
-<!-- ================================================== -->
-
-<div class="section">
-<h2><a name="Support"></a>Support</h2>
-
-<p>
-The <a href="mail-lists.html">commons mailing lists</a> act as the main support forum.
-The user list is suitable for most library usage queries.
-The dev list is intended for the development discussion.
-Please remember that the lists are shared between all commons components,
-so prefix your email by [Chimera].
-</p>
-
-<p>
-Issues may be reported via <a href="issue-tracking.html">ASF JIRA</a>.
-</p>
-</div>
-<!-- ================================================== -->
- 
-
+<h3><a name="Overview"></a>Overview</h3>
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>Document</th>
+<th>Description</th></tr>
+<tr class="b">
+<td><a href="apidocs/index.html">JavaDocs</a></td>
+<td>JavaDoc API documentation.</td></tr>
+<tr class="a">
+<td><a href="xref/index.html">Source Xref</a></td>
+<td>HTML based, cross-reference version of Java source code.</td></tr>
+<tr class="b">
+<td><a href="xref-test/index.html">Test Source Xref</a></td>
+<td>HTML based, cross-reference version of Java test source code.</td></tr>
+<tr class="a">
+<td><a href="surefire-report.html">Surefire Report</a></td>
+<td>Report on the test results of the project.</td></tr>
+<tr class="b">
+<td><a href="rat-report.html">Rat Report</a></td>
+<td>Report on compliance to license related source code policies</td></tr>
+<tr class="a">
+<td><a href="clirr-report.html">Clirr</a></td>
+<td>Report on binary and source API differences between releases</td></tr>
+<tr class="b">
+<td><a href="jdepend-report.html">JDepend</a></td>
+<td>JDepend traverses Java class file directories and generates design quality metrics for each Java package. JDepend allows you to automatically measure the quality of a design in terms of its extensibility, reusability, and maintainability to manage package dependencies effectively.</td></tr>
+<tr class="a">
+<td><a href="jacoco/index.html">JaCoCo Test</a></td>
+<td>JaCoCo Test Coverage Report.</td></tr></table></div></div>
 					</td>
 				</tr>
 			</table>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NativeCodeLoader.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Chimera</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.utils</a> &gt; <span class="el_source">NativeCodeLoader.java</span></div><h1>NativeCodeLoader.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.utils;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
+import java.util.UUID;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
+/**
+ * A helper to load the native code i.e. libchimera.so.
+ * This handles the fallback to either the bundled libchimera-Linux-i386-32.so
+ * or the default java implementations where appropriate.
+ */
+<span class="nc" id="L39">public class NativeCodeLoader {</span>
+
+<span class="fc" id="L41">  private static final Log LOG =</span>
+    LogFactory.getLog(NativeCodeLoader.class);
+  
+<span class="fc" id="L44">  private static boolean nativeCodeLoaded = false;</span>
+  
+  static {
+    // Try to load native library and set fallback flag appropriately
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">    if(LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L49">      LOG.debug(&quot;Trying to load the custom-built native-chimera library...&quot;);</span>
+    }
+
+    try {
+<span class="fc" id="L53">      File nativeLibFile = findNativeLibrary();</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">      if (nativeLibFile != null) {</span>
+        // Load extracted or specified native library.
+<span class="fc" id="L56">        System.load(nativeLibFile.getAbsolutePath());</span>
+      } else {
+        // Load preinstalled library (in the path -Djava.library.path)
+<span class="nc" id="L59">        System.loadLibrary(&quot;chimera&quot;);</span>
+      }
+<span class="fc" id="L61">      LOG.debug(&quot;Loaded the native library&quot;);</span>
+<span class="fc" id="L62">      nativeCodeLoaded = true;</span>
+<span class="nc" id="L63">    } catch (Throwable t) {</span>
+      // Ignore failure to load
+<span class="nc bnc" id="L65" title="All 2 branches missed.">      if(LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L66">        LOG.debug(&quot;Failed to load native library with error: &quot; + t);</span>
+<span class="nc" id="L67">        LOG.debug(&quot;java.library.path=&quot; +</span>
+            System.getProperty(&quot;java.library.path&quot;));
+      }
+<span class="fc" id="L70">    }</span>
+
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">    if (!nativeCodeLoaded) {</span>
+<span class="nc" id="L73">      LOG.warn(&quot;Unable to load native library for the platform... &quot; +</span>
+               &quot;using builtin-java classes where applicable&quot;);
+    }
+<span class="fc" id="L76">  }</span>
+
+  static File findNativeLibrary() {
+    // Try to load the library in chimera.lib.path */
+<span class="fc" id="L80">    String nativeLibraryPath = Utils</span>
+        .getLibPath();
+<span class="fc" id="L82">    String nativeLibraryName = Utils</span>
+        .getLibName();
+
+    // Resolve the library file name with a suffix (e.g., dll, .so, etc.)
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">    if (nativeLibraryName == null)</span>
+<span class="fc" id="L87">      nativeLibraryName = System.mapLibraryName(&quot;chimera&quot;);</span>
+
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">    if (nativeLibraryPath != null) {</span>
+<span class="nc" id="L90">      File nativeLib = new File(nativeLibraryPath,</span>
+          nativeLibraryName);
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (nativeLib.exists())</span>
+<span class="nc" id="L93">        return nativeLib;</span>
+    }
+
+    // Load an OS-dependent native library inside a jar file
+<span class="fc" id="L97">    nativeLibraryPath = &quot;/com/intel/chimera/native/&quot;</span>
+        + OSInfo.getNativeLibFolderPathForCurrentOS();
+<span class="fc" id="L99">    boolean hasNativeLib = hasResource(nativeLibraryPath + &quot;/&quot;</span>
+        + nativeLibraryName);
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">    if(!hasNativeLib) {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">      if (OSInfo.getOSName().equals(&quot;Mac&quot;)) {</span>
+        // Fix for openjdk7 for Mac
+<span class="nc" id="L104">        String altName = &quot;libchimera.jnilib&quot;;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if (hasResource(nativeLibraryPath + &quot;/&quot; + altName)) {</span>
+<span class="nc" id="L106">          nativeLibraryName = altName;</span>
+<span class="nc" id="L107">          hasNativeLib = true;</span>
+        }
+      }
+    }
+
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">    if (!hasNativeLib) {</span>
+<span class="nc" id="L113">      String errorMessage = String.format(</span>
+          &quot;no native library is found for os.name=%s and os.arch=%s&quot;,
+          OSInfo.getOSName(), OSInfo.getArchName());
+<span class="nc" id="L116">      throw new RuntimeException(errorMessage);</span>
+    }
+
+    // Temporary folder for the native lib. Use the value of
+    // chimera.tempdir or java.io.tmpdir
+<span class="fc" id="L121">    String tempFolder = new File(Utils.getTmpDir())</span>
+        .getAbsolutePath();
+
+    // Extract and load a native library inside the jar file
+<span class="fc" id="L125">    return extractLibraryFile(nativeLibraryPath,</span>
+        nativeLibraryName, tempFolder);
+  }
+
+  /**
+   * Extract the specified library file to the target folder
+   * 
+   * @param libFolderForCurrentOS
+   * @param libraryFileName
+   * @param targetFolder
+   * @return
+   */
+  private static File extractLibraryFile(String libFolderForCurrentOS,
+      String libraryFileName, String targetFolder) {
+<span class="fc" id="L139">    String nativeLibraryFilePath = libFolderForCurrentOS + &quot;/&quot;</span>
+        + libraryFileName;
+
+    // Attach UUID to the native library file to ensure multiple class loaders
+    // can read the libchimera multiple times.
+<span class="fc" id="L144">    String uuid = UUID.randomUUID().toString();</span>
+<span class="fc" id="L145">    String extractedLibFileName = String.format(&quot;chimera-%s-%s-%s&quot;, getVersion(), uuid,</span>
+        libraryFileName);
+<span class="fc" id="L147">    File extractedLibFile = new File(targetFolder, extractedLibFileName);</span>
+
+<span class="fc" id="L149">    InputStream reader = null;</span>
+    try {
+      // Extract a native library file into the target directory
+<span class="fc" id="L152">      reader = NativeCodeLoader.class.getResourceAsStream(nativeLibraryFilePath);</span>
+<span class="fc" id="L153">      FileOutputStream writer = new FileOutputStream(extractedLibFile);</span>
+      try {
+<span class="fc" id="L155">        byte[] buffer = new byte[8192];</span>
+        int bytesRead;
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        while ((bytesRead = reader.read(buffer)) != -1) {</span>
+<span class="fc" id="L158">          writer.write(buffer, 0, bytesRead);</span>
+        }
+      } finally {
+        // Delete the extracted lib file on JVM exit.
+<span class="pc" id="L162">        extractedLibFile.deleteOnExit();</span>
+
+<span class="pc bpc" id="L164" title="3 of 4 branches missed.">        if (writer != null){</span>
+<span class="pc" id="L165">          writer.close();</span>
+        }
+
+<span class="pc bpc" id="L168" title="3 of 4 branches missed.">        if (reader != null) {</span>
+<span class="pc" id="L169">          reader.close();</span>
+<span class="pc" id="L170">          reader = null;</span>
+        }
+      }
+
+      // Set executable (x) flag to enable Java to load the native library
+<span class="pc bpc" id="L175" title="3 of 6 branches missed.">      if (!extractedLibFile.setReadable(true) || !extractedLibFile.setExecutable(true)</span>
+          || !extractedLibFile.setWritable(true, true)) {
+<span class="nc" id="L177">        throw new RuntimeException(&quot;Invalid path for library path&quot;);</span>
+      }
+
+      // Check whether the contents are properly copied from the resource folder
+      {
+<span class="fc" id="L182">        InputStream nativeIn = null;</span>
+<span class="fc" id="L183">        InputStream extractedLibIn = null;</span>
+        try {
+<span class="fc" id="L185">          nativeIn =</span>
+              NativeCodeLoader.class.getResourceAsStream(nativeLibraryFilePath);
+<span class="fc" id="L187">          extractedLibIn = new FileInputStream(extractedLibFile);</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">          if (!contentsEquals(nativeIn, extractedLibIn))</span>
+<span class="nc" id="L189">            throw new RuntimeException(String.format(</span>
+                    &quot;Failed to write a native library file at %s&quot;,
+                    extractedLibFile));
+        } finally {
+<span class="pc bpc" id="L193" title="3 of 4 branches missed.">          if (nativeIn != null)</span>
+<span class="pc" id="L194">            nativeIn.close();</span>
+<span class="pc bpc" id="L195" title="3 of 4 branches missed.">          if (extractedLibIn != null)</span>
+<span class="pc" id="L196">            extractedLibIn.close();</span>
+        }
+      }
+
+<span class="fc" id="L200">      return new File(targetFolder, extractedLibFileName);</span>
+<span class="nc" id="L201">    } catch (IOException e) {</span>
+<span class="nc" id="L202">      e.printStackTrace(System.err);</span>
+<span class="nc" id="L203">      return null;</span>
+    } finally{
+<span class="pc bpc" id="L205" title="5 of 6 branches missed.">      if(reader != null){</span>
+        try {
+<span class="nc" id="L207">          reader.close();</span>
+<span class="nc" id="L208">        } catch (IOException e) {</span>
+<span class="nc" id="L209">          e.printStackTrace();</span>
+<span class="pc" id="L210">        }</span>
+      }
+    }
+  }
+
+  /**
+   * Get the version by reading pom.properties embedded in jar.
+   * This version data is used as a suffix of a dll file extracted from the
+   * jar.
+   * 
+   * @return the version string
+   */
+  public static String getVersion() {
+<span class="fc" id="L223">    URL versionFile = NativeCodeLoader.class</span>
+        .getResource(&quot;/META-INF/maven/com.intel.chimera/chimera/pom.properties&quot;);
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">    if (versionFile == null)</span>
+<span class="fc" id="L226">      versionFile = NativeCodeLoader.class</span>
+          .getResource(&quot;/com/intel/chimera/VERSION&quot;);
+
+<span class="fc" id="L229">    String version = &quot;unknown&quot;;</span>
+    try {
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">      if (versionFile != null) {</span>
+<span class="nc" id="L232">        Properties versionData = new Properties();</span>
+<span class="nc" id="L233">        versionData.load(versionFile.openStream());</span>
+<span class="nc" id="L234">        version = versionData.getProperty(&quot;version&quot;, version);</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (version.equals(&quot;unknown&quot;))</span>
+<span class="nc" id="L236">          version = versionData.getProperty(&quot;VERSION&quot;, version);</span>
+<span class="nc" id="L237">        version = version.trim().replaceAll(&quot;[^0-9M\\.]&quot;, &quot;&quot;);</span>
+      }
+<span class="nc" id="L239">    } catch (IOException e) {</span>
+<span class="nc" id="L240">      System.err.println(e);</span>
+<span class="fc" id="L241">    }</span>
+<span class="fc" id="L242">    return version;</span>
+  }
+
+  private static boolean contentsEquals(InputStream in1, InputStream in2)
+      throws IOException {
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">    if (!(in1 instanceof BufferedInputStream)) {</span>
+<span class="nc" id="L248">      in1 = new BufferedInputStream(in1);</span>
+    }
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">    if (!(in2 instanceof BufferedInputStream)) {</span>
+<span class="fc" id="L251">      in2 = new BufferedInputStream(in2);</span>
+    }
+
+<span class="fc" id="L254">    int ch = in1.read();</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">    while (ch != -1) {</span>
+<span class="fc" id="L256">      int ch2 = in2.read();</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">      if (ch != ch2)</span>
+<span class="nc" id="L258">        return false;</span>
+<span class="fc" id="L259">      ch = in1.read();</span>
+<span class="fc" id="L260">    }</span>
+<span class="fc" id="L261">    int ch2 = in2.read();</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">    return ch2 == -1;</span>
+  }
+
+  private static boolean hasResource(String path) {
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">    return NativeCodeLoader.class.getResource(path) != null;</span>
+  }
+
+  /**
+   * Check if native code is loaded for this platform.
+   * 
+   * @return &lt;code&gt;true&lt;/code&gt; if native is loaded, 
+   *         else &lt;code&gt;false&lt;/code&gt;
+   */
+  public static boolean isNativeCodeLoaded() {
+<span class="fc" id="L276">    return nativeCodeLoaded;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
