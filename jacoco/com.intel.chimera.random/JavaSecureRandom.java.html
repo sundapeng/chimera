@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import com.intel.chimera.conf.ConfigurationKeys;
 
 /**
- * A SecureRandom of Java implementation
+ * A SecureRandom of Java implementation.
  */
 public class JavaSecureRandom implements SecureRandom {
 <span class="fc" id="L32">  private static final Log LOG =</span>
@@ -34,25 +34,41 @@ public class JavaSecureRandom implements SecureRandom {
 
   private java.security.SecureRandom instance;
 
-<span class="fc" id="L37">  public JavaSecureRandom(Properties properties) {</span>
+  /**
+   * Constructs a {@link com.intel.chimera.random.JavaSecureRandom}.
+   *
+   * @param properties the configuration properties.
+   */
+<span class="fc" id="L42">  public JavaSecureRandom(Properties properties) {</span>
     try {
-<span class="fc" id="L39">      instance = java.security.SecureRandom</span>
+<span class="fc" id="L44">      instance = java.security.SecureRandom</span>
           .getInstance(properties.getProperty(
               ConfigurationKeys.CHIMERA_CRYPTO_SECURE_RANDOM_JAVA_ALGORITHM_KEY,
               ConfigurationKeys.CHIMERA_CRYPTO_SECURE_RANDOM_JAVA_ALGORITHM_DEFAULT));
-<span class="nc" id="L43">    } catch (NoSuchAlgorithmException e) {</span>
-<span class="nc" id="L44">      LOG.error(&quot;Failed to create java secure random due to error: &quot; + e);</span>
-<span class="fc" id="L45">    }</span>
-<span class="fc" id="L46">  }</span>
+<span class="nc" id="L48">    } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L49">      LOG.error(&quot;Failed to create java secure random due to error: &quot; + e);</span>
+<span class="fc" id="L50">    }</span>
+<span class="fc" id="L51">  }</span>
 
+  /**
+   * Overrides {@link java.lang.AutoCloseable#close()}.
+   * For{@link JavaSecureRandom}, we don't need to recycle resource.
+   */
   @Override
   public void close() {
     // do nothing
-<span class="fc" id="L51">  }</span>
+<span class="fc" id="L60">  }</span>
 
+  /**
+   * Overrides {@link com.intel.chimera.random.SecureRandom#nextBytes(byte[])}.
+   * Generates random bytes and places them into a user-supplied byte array.
+   * The number of random bytes produced is equal to the length of the byte array.
+   *
+   * @param bytes the array to be filled in with random bytes.
+   */
   @Override
   public void nextBytes(byte[] bytes) {
-<span class="fc" id="L55">    instance.nextBytes(bytes);</span>
-<span class="fc" id="L56">  }</span>
+<span class="fc" id="L71">    instance.nextBytes(bytes);</span>
+<span class="fc" id="L72">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

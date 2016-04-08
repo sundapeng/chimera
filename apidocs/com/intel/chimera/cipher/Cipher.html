@@ -118,11 +118,15 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#DECRYPT_MODE">DECRYPT_MODE</a></strong></code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#DECRYPT_MODE">DECRYPT_MODE</a></strong></code>
+<div class="block">A constant representing decrypt mode.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#ENCRYPT_MODE">ENCRYPT_MODE</a></strong></code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#ENCRYPT_MODE">ENCRYPT_MODE</a></strong></code>
+<div class="block">A constant representing encrypt mode.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -161,12 +165,14 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <tr class="altColor">
 <td class="colFirst"><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#getProperties()">getProperties</a></strong>()</code>
-<div class="block">Get the properties for this cipher.</div>
+<div class="block">Gets the properties for this cipher.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></strong>()</code>
+<div class="block">Gets the CipherTransformation for this cipher.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -221,7 +227,9 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>ENCRYPT_MODE</h4>
-<pre>static final&nbsp;int <a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.35">ENCRYPT_MODE</a></pre>
+<pre>static final&nbsp;int <a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.39">ENCRYPT_MODE</a></pre>
+<div class="block">A constant representing encrypt mode.  The mode constant to be used
+ when calling init method of the Cipher.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../constant-values.html#com.intel.chimera.cipher.Cipher.ENCRYPT_MODE">Constant Field Values</a></dd></dl>
 </li>
 </ul>
@@ -231,7 +239,9 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DECRYPT_MODE</h4>
-<pre>static final&nbsp;int <a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.36">DECRYPT_MODE</a></pre>
+<pre>static final&nbsp;int <a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.45">DECRYPT_MODE</a></pre>
+<div class="block">A constant representing decrypt mode.  The mode constant to be used 
+ when calling init method of the Cipher.</div>
 <dl><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../constant-values.html#com.intel.chimera.cipher.Cipher.DECRYPT_MODE">Constant Field Values</a></dd></dl>
 </li>
 </ul>
@@ -249,7 +259,8 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>getTransformation</h4>
-<pre><a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.41">getTransformation</a>()</pre>
+<pre><a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.52">getTransformation</a>()</pre>
+<div class="block">Gets the CipherTransformation for this cipher.</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the CipherTransformation for this cipher.</dd></dl>
 </li>
 </ul>
@@ -259,8 +270,9 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>getProperties</h4>
-<pre><a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.46">getProperties</a>()</pre>
-<div class="block">Get the properties for this cipher.</div>
+<pre><a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.59">getProperties</a>()</pre>
+<div class="block">Gets the properties for this cipher.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the properties for this cipher.</dd></dl>
 </li>
 </ul>
 <a name="init(int, byte[], byte[])">
@@ -269,7 +281,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>init</h4>
-<pre>void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.63">init</a>(int&nbsp;mode,
+<pre>void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.77">init</a>(int&nbsp;mode,
         byte[]&nbsp;key,
         byte[]&nbsp;iv)
           throws <a href="http://download.oracle.com/javase/6/docs/api/java/security/InvalidKeyException.html?is-external=true" title="class or interface in java.security">InvalidKeyException</a>,
@@ -294,7 +306,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.75">update</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.90">update</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
          <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
            throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></pre>
 <div class="block">Continues a multiple-part encryption/decryption operation. The data
@@ -312,7 +324,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.90">update</a>(byte[]&nbsp;input,
+<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.105">update</a>(byte[]&nbsp;input,
          int&nbsp;inputOffset,
          int&nbsp;inputLen,
          byte[]&nbsp;output,
@@ -332,7 +344,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockList">
 <li class="blockList">
 <h4>doFinal</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.111">doFinal</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.127">doFinal</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
           <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
             throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a>,
                    <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a>,
@@ -360,7 +372,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.
 <ul class="blockListLast">
 <li class="blockList">
 <h4>doFinal</h4>
-<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.136">doFinal</a>(byte[]&nbsp;input,
+<pre>int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/Cipher.html#line.152">doFinal</a>(byte[]&nbsp;input,
           int&nbsp;inputOffset,
           int&nbsp;inputLen,
           byte[]&nbsp;output,

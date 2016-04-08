@@ -25,11 +25,27 @@
 <span class="sourceLineNo">017</span> */<a name="line.17"></a>
 <span class="sourceLineNo">018</span>package com.intel.chimera.random;<a name="line.18"></a>
 <span class="sourceLineNo">019</span><a name="line.19"></a>
-<span class="sourceLineNo">020</span>public class OpensslSecureRandomNative {<a name="line.20"></a>
-<span class="sourceLineNo">021</span>  public native static void initSR();<a name="line.21"></a>
-<span class="sourceLineNo">022</span><a name="line.22"></a>
-<span class="sourceLineNo">023</span>  public native static boolean nextRandBytes(byte[] bytes); <a name="line.23"></a>
-<span class="sourceLineNo">024</span>}<a name="line.24"></a>
+<span class="sourceLineNo">020</span>/**<a name="line.20"></a>
+<span class="sourceLineNo">021</span> * JNI interface of {@link SecureRandom} implementation.<a name="line.21"></a>
+<span class="sourceLineNo">022</span> * The native method in this class is defined in<a name="line.22"></a>
+<span class="sourceLineNo">023</span> * OpensslSecureRandomNative.h(genereted by javah).<a name="line.23"></a>
+<span class="sourceLineNo">024</span> */<a name="line.24"></a>
+<span class="sourceLineNo">025</span>public class OpensslSecureRandomNative {<a name="line.25"></a>
+<span class="sourceLineNo">026</span>  /**<a name="line.26"></a>
+<span class="sourceLineNo">027</span>   * Declares a native method to initialize SR.<a name="line.27"></a>
+<span class="sourceLineNo">028</span>   */<a name="line.28"></a>
+<span class="sourceLineNo">029</span>  public native static void initSR();<a name="line.29"></a>
+<span class="sourceLineNo">030</span><a name="line.30"></a>
+<span class="sourceLineNo">031</span>  /**<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * Judges whether use {@link OpensslSecureRandomNative} to<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   * generate the user-specified number of random bits.<a name="line.33"></a>
+<span class="sourceLineNo">034</span>   *<a name="line.34"></a>
+<span class="sourceLineNo">035</span>   * @param bytes the array to be filled in with random bytes.<a name="line.35"></a>
+<span class="sourceLineNo">036</span>   * @return true if use {@link OpensslSecureRandomNative} to<a name="line.36"></a>
+<span class="sourceLineNo">037</span>   * generate the user-specified number of random bits.<a name="line.37"></a>
+<span class="sourceLineNo">038</span>   */<a name="line.38"></a>
+<span class="sourceLineNo">039</span>  public native static boolean nextRandBytes(byte[] bytes); <a name="line.39"></a>
+<span class="sourceLineNo">040</span>}<a name="line.40"></a>
 
 
 

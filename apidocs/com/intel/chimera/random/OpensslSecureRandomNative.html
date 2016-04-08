@@ -95,8 +95,11 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public class <a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.20">OpensslSecureRandomNative</a>
+<pre>public class <a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.25">OpensslSecureRandomNative</a>
 extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
+<div class="block">JNI interface of <a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random"><code>SecureRandom</code></a> implementation.
+ The native method in this class is defined in
+ OpensslSecureRandomNative.h(genereted by javah).</div>
 </li>
 </ul>
 </div>
@@ -134,11 +137,16 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html#initSR()">initSR</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html#initSR()">initSR</a></strong>()</code>
+<div class="block">Declares a native method to initialize SR.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html#nextRandBytes(byte[])">nextRandBytes</a></strong>(byte[]&nbsp;bytes)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html#nextRandBytes(byte[])">nextRandBytes</a></strong>(byte[]&nbsp;bytes)</code>
+<div class="block">Judges whether use <a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandomNative</code></a> to
+ generate the user-specified number of random bits.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -168,7 +176,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>OpensslSecureRandomNative</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.20">OpensslSecureRandomNative</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.25">OpensslSecureRandomNative</a>()</pre>
 </li>
 </ul>
 </li>
@@ -185,7 +193,8 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockList">
 <li class="blockList">
 <h4>initSR</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.21">initSR</a>()</pre>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.29">initSR</a>()</pre>
+<div class="block">Declares a native method to initialize SR.</div>
 </li>
 </ul>
 <a name="nextRandBytes(byte[])">
@@ -194,7 +203,12 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>nextRandBytes</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.23">nextRandBytes</a>(byte[]&nbsp;bytes)</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandomNative.html#line.39">nextRandBytes</a>(byte[]&nbsp;bytes)</pre>
+<div class="block">Judges whether use <a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandomNative</code></a> to
+ generate the user-specified number of random bits.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>bytes</code> - the array to be filled in with random bytes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>true if use <a href="../../../../com/intel/chimera/random/OpensslSecureRandomNative.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandomNative</code></a> to
+ generate the user-specified number of random bits.</dd></dl>
 </li>
 </ul>
 </li>

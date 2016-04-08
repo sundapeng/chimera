@@ -158,7 +158,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#initIV">initIV</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected <a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a></code></td>
+<td class="colFirst"><code>protected <a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#input">input</a></strong></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
@@ -204,7 +204,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
                                   byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#CryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#CryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                   <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                   int&nbsp;bufferSize,
                                   byte[]&nbsp;key,
@@ -325,7 +325,9 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#read(byte[], int, int)">read</a></strong>(byte[]&nbsp;b,
         int&nbsp;off,
-        int&nbsp;len)</code>&nbsp;</td>
+        int&nbsp;len)</code>
+<div class="block">Decryption is buffer based.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
@@ -437,7 +439,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>input</h4>
-<pre>protected&nbsp;<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a> <a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.58">input</a></pre>
+<pre>protected&nbsp;<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a> <a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.58">input</a></pre>
 </li>
 </ul>
 <a name="inBuffer">
@@ -534,13 +536,13 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
 </ul>
-<a name="CryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">
+<a name="CryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CryptoInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.96">CryptoInputStream</a>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.96">CryptoInputStream</a>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                  <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                  int&nbsp;bufferSize,
                  byte[]&nbsp;key,
@@ -579,13 +581,19 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.125">read</a>(byte[]&nbsp;b,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.136">read</a>(byte[]&nbsp;b,
        int&nbsp;off,
        int&nbsp;len)
          throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block">Decryption is buffer based.
+ If there is data in <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#outBuffer"><code>outBuffer</code></a>, then read it out of this buffer.
+ If there is no data in <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#outBuffer"><code>outBuffer</code></a>, then read more from the
+ underlying stream and do the decryption.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true#read(byte[], int, int)" title="class or interface in java.io">read</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>b</code> - the buffer into which the decrypted data is read.</dd><dd><code>off</code> - the buffer offset.</dd><dd><code>len</code> - the maximum number of decrypted data bytes to read.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>int the total number of decrypted data bytes read into the buffer.</dd>
 <dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
@@ -596,7 +604,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>skip</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.154">skip</a>(long&nbsp;n)
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.165">skip</a>(long&nbsp;n)
           throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -611,7 +619,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>available</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.188">available</a>()
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.199">available</a>()
               throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -626,7 +634,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.195">close</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.206">close</a>()
            throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -647,7 +655,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>mark</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.208">mark</a>(int&nbsp;readlimit)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.219">mark</a>(int&nbsp;readlimit)</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true#mark(int)" title="class or interface in java.io">mark</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a></code></dd>
@@ -660,7 +668,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>reset</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.212">reset</a>()
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.223">reset</a>()
            throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -675,7 +683,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>markSupported</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.217">markSupported</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.228">markSupported</a>()</pre>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true#markSupported()" title="class or interface in java.io">markSupported</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a></code></dd>
@@ -688,7 +696,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>isOpen</h4>
-<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.222">isOpen</a>()</pre>
+<pre>public&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.233">isOpen</a>()</pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/nio/channels/Channel.html?is-external=true#isOpen()" title="class or interface in java.nio.channels">isOpen</a></code>&nbsp;in interface&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/nio/channels/Channel.html?is-external=true" title="class or interface in java.nio.channels">Channel</a></code></dd>
@@ -701,7 +709,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.227">read</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;dst)
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.238">read</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;dst)
          throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl>
 <dt><strong>Specified by:</strong></dt>
@@ -716,7 +724,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>getBufferSize</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.256">getBufferSize</a>()</pre>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.267">getBufferSize</a>()</pre>
 <div class="block">Get the buffer size</div>
 </li>
 </ul>
@@ -726,7 +734,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>getKey</h4>
-<pre>protected&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.263">getKey</a>()</pre>
+<pre>protected&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.274">getKey</a>()</pre>
 <div class="block">Get the key</div>
 </li>
 </ul>
@@ -736,7 +744,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>getInitIV</h4>
-<pre>protected&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.270">getInitIV</a>()</pre>
+<pre>protected&nbsp;byte[]&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.281">getInitIV</a>()</pre>
 <div class="block">Get the initialization vector</div>
 </li>
 </ul>
@@ -746,7 +754,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>getCipher</h4>
-<pre>protected&nbsp;<a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.277">getCipher</a>()</pre>
+<pre>protected&nbsp;<a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.288">getCipher</a>()</pre>
 <div class="block">Get the internal Cipher</div>
 </li>
 </ul>
@@ -756,7 +764,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>initCipher</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.282">initCipher</a>()
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.293">initCipher</a>()
                    throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Initialize the cipher.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -769,7 +777,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>decryptMore</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.300">decryptMore</a>()
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.311">decryptMore</a>()
                    throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Decrypt more data by reading the under layer stream. The decrypted data will
  be put in the output buffer. If the end of the under stream reached, we will
@@ -785,7 +793,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>decrypt</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.332">decrypt</a>()
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.343">decrypt</a>()
                 throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Do the decryption using inBuffer as input and outBuffer as output.
  Upon return, inBuffer is cleared; the decrypted data starts at
@@ -800,7 +808,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>decryptFinal</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.351">decryptFinal</a>()
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.362">decryptFinal</a>()
                      throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Do final of the cipher to end the decrypting stream</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -813,7 +821,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockList">
 <li class="blockList">
 <h4>checkStream</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.372">checkStream</a>()
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.383">checkStream</a>()
                     throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
@@ -825,7 +833,7 @@ implements <a href="http://download.oracle.com/javase/6/docs/api/java/nio/channe
 <ul class="blockListLast">
 <li class="blockList">
 <h4>freeBuffers</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.379">freeBuffers</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CryptoInputStream.html#line.390">freeBuffers</a>()</pre>
 <div class="block">Forcibly free the direct buffers.</div>
 </li>
 </ul>

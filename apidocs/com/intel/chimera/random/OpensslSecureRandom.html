@@ -138,7 +138,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#OpensslSecureRandom(java.util.Properties)">OpensslSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>&nbsp;</td>
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#OpensslSecureRandom(java.util.Properties)">OpensslSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandom</code></a>.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -157,17 +159,20 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#close()">close</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#close()">close</a></strong>()</code>
+<div class="block">Overrides <a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang"><code>AutoCloseable.close()</code></a>.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#isNativeCodeLoaded()">isNativeCodeLoaded</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#isNativeCodeLoaded()">isNativeCodeLoaded</a></strong>()</code>
+<div class="block">Judges whether loading native library successfully.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>protected int</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#next(int)">next</a></strong>(int&nbsp;numBits)</code>
-<div class="block">Generates an integer containing the user-specified number of
- random bits (right justified, with leading zeros).</div>
+<div class="block">Overrides <code>next()</code>.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -178,7 +183,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#setSeed(long)">setSeed</a></strong>(long&nbsp;seed)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html#setSeed(long)">setSeed</a></strong>(long&nbsp;seed)</code>
+<div class="block">Overrides <a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandom</code></a>.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -215,7 +222,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>OpensslSecureRandom</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.66">OpensslSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.76">OpensslSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandom</code></a>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>props</code> - the configuration properties.</dd></dl>
 </li>
 </ul>
 </li>
@@ -232,7 +241,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>isNativeCodeLoaded</h4>
-<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.62">isNativeCodeLoaded</a>()</pre>
+<pre>public static&nbsp;boolean&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.67">isNativeCodeLoaded</a>()</pre>
+<div class="block">Judges whether loading native library successfully.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>true if loading library successfully.</dd></dl>
 </li>
 </ul>
 <a name="nextBytes(byte[])">
@@ -241,7 +252,7 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>nextBytes</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.79">nextBytes</a>(byte[]&nbsp;bytes)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.89">nextBytes</a>(byte[]&nbsp;bytes)</pre>
 <div class="block">Generates a user-specified number of random bytes.
  It's thread-safe.</div>
 <dl>
@@ -258,11 +269,13 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>setSeed</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.86">setSeed</a>(long&nbsp;seed)</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.102">setSeed</a>(long&nbsp;seed)</pre>
+<div class="block">Overrides <a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandom</code></a>.
+ For <a href="../../../../com/intel/chimera/random/OpensslSecureRandom.html" title="class in com.intel.chimera.random"><code>OpensslSecureRandom</code></a>, we don't need to set seed.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true#setSeed(long)" title="class or interface in java.util">setSeed</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true" title="class or interface in java.util">Random</a></code></dd>
-</dl>
+<dt><span class="strong">Parameters:</span></dt><dd><code>seed</code> - the initial seed.</dd></dl>
 </li>
 </ul>
 <a name="next(int)">
@@ -271,9 +284,10 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre>protected final&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.101">next</a>(int&nbsp;numBits)</pre>
-<div class="block">Generates an integer containing the user-specified number of
- random bits (right justified, with leading zeros).</div>
+<pre>protected final&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.117">next</a>(int&nbsp;numBits)</pre>
+<div class="block">Overrides <code>next()</code>. Generates an integer
+ containing the user-specified number of random
+ bits(right justified, with leading zeros).</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true#next(int)" title="class or interface in java.util">next</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true" title="class or interface in java.util">Random</a></code></dd>
@@ -289,7 +303,8 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.116">close</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OpensslSecureRandom.html#line.135">close</a>()</pre>
+<div class="block">Overrides <a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang"><code>AutoCloseable.close()</code></a>. Closes openssl context if native enabled.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io">close</a></code>&nbsp;in interface&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></code></dd>

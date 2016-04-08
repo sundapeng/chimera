@@ -82,15 +82,11 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a href="#com.intel.chimera.stream">com.intel.chimera.stream</a></td>
-<td class="colLast">
-<div class="block">Stream classes</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a href="#com.intel.chimera.utils">com.intel.chimera.utils</a></td>
-<td class="colLast">
-<div class="block">Utility classes</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -111,21 +107,27 @@
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
 <td class="colLast"><span class="strong">CipherTransformation.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html#fromName(java.lang.String)">fromName</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name)</code>
-<div class="block">Convert to CipherTransformation from name, <a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html#algorithmBlockSize"><code>algorithmBlockSize</code></a> is fixed
- for certain cipher transformation, just need to compare the name.</div>
+<div class="block">Converts to CipherTransformation from name, <a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html#algorithmBlockSize"><code>algorithmBlockSize</code></a> 
+ is fixed for certain cipher transformation, just need to compare the name.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
-<td class="colLast"><span class="strong">JceCipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/JceCipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><span class="strong">JceCipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/JceCipher.html#getTransformation()">getTransformation</a></strong>()</code>
+<div class="block">Gets the CipherTransformation for the jce cipher.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
-<td class="colLast"><span class="strong">OpensslCipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/OpensslCipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><span class="strong">OpensslCipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/OpensslCipher.html#getTransformation()">getTransformation</a></strong>()</code>
+<div class="block">Gets the CipherTransformation for the openssl cipher.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
-<td class="colLast"><span class="strong">Cipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><span class="strong">Cipher.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></strong>()</code>
+<div class="block">Gets the CipherTransformation for this cipher.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
@@ -152,7 +154,7 @@ the order they are declared.</div>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></td>
 <td class="colLast"><span class="strong">CipherFactory.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/CipherFactory.html#getInstance(com.intel.chimera.cipher.CipherTransformation)">getInstance</a></strong>(<a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation)</code>
-<div class="block">Get a cipher for algorithm/mode/padding in config value
+<div class="block">Gets a cipher for algorithm/mode/padding in config value
  chimera.crypto.cipher.transformation</div>
 </td>
 </tr>
@@ -160,7 +162,7 @@ the order they are declared.</div>
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></td>
 <td class="colLast"><span class="strong">CipherFactory.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/CipherFactory.html#getInstance(com.intel.chimera.cipher.CipherTransformation, java.util.Properties)">getInstance</a></strong>(<a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation,
                       <a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>
-<div class="block">Get a cipher instance for specified algorithm/mode/padding.</div>
+<div class="block">Gets a cipher instance for specified algorithm/mode/padding.</div>
 </td>
 </tr>
 </tbody>

@@ -40,9 +40,9 @@
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.cipher.Cipher;
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.cipher.CipherTransformation;
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.output.ChannelOutput;
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.output.Output;
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.output.StreamOutput;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.stream.output.ChannelOutput;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.stream.output.Output;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.stream.output.StreamOutput;
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> com.intel.chimera.utils.Utils;
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  <em class="jxr_javadoccomment">/**</em>
@@ -54,7 +54,7 @@
 <a class="jxr_linenumber" name="L46" href="#L46">46</a>      WritableByteChannel {
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>    <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] oneByteBuf = <strong class="jxr_keyword">new</strong> byte[1];
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  
-<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../com/intel/chimera/output/Output.html">Output</a> output;
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../com/intel/chimera/stream/output/Output.html">Output</a> output;
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../com/intel/chimera/cipher/Cipher.html">Cipher</a> cipher;
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>    <strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> bufferSize;
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>  
@@ -92,15 +92,15 @@
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../com/intel/chimera/stream/CryptoOutputStream.html">CryptoOutputStream</a>(OutputStream out, <a href="../../../../com/intel/chimera/cipher/Cipher.html">Cipher</a> cipher,
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>        <strong class="jxr_keyword">int</strong> bufferSize, byte[] key, byte[] iv) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>      <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">new</strong> <a href="../../../../com/intel/chimera/output/StreamOutput.html">StreamOutput</a>(out, bufferSize), cipher, bufferSize, key, iv);
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>      <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">new</strong> <a href="../../../../com/intel/chimera/stream/output/StreamOutput.html">StreamOutput</a>(out, bufferSize), cipher, bufferSize, key, iv);
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>    }
 <a class="jxr_linenumber" name="L89" href="#L89">89</a>  
 <a class="jxr_linenumber" name="L90" href="#L90">90</a>    <strong class="jxr_keyword">public</strong> <a href="../../../../com/intel/chimera/stream/CryptoOutputStream.html">CryptoOutputStream</a>(WritableByteChannel channel, <a href="../../../../com/intel/chimera/cipher/Cipher.html">Cipher</a> cipher,
 <a class="jxr_linenumber" name="L91" href="#L91">91</a>        <strong class="jxr_keyword">int</strong> bufferSize, byte[] key, byte[] iv) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">new</strong> <a href="../../../../com/intel/chimera/output/ChannelOutput.html">ChannelOutput</a>(channel), cipher, bufferSize, key, iv);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>      <strong class="jxr_keyword">this</strong>(<strong class="jxr_keyword">new</strong> <a href="../../../../com/intel/chimera/stream/output/ChannelOutput.html">ChannelOutput</a>(channel), cipher, bufferSize, key, iv);
 <a class="jxr_linenumber" name="L93" href="#L93">93</a>    }
 <a class="jxr_linenumber" name="L94" href="#L94">94</a>  
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../com/intel/chimera/stream/CryptoOutputStream.html">CryptoOutputStream</a>(<a href="../../../../com/intel/chimera/output/Output.html">Output</a> output, <a href="../../../../com/intel/chimera/cipher/Cipher.html">Cipher</a> cipher,
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>    <strong class="jxr_keyword">protected</strong> <a href="../../../../com/intel/chimera/stream/CryptoOutputStream.html">CryptoOutputStream</a>(<a href="../../../../com/intel/chimera/stream/output/Output.html">Output</a> output, <a href="../../../../com/intel/chimera/cipher/Cipher.html">Cipher</a> cipher,
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>        <strong class="jxr_keyword">int</strong> bufferSize, byte[] key, byte[] iv)
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>        <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="L98" href="#L98">98</a>  

@@ -82,15 +82,11 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><a href="#com.intel.chimera.stream">com.intel.chimera.stream</a></td>
-<td class="colLast">
-<div class="block">Stream classes</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><a href="#com.intel.chimera.utils">com.intel.chimera.utils</a></td>
-<td class="colLast">
-<div class="block">Utility classes</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -111,13 +107,13 @@
 <tr class="altColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/cipher/JceCipher.html" title="class in com.intel.chimera.cipher">JceCipher</a></strong></code>
-<div class="block">Implement the <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JCE provider.</div>
+<div class="block">Implements the <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JCE provider.</div>
 </td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>class&nbsp;</code></td>
 <td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/cipher/OpensslCipher.html" title="class in com.intel.chimera.cipher">OpensslCipher</a></strong></code>
-<div class="block">Implement the Cipher using JNI into OpenSSL.</div>
+<div class="block">Implements the Cipher using JNI into OpenSSL.</div>
 </td>
 </tr>
 </tbody>
@@ -132,7 +128,7 @@
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></td>
 <td class="colLast"><span class="strong">CipherFactory.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/CipherFactory.html#getInstance(com.intel.chimera.cipher.CipherTransformation)">getInstance</a></strong>(<a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation)</code>
-<div class="block">Get a cipher for algorithm/mode/padding in config value
+<div class="block">Gets a cipher for algorithm/mode/padding in config value
  chimera.crypto.cipher.transformation</div>
 </td>
 </tr>
@@ -140,7 +136,7 @@
 <td class="colFirst"><code>static <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></td>
 <td class="colLast"><span class="strong">CipherFactory.</span><code><strong><a href="../../../../../com/intel/chimera/cipher/CipherFactory.html#getInstance(com.intel.chimera.cipher.CipherTransformation, java.util.Properties)">getInstance</a></strong>(<a href="../../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;transformation,
                       <a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>
-<div class="block">Get a cipher instance for specified algorithm/mode/padding.</div>
+<div class="block">Gets a cipher instance for specified algorithm/mode/padding.</div>
 </td>
 </tr>
 </tbody>
@@ -189,7 +185,7 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CryptoInputStream.html#CryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CryptoInputStream.html#CryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                   <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                   int&nbsp;bufferSize,
                                   byte[]&nbsp;key,
@@ -210,7 +206,7 @@
                                   byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CryptoOutputStream.html#CryptoOutputStream(com.intel.chimera.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/output/Output.html" title="interface in com.intel.chimera.output">Output</a>&nbsp;output,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CryptoOutputStream.html#CryptoOutputStream(com.intel.chimera.stream.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/output/Output.html" title="interface in com.intel.chimera.stream.output">Output</a>&nbsp;output,
                                     <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                     int&nbsp;bufferSize,
                                     byte[]&nbsp;key,
@@ -231,14 +227,14 @@
                                     byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                         <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                         int&nbsp;bufferSize,
                                         byte[]&nbsp;key,
                                         byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                         <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                         int&nbsp;bufferSize,
                                         byte[]&nbsp;key,
@@ -276,14 +272,14 @@
                                         long&nbsp;streamOffset)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoOutputStream.html#CTRCryptoOutputStream(com.intel.chimera.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/output/Output.html" title="interface in com.intel.chimera.output">Output</a>&nbsp;output,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoOutputStream.html#CTRCryptoOutputStream(com.intel.chimera.stream.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/output/Output.html" title="interface in com.intel.chimera.stream.output">Output</a>&nbsp;output,
                                           <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                           int&nbsp;bufferSize,
                                           byte[]&nbsp;key,
                                           byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoOutputStream.html#CTRCryptoOutputStream(com.intel.chimera.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/output/Output.html" title="interface in com.intel.chimera.output">Output</a>&nbsp;output,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/CTRCryptoOutputStream.html#CTRCryptoOutputStream(com.intel.chimera.stream.output.Output, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoOutputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/output/Output.html" title="interface in com.intel.chimera.stream.output">Output</a>&nbsp;output,
                                           <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                           int&nbsp;bufferSize,
                                           byte[]&nbsp;key,
@@ -321,23 +317,7 @@
                                           long&nbsp;streamOffset)</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/PositionedCryptoInputStream.html#PositionedCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">PositionedCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
-                                                      <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
-                                                      int&nbsp;bufferSize,
-                                                      byte[]&nbsp;key,
-                                                      byte[]&nbsp;iv,
-                                                      long&nbsp;streamOffset)</code>&nbsp;</td>
-</tr>
-<tr class="rowColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/PositionedCryptoInputStream.html#PositionedCryptoInputStream(java.io.InputStream, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">PositionedCryptoInputStream</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
-                                                      <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
-                                                      int&nbsp;bufferSize,
-                                                      byte[]&nbsp;key,
-                                                      byte[]&nbsp;iv,
-                                                      long&nbsp;streamOffset)</code>&nbsp;</td>
-</tr>
-<tr class="altColor">
-<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/PositionedCryptoInputStream.html#PositionedCryptoInputStream(java.nio.channels.ReadableByteChannel, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">PositionedCryptoInputStream</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/channels/ReadableByteChannel.html?is-external=true" title="class or interface in java.nio.channels">ReadableByteChannel</a>&nbsp;in,
+<td class="colLast"><code><strong><a href="../../../../../com/intel/chimera/stream/PositionedCryptoInputStream.html#PositionedCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">PositionedCryptoInputStream</a></strong>(<a href="../../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                                       <a href="../../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                                       int&nbsp;bufferSize,
                                                       byte[]&nbsp;key,

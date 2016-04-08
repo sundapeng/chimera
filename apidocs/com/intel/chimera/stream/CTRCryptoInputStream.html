@@ -172,14 +172,14 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">CTRCryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                         <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                         int&nbsp;bufferSize,
                                         byte[]&nbsp;key,
                                         byte[]&nbsp;iv)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">CTRCryptoInputStream</a></strong>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                                         <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                                         int&nbsp;bufferSize,
                                         byte[]&nbsp;key,
@@ -300,23 +300,19 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#getStreamOffset()">getStreamOffset</a></strong>()</code>&nbsp;</td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>protected long</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#getStreamPosition()">getStreamPosition</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>protected void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#initCipher()">initCipher</a></strong>()</code>
 <div class="block">Initialize the cipher.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>protected byte</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#postDecryption(long)">postDecryption</a></strong>(long&nbsp;position)</code>
 <div class="block">This method is executed immediately after decryption.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#read(byte[], int, int)">read</a></strong>(byte[]&nbsp;b,
-        int&nbsp;off,
-        int&nbsp;len)</code>
-<div class="block">Decryption is buffer based.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -339,6 +335,12 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#seek(long)">seek</a></strong>(long&nbsp;position)</code>
+<div class="block">Seek the stream to a specific position relative to start of the under layer stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#skip(long)">skip</a></strong>(long&nbsp;n)</code>
 <div class="block">Skip n bytes</div>
@@ -350,7 +352,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.intel.chimera.stream.<a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" title="class in com.intel.chimera.stream">CryptoInputStream</a></h3>
-<code><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#available()">available</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#checkStream()">checkStream</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#close()">close</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#decryptFinal()">decryptFinal</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#freeBuffers()">freeBuffers</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getBufferSize()">getBufferSize</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getCipher()">getCipher</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getInitIV()">getInitIV</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getKey()">getKey</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#isOpen()">isOpen</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#mark(int)">mark</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#markSupported()">markSupported</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#read()">read</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#reset()">reset</a></code></li>
+<code><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#available()">available</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#checkStream()">checkStream</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#close()">close</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#decryptFinal()">decryptFinal</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#freeBuffers()">freeBuffers</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getBufferSize()">getBufferSize</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getCipher()">getCipher</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getInitIV()">getInitIV</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#getKey()">getKey</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#isOpen()">isOpen</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#mark(int)">mark</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#markSupported()">markSupported</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#read()">read</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#read(byte[], int, int)">read</a>, <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#reset()">reset</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods_inherited_from_class_java.io.InputStream">
@@ -460,13 +462,13 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
 </ul>
-<a name="CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">
+<a name="CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[])">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>CTRCryptoInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.92">CTRCryptoInputStream</a>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.92">CTRCryptoInputStream</a>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                     <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                     int&nbsp;bufferSize,
                     byte[]&nbsp;key,
@@ -542,13 +544,13 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
 </ul>
-<a name="CTRCryptoInputStream(com.intel.chimera.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">
+<a name="CTRCryptoInputStream(com.intel.chimera.stream.input.Input, com.intel.chimera.cipher.Cipher, int, byte[], byte[], long)">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>CTRCryptoInputStream</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.125">CTRCryptoInputStream</a>(<a href="../../../../com/intel/chimera/input/Input.html" title="interface in com.intel.chimera.input">Input</a>&nbsp;input,
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.125">CTRCryptoInputStream</a>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;input,
                     <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a>&nbsp;cipher,
                     int&nbsp;bufferSize,
                     byte[]&nbsp;key,
@@ -567,36 +569,13 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="read(byte[], int, int)">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.151">read</a>(byte[]&nbsp;b,
-       int&nbsp;off,
-       int&nbsp;len)
-         throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
-<div class="block">Decryption is buffer based.
- If there is data in <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#outBuffer"><code>CryptoInputStream.outBuffer</code></a>, then read it out of this buffer.
- If there is no data in <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#outBuffer"><code>CryptoInputStream.outBuffer</code></a>, then read more from the
- underlying stream and do the decryption.</div>
-<dl>
-<dt><strong>Overrides:</strong></dt>
-<dd><code><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#read(byte[], int, int)">read</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" title="class in com.intel.chimera.stream">CryptoInputStream</a></code></dd>
-<dt><span class="strong">Parameters:</span></dt><dd><code>b</code> - the buffer into which the decrypted data is read.</dd><dd><code>off</code> - the buffer offset.</dd><dd><code>len</code> - the maximum number of decrypted data bytes to read.</dd>
-<dt><span class="strong">Returns:</span></dt><dd>int the total number of decrypted data bytes read into the buffer.</dd>
-<dt><span class="strong">Throws:</span></dt>
-<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
-</li>
-</ul>
 <a name="skip(long)">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>skip</h4>
-<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.179">skip</a>(long&nbsp;n)
+<pre>public&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.141">skip</a>(long&nbsp;n)
           throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Skip n bytes</div>
 <dl>
@@ -612,7 +591,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>read</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.210">read</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf)
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.172">read</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf)
          throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">ByteBuffer read.</div>
 <dl>
@@ -624,13 +603,36 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
 </ul>
+<a name="seek(long)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>seek</h4>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.215">seek</a>(long&nbsp;position)
+          throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block">Seek the stream to a specific position relative to start of the under layer stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>position</code> - The position to seek to</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code> - if seek failed</dd></dl>
+</li>
+</ul>
 <a name="getStreamOffset()">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>getStreamOffset</h4>
-<pre>protected&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.247">getStreamOffset</a>()</pre>
+<pre>protected&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.233">getStreamOffset</a>()</pre>
+</li>
+</ul>
+<a name="getStreamPosition()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getStreamPosition</h4>
+<pre>protected&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.237">getStreamPosition</a>()</pre>
 </li>
 </ul>
 <a name="decryptMore()">
@@ -639,7 +641,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>decryptMore</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.257">decryptMore</a>()
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.247">decryptMore</a>()
                    throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Decrypt more data by reading the under layer stream. The decrypted data will
  be put in the output buffer.</div>
@@ -657,7 +659,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>decrypt</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.274">decrypt</a>()
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.264">decrypt</a>()
                 throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Do the decryption using inBuffer as input and outBuffer as output.
  Upon return, inBuffer is cleared; the decrypted data starts at
@@ -675,7 +677,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>decryptInPlace</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.303">decryptInPlace</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf)
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.293">decryptInPlace</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf)
                        throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Do the decryption using inBuffer as input and buf as output.
  Upon return, inBuffer is cleared; the buf's position will be equal to
@@ -692,7 +694,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>decrypt</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.323">decrypt</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf,
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.313">decrypt</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;buf,
            int&nbsp;offset,
            int&nbsp;len)
                 throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
@@ -709,7 +711,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>postDecryption</h4>
-<pre>protected&nbsp;byte&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.350">postDecryption</a>(long&nbsp;position)
+<pre>protected&nbsp;byte&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.340">postDecryption</a>(long&nbsp;position)
                        throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">This method is executed immediately after decryption. Check whether
  cipher should be updated and recalculate padding if needed.</div>
@@ -723,7 +725,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>getCounter</h4>
-<pre>protected&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.366">getCounter</a>(long&nbsp;position)</pre>
+<pre>protected&nbsp;long&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.356">getCounter</a>(long&nbsp;position)</pre>
 </li>
 </ul>
 <a name="getPadding(long)">
@@ -732,7 +734,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>getPadding</h4>
-<pre>protected&nbsp;byte&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.370">getPadding</a>(long&nbsp;position)</pre>
+<pre>protected&nbsp;byte&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.360">getPadding</a>(long&nbsp;position)</pre>
 </li>
 </ul>
 <a name="initCipher()">
@@ -741,7 +743,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>initCipher</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.376">initCipher</a>()</pre>
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.366">initCipher</a>()</pre>
 <div class="block">Initialize the cipher.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
@@ -755,7 +757,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>resetCipher</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.382">resetCipher</a>(long&nbsp;position)
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.372">resetCipher</a>(long&nbsp;position)
                     throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Calculate the counter and iv, reset the cipher.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
@@ -768,7 +770,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockList">
 <li class="blockList">
 <h4>resetStreamOffset</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.400">resetStreamOffset</a>(long&nbsp;offset)
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.390">resetStreamOffset</a>(long&nbsp;offset)
                           throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <div class="block">Reset the underlying stream offset; clear <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#inBuffer"><code>CryptoInputStream.inBuffer</code></a> and
  <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html#outBuffer"><code>CryptoInputStream.outBuffer</code></a>. This Typically happens during <a href="../../../../com/intel/chimera/stream/CTRCryptoInputStream.html#skip(long)"><code>skip(long)</code></a>.</div>
@@ -782,7 +784,7 @@ extends <a href="../../../../com/intel/chimera/stream/CryptoInputStream.html" ti
 <ul class="blockListLast">
 <li class="blockList">
 <h4>decryptBuffer</h4>
-<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.410">decryptBuffer</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;out)
+<pre>protected&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/stream/CTRCryptoInputStream.html#line.400">decryptBuffer</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;out)
                       throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>

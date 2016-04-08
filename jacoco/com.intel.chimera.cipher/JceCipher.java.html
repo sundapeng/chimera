@@ -32,7 +32,7 @@ import javax.crypto.spec.SecretKeySpec;
 import com.intel.chimera.utils.Utils;
 
 /**
- * Implement the {@link com.intel.chimera.cipher.Cipher} using JCE provider.
+ * Implements the {@link com.intel.chimera.cipher.Cipher} using JCE provider.
  */
 public class JceCipher implements Cipher {
   private final Properties props;
@@ -59,18 +59,29 @@ public class JceCipher implements Cipher {
     }
 <span class="fc" id="L60">  }</span>
 
+  /**
+   * Gets the CipherTransformation for the jce cipher.
+   *
+   * @return the CipherTransformation for this cipher
+   */
   @Override
   public CipherTransformation getTransformation() {
-<span class="fc" id="L64">    return transformation;</span>
+<span class="fc" id="L69">    return transformation;</span>
   }
 
+  /**
+   * Gets the properties for the jce cipher.
+   *
+   * @return the properties for this cipher.
+   */
   @Override
   public Properties getProperties() {
-<span class="fc" id="L69">    return props;</span>
+<span class="fc" id="L79">    return props;</span>
   }
 
   /**
    * Initializes the cipher with mode, key and iv.
+   * 
    * @param mode {@link #ENCRYPT_MODE} or {@link #DECRYPT_MODE}
    * @param key crypto key for the cipher
    * @param iv Initialization vector for the cipher
@@ -84,20 +95,21 @@ public class JceCipher implements Cipher {
   @Override
   public void init(int mode, byte[] key, byte[] iv)
       throws InvalidKeyException, InvalidAlgorithmParameterException {
-<span class="fc" id="L87">    Utils.checkNotNull(key);</span>
-<span class="fc" id="L88">    Utils.checkNotNull(iv);</span>
+<span class="fc" id="L98">    Utils.checkNotNull(key);</span>
+<span class="fc" id="L99">    Utils.checkNotNull(iv);</span>
 
-<span class="fc" id="L90">    int cipherMode = javax.crypto.Cipher.DECRYPT_MODE;</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">    if (mode == ENCRYPT_MODE)</span>
-<span class="fc" id="L92">      cipherMode = javax.crypto.Cipher.ENCRYPT_MODE;</span>
+<span class="fc" id="L101">    int cipherMode = javax.crypto.Cipher.DECRYPT_MODE;</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">    if (mode == ENCRYPT_MODE)</span>
+<span class="fc" id="L103">      cipherMode = javax.crypto.Cipher.ENCRYPT_MODE;</span>
 
-<span class="fc" id="L94">    cipher.init(cipherMode, new SecretKeySpec(key, &quot;AES&quot;),</span>
+<span class="fc" id="L105">    cipher.init(cipherMode, new SecretKeySpec(key, &quot;AES&quot;),</span>
         new IvParameterSpec(iv));
-<span class="fc" id="L96">  }</span>
+<span class="fc" id="L107">  }</span>
 
   /**
    * Continues a multiple-part encryption/decryption operation. The data
    * is encrypted or decrypted, depending on how this cipher was initialized.
+   * 
    * @param inBuffer the input ByteBuffer
    * @param outBuffer the output ByteBuffer
    * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
@@ -107,7 +119,7 @@ public class JceCipher implements Cipher {
   @Override
   public int update(ByteBuffer inBuffer, ByteBuffer outBuffer)
       throws ShortBufferException {
-<span class="fc" id="L110">    return cipher.update(inBuffer, outBuffer);</span>
+<span class="fc" id="L122">    return cipher.update(inBuffer, outBuffer);</span>
   }
 
   /**
@@ -126,7 +138,7 @@ public class JceCipher implements Cipher {
   public int update(byte[] input, int inputOffset, int inputLen,
       byte[] output, int outputOffset)
       throws ShortBufferException {
-<span class="fc" id="L129">    return cipher.update(input, inputOffset, inputLen,</span>
+<span class="fc" id="L141">    return cipher.update(input, inputOffset, inputLen,</span>
                          output, outputOffset);
   }
 
@@ -134,6 +146,7 @@ public class JceCipher implements Cipher {
    * Encrypts or decrypts data in a single-part operation, or finishes a
    * multiple-part operation. The data is encrypted or decrypted, depending
    * on how this cipher was initialized.
+   *
    * @param inBuffer the input ByteBuffer
    * @param outBuffer the output ByteBuffer
    * @return int number of bytes stored in &lt;code&gt;output&lt;/code&gt;
@@ -152,7 +165,7 @@ public class JceCipher implements Cipher {
   public int doFinal(ByteBuffer inBuffer, ByteBuffer outBuffer)
       throws ShortBufferException, IllegalBlockSizeException,
       BadPaddingException {
-<span class="fc" id="L155">    return cipher.doFinal(inBuffer, outBuffer);</span>
+<span class="fc" id="L168">    return cipher.doFinal(inBuffer, outBuffer);</span>
   }
 
   /**
@@ -180,7 +193,7 @@ public class JceCipher implements Cipher {
   public int doFinal(byte[] input, int inputOffset, int inputLen,
       byte[] output, int outputOffset)
       throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
-<span class="fc" id="L183">    return cipher.doFinal(input, inputOffset, inputLen,</span>
+<span class="fc" id="L196">    return cipher.doFinal(input, inputOffset, inputLen,</span>
                           output, outputOffset);
   }
 
@@ -190,6 +203,6 @@ public class JceCipher implements Cipher {
   @Override
   public void close() {
     // Do nothing
-<span class="fc" id="L193">  }</span>
+<span class="fc" id="L206">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -59,15 +59,25 @@ public class OpensslSecureRandom extends Random implements SecureRandom {
     }
 <span class="fc" id="L60">  }</span>
 
+  /**
+   * Judges whether loading native library successfully.
+   *
+   * @return true if loading library successfully.
+   */
   public static boolean isNativeCodeLoaded() {
-<span class="nc" id="L63">    return nativeEnabled;</span>
+<span class="nc" id="L68">    return nativeEnabled;</span>
   }
 
-<span class="fc" id="L66">  public OpensslSecureRandom(Properties props) {</span>
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">    if (!nativeEnabled) {</span>
-<span class="nc" id="L68">      fallback = new JavaSecureRandom(props);</span>
+  /**
+   * Constructs a {@link com.intel.chimera.random.OpensslSecureRandom}.
+   *
+   * @param props the configuration properties.
+   */
+<span class="fc" id="L76">  public OpensslSecureRandom(Properties props) {</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">    if (!nativeEnabled) {</span>
+<span class="nc" id="L78">      fallback = new JavaSecureRandom(props);</span>
     }
-<span class="fc" id="L70">  }</span>
+<span class="fc" id="L80">  }</span>
 
   /**
    * Generates a user-specified number of random bytes.
@@ -77,46 +87,55 @@ public class OpensslSecureRandom extends Random implements SecureRandom {
    */
   @Override
   public void nextBytes(byte[] bytes) {
-<span class="pc bpc" id="L80" title="2 of 4 branches missed.">    if (!nativeEnabled || !OpensslSecureRandomNative.nextRandBytes(bytes)) {</span>
-<span class="nc" id="L81">      fallback.nextBytes(bytes);</span>
+<span class="pc bpc" id="L90" title="2 of 4 branches missed.">    if (!nativeEnabled || !OpensslSecureRandomNative.nextRandBytes(bytes)) {</span>
+<span class="nc" id="L91">      fallback.nextBytes(bytes);</span>
     }
-<span class="fc" id="L83">  }</span>
+<span class="fc" id="L93">  }</span>
 
+  /**
+   * Overrides {@link OpensslSecureRandom}.
+   * For {@link OpensslSecureRandom}, we don't need to set seed.
+   *
+   * @param seed the initial seed.
+   */
   @Override
   public void setSeed(long seed) {
     // Self-seeding.
-<span class="fc" id="L88">  }</span>
+<span class="fc" id="L104">  }</span>
 
   /**
-   * Generates an integer containing the user-specified number of
-   * random bits (right justified, with leading zeros).
+   * Overrides {@link java.util.Random# next()}. Generates an integer
+   * containing the user-specified number of random
+   * bits(right justified, with leading zeros).
    *
    * @param numBits number of random bits to be generated, where
    * 0 &lt;= &lt;code&gt;numBits&lt;/code&gt; &lt;= 32.
-   *
    * @return int an &lt;code&gt;int&lt;/code&gt; containing the user-specified number
    * of random bits (right justified, with leading zeros).
    */
   @Override
   final protected int next(int numBits) {
-<span class="nc bnc" id="L102" title="All 4 branches missed.">    Utils.checkArgument(numBits &gt;= 0 &amp;&amp; numBits &lt;= 32);</span>
-<span class="nc" id="L103">    int numBytes = (numBits + 7) / 8;</span>
-<span class="nc" id="L104">    byte b[] = new byte[numBytes];</span>
-<span class="nc" id="L105">    int next = 0;</span>
+<span class="nc bnc" id="L118" title="All 4 branches missed.">    Utils.checkArgument(numBits &gt;= 0 &amp;&amp; numBits &lt;= 32);</span>
+<span class="nc" id="L119">    int numBytes = (numBits + 7) / 8;</span>
+<span class="nc" id="L120">    byte b[] = new byte[numBytes];</span>
+<span class="nc" id="L121">    int next = 0;</span>
 
-<span class="nc" id="L107">    nextBytes(b);</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">    for (int i = 0; i &lt; numBytes; i++) {</span>
-<span class="nc" id="L109">      next = (next &lt;&lt; 8) + (b[i] &amp; 0xFF);</span>
+<span class="nc" id="L123">    nextBytes(b);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    for (int i = 0; i &lt; numBytes; i++) {</span>
+<span class="nc" id="L125">      next = (next &lt;&lt; 8) + (b[i] &amp; 0xFF);</span>
     }
 
-<span class="nc" id="L112">    return next &gt;&gt;&gt; (numBytes * 8 - numBits);</span>
+<span class="nc" id="L128">    return next &gt;&gt;&gt; (numBytes * 8 - numBits);</span>
   }
 
+  /**
+   * Overrides {@link java.lang.AutoCloseable#close()}. Closes openssl context if native enabled.
+   */
   @Override
   public void close() {
-<span class="pc bpc" id="L117" title="3 of 4 branches missed.">    if (!nativeEnabled &amp;&amp; fallback !=null) {</span>
-<span class="nc" id="L118">      fallback.close();</span>
+<span class="pc bpc" id="L136" title="3 of 4 branches missed.">    if (!nativeEnabled &amp;&amp; fallback !=null) {</span>
+<span class="nc" id="L137">      fallback.close();</span>
     }
-<span class="fc" id="L120">  }</span>
+<span class="fc" id="L139">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

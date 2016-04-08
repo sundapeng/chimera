@@ -147,7 +147,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#OsSecureRandom(java.util.Properties)">OsSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>&nbsp;</td>
+<td class="colOne"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#OsSecureRandom(java.util.Properties)">OsSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/random/OsSecureRandom.html" title="class in com.intel.chimera.random"><code>OsSecureRandom</code></a>.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -166,17 +168,20 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#close()">close</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#close()">close</a></strong>()</code>
+<div class="block">Overrides <a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang"><code>AutoCloseable.close()</code></a>.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>protected int</code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#next(int)">next</a></strong>(int&nbsp;nbits)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#next(int)">next</a></strong>(int&nbsp;nbits)</code>
+<div class="block">Overrides <code>next()</code>.</div>
+</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/OsSecureRandom.html#nextBytes(byte[])">nextBytes</a></strong>(byte[]&nbsp;bytes)</code>
-<div class="block">Generates random bytes and places them into a user-supplied
- byte array.</div>
+<div class="block">Overrides <a href="../../../../com/intel/chimera/random/SecureRandom.html#nextBytes(byte[])"><code>SecureRandom.nextBytes(byte[])</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -231,7 +236,9 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>OsSecureRandom</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.61">OsSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.66">OsSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<div class="block">Constructs a <a href="../../../../com/intel/chimera/random/OsSecureRandom.html" title="class in com.intel.chimera.random"><code>OsSecureRandom</code></a>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>props</code> - the configuration properties.</dd></dl>
 </li>
 </ul>
 </li>
@@ -248,17 +255,16 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>nextBytes</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.81">nextBytes</a>(byte[]&nbsp;bytes)</pre>
-<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/intel/chimera/random/SecureRandom.html#nextBytes(byte[])">SecureRandom</a></code></strong></div>
-<div class="block">Generates random bytes and places them into a user-supplied
- byte array.  The number of random bytes produced is equal to
- the length of the byte array.</div>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.93">nextBytes</a>(byte[]&nbsp;bytes)</pre>
+<div class="block">Overrides <a href="../../../../com/intel/chimera/random/SecureRandom.html#nextBytes(byte[])"><code>SecureRandom.nextBytes(byte[])</code></a>.
+ Generates random bytes and places them into a user-supplied byte array.
+ The number of random bytes produced is equal to the length of the byte array.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/intel/chimera/random/SecureRandom.html#nextBytes(byte[])">nextBytes</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random">SecureRandom</a></code></dd>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true#nextBytes(byte[])" title="class or interface in java.util">nextBytes</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true" title="class or interface in java.util">Random</a></code></dd>
-<dt><span class="strong">Parameters:</span></dt><dd><code>bytes</code> - the byte array to fill with random bytes</dd></dl>
+<dt><span class="strong">Parameters:</span></dt><dd><code>bytes</code> - the array to be filled in with random bytes.</dd></dl>
 </li>
 </ul>
 <a name="next(int)">
@@ -267,11 +273,15 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockList">
 <li class="blockList">
 <h4>next</h4>
-<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.94">next</a>(int&nbsp;nbits)</pre>
+<pre>protected&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.114">next</a>(int&nbsp;nbits)</pre>
+<div class="block">Overrides <code>next()</code>. Generates the next pseudorandom number.
+ Subclasses should override this, as this is used by all other methods.</div>
 <dl>
 <dt><strong>Overrides:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true#next(int)" title="class or interface in java.util">next</a></code>&nbsp;in class&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Random.html?is-external=true" title="class or interface in java.util">Random</a></code></dd>
-</dl>
+<dt><span class="strong">Parameters:</span></dt><dd><code>nbits</code> - random bits.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>the next pseudorandom value from this random number
+         generator's sequence.</dd></dl>
 </li>
 </ul>
 <a name="close()">
@@ -280,7 +290,8 @@ implements <a href="../../../../com/intel/chimera/random/SecureRandom.html" titl
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.104">close</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/random/OsSecureRandom.html#line.127">close</a>()</pre>
+<div class="block">Overrides <a href="http://download.oracle.com/javase/6/docs/api/java/lang/AutoCloseable.html?is-external=true#close()" title="class or interface in java.lang"><code>AutoCloseable.close()</code></a>. Closes the OS stream.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true#close()" title="class or interface in java.io">close</a></code>&nbsp;in interface&nbsp;<code><a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a></code></dd>

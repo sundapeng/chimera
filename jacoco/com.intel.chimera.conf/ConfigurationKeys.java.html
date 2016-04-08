@@ -19,44 +19,122 @@ package com.intel.chimera.conf;
 
 import com.intel.chimera.cipher.JceCipher;
 
-<span class="nc" id="L22">public class ConfigurationKeys {</span>
+/**
+ * The ConfigurationKeys contains Configuration keys and default values.
+ */
+<span class="nc" id="L25">public class ConfigurationKeys {</span>
+
+  /**
+   * The prefix named with project name.
+   */
   public static final String CHIMERA_PREFIX = &quot;chimera.&quot;;
+
+  /**
+   * The filename of configuration file.
+   */
   public static final String CHIMERA_SYSTEM_PROPERTIES_FILE =
       CHIMERA_PREFIX + &quot;properties&quot;;
 
-	public static final String CONF_PREFIX = &quot;chimera.crypto.&quot;;
+  /**
+   * The prefix of crypto configuration.
+   */
+  public static final String CONF_PREFIX =
+      CHIMERA_PREFIX + &quot;crypto.&quot;;
 
-  // cipher related configuration keys
+  /**
+   * The configuration key of implementation class for crypto cipher.
+   * The values of CHIMERA_CRYPTO_CIPHER_CLASSES_KEY can be
+   * &quot;com.intel.chimera.cipher.JceCipher&quot; and &quot;com.intel.chimera.cipher.OpensslCipher&quot;.
+   * And it takes a common separated list.
+   * The &quot;com.intel.chimera.cipher.JceCipher&quot; use jce provider to
+   * implement {@link com.intel.chimera.cipher.Cipher} and
+   * the &quot;com.intel.chimera.cipher.OpensslCipher&quot; use jni into openssl to implement.
+   * Note that for each value,the first value which can be created without exception
+   * will be used (priority by order).
+    */
   public static final String CHIMERA_CRYPTO_CIPHER_CLASSES_KEY =
       CONF_PREFIX + &quot;cipher.classes&quot;;
-<span class="fc" id="L32">  public static final String CHIMERA_CRYPTO_CIPHER_CLASSES_DEFAULT =</span>
+
+  /**
+   * The default value for crypto cipher.
+   */
+<span class="fc" id="L61">  public static final String CHIMERA_CRYPTO_CIPHER_CLASSES_DEFAULT =</span>
       JceCipher.class.getName();
+
+  /**
+   * The configuration key of the provider class for JCE cipher.
+   */
   public static final String CHIMERA_CRYPTO_CIPHER_JCE_PROVIDER_KEY =
       CONF_PREFIX + &quot;cipher.jce.provider&quot;;
 
   // security random related configuration keys
+  /**
+   * The configuration key of the file path for secure random device.
+   */
   public static final String CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_KEY =
       CONF_PREFIX + &quot;secure.random.device.file.path&quot;;
+
+  /**
+   * The default value of the file path for secure random device.
+   */
   public static final String CHIMERA_CRYPTO_SECURE_RANDOM_DEVICE_FILE_PATH_DEFAULT =
       &quot;/dev/urandom&quot;;
+
+  /**
+   * The configuration key of the algorithm of secure random.
+   */
   public static final String CHIMERA_CRYPTO_SECURE_RANDOM_JAVA_ALGORITHM_KEY =
       CONF_PREFIX + &quot;secure.random.java.algorithm&quot;;
+
+  /**
+   * The default value of the algorithm of secure random.
+   */
   public static final String
       CHIMERA_CRYPTO_SECURE_RANDOM_JAVA_ALGORITHM_DEFAULT = &quot;SHA1PRNG&quot;;
+
+  /**
+   * The configuration key of the implementation class for secure random.
+   * The values of CHIMERA_CRYPTO_SECURE_RANDOM_CLASSES_KEY can be
+   * &quot;com.intel.chimera.random.JavaSecureRandom&quot; and &quot;com.intel.chimera.random.OpensslSecureRandom&quot;.
+   * And it takes a common separated list.
+   * The &quot;com.intel.chimera.random.JavaSecureRandom&quot; use java to
+   * implement {@link com.intel.chimera.random.SecureRandom} and
+   * the &quot;com.intel.chimera.random.OpensslSecureRandom&quot; use jni into openssl to implement.
+   * Note that for each value,the first value which can be created without exception
+   * will be used (priority by order).
+   */
   public static final String CHIMERA_CRYPTO_SECURE_RANDOM_CLASSES_KEY =
       CONF_PREFIX + &quot;secure.random.classes&quot;;
 
-  // stream related configuration keys
-  public static final int CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_DEFAULT = 8192;
+  /**
+   * The configuration key of the buffer size for stream.
+   */
   public static final String CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_KEY =
       CONF_PREFIX + &quot;stream.buffer.size&quot;;
 
+  // stream related configuration keys
+  /**
+   * The default value of the buffer size for stream.
+   */
+  public static final int CHIMERA_CRYPTO_STREAM_BUFFER_SIZE_DEFAULT = 8192;
+
   // native lib related configuration keys
-  public static final String CHIMERA_CRYPTO_LIB_PATH_KEY = CONF_PREFIX + &quot;lib&quot; +
-      &quot;.path&quot;;
-  public static final String CHIMERA_CRYPTO_LIB_NAME_KEY = CONF_PREFIX + &quot;lib&quot; +
-      &quot;.name&quot;;
-  public static final String CHIMERA_CRYPTO_LIB_TEMPDIR_KEY = CONF_PREFIX +
-      &quot;lib.tempdir&quot;;
+  /**
+   * The configuration key of the path for loading crypto library.
+   */
+  public static final String CHIMERA_CRYPTO_LIB_PATH_KEY =
+      CONF_PREFIX + &quot;lib.path&quot;;
+
+  /**
+   * The configuration key of the file name for loading crypto library.
+   */
+  public static final String CHIMERA_CRYPTO_LIB_NAME_KEY =
+      CONF_PREFIX + &quot;lib.name&quot;;
+
+  /**
+   * The configuration key of temp directory for extracting crypto library.
+   */
+  public static final String CHIMERA_CRYPTO_LIB_TEMPDIR_KEY =
+      CONF_PREFIX + &quot;lib.tempdir&quot;;
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

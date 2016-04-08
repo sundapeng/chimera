@@ -58,54 +58,77 @@ public class OsSecureRandom extends Random implements SecureRandom {
     }
 <span class="fc" id="L59">  }</span>
 
-<span class="fc" id="L61">  public OsSecureRandom(Properties props) {</span>
-<span class="fc" id="L62">    randomDevPath = Utils.getRandomDevPath(props);</span>
-<span class="fc" id="L63">    File randomDevFile = new File(randomDevPath);</span>
+  /**
+   * Constructs a {@link com.intel.chimera.random.OsSecureRandom}.
+   *
+   * @param props the configuration properties.
+   */
+<span class="fc" id="L66">  public OsSecureRandom(Properties props) {</span>
+<span class="fc" id="L67">    randomDevPath = Utils.getRandomDevPath(props);</span>
+<span class="fc" id="L68">    File randomDevFile = new File(randomDevPath);</span>
 
     try {
-<span class="fc" id="L66">      close();</span>
-<span class="fc" id="L67">      this.stream = new FileInputStream(randomDevFile);</span>
-<span class="nc" id="L68">    } catch (IOException e) {</span>
-<span class="nc" id="L69">      throw new RuntimeException(e);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L71">      close();</span>
+<span class="fc" id="L72">      this.stream = new FileInputStream(randomDevFile);</span>
+<span class="nc" id="L73">    } catch (IOException e) {</span>
+<span class="nc" id="L74">      throw new RuntimeException(e);</span>
+<span class="fc" id="L75">    }</span>
 
     try {
-<span class="fc" id="L73">      fillReservoir(0);</span>
-<span class="nc" id="L74">    } catch (RuntimeException e) {</span>
-<span class="nc" id="L75">      close();</span>
-<span class="nc" id="L76">      throw e;</span>
-<span class="fc" id="L77">    }</span>
-<span class="fc" id="L78">  }</span>
+<span class="fc" id="L78">      fillReservoir(0);</span>
+<span class="nc" id="L79">    } catch (RuntimeException e) {</span>
+<span class="nc" id="L80">      close();</span>
+<span class="nc" id="L81">      throw e;</span>
+<span class="fc" id="L82">    }</span>
+<span class="fc" id="L83">  }</span>
 
+  /**
+   * Overrides {@link com.intel.chimera.random.SecureRandom#nextBytes(byte[])}.
+   * Generates random bytes and places them into a user-supplied byte array.
+   * The number of random bytes produced is equal to the length of the byte array.
+   *
+   * @param bytes the array to be filled in with random bytes.
+   */
   @Override
   synchronized public void nextBytes(byte[] bytes) {
-<span class="fc" id="L82">    int off = 0;</span>
-<span class="fc" id="L83">    int n = 0;</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">    while (off &lt; bytes.length) {</span>
-<span class="fc" id="L85">      fillReservoir(0);</span>
-<span class="fc" id="L86">      n = Math.min(bytes.length - off, reservoir.length - pos);</span>
-<span class="fc" id="L87">      System.arraycopy(reservoir, pos, bytes, off, n);</span>
-<span class="fc" id="L88">      off += n;</span>
-<span class="fc" id="L89">      pos += n;</span>
+<span class="fc" id="L94">    int off = 0;</span>
+<span class="fc" id="L95">    int n = 0;</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">    while (off &lt; bytes.length) {</span>
+<span class="fc" id="L97">      fillReservoir(0);</span>
+<span class="fc" id="L98">      n = Math.min(bytes.length - off, reservoir.length - pos);</span>
+<span class="fc" id="L99">      System.arraycopy(reservoir, pos, bytes, off, n);</span>
+<span class="fc" id="L100">      off += n;</span>
+<span class="fc" id="L101">      pos += n;</span>
     }
-<span class="fc" id="L91">  }</span>
+<span class="fc" id="L103">  }</span>
 
+  /**
+   * Overrides {@link java.util.Random# next()}. Generates the next pseudorandom number.
+   * Subclasses should override this, as this is used by all other methods.
+   *
+   * @param  nbits random bits.
+   * @return the next pseudorandom value from this random number
+   *         generator's sequence.
+   */
   @Override
   synchronized protected int next(int nbits) {
-<span class="nc" id="L95">    fillReservoir(4);</span>
-<span class="nc" id="L96">    int n = 0;</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">    for (int i = 0; i &lt; 4; i++) {</span>
-<span class="nc" id="L98">      n = ((n &lt;&lt; 8) | (reservoir[pos++] &amp; 0xff));</span>
+<span class="nc" id="L115">    fillReservoir(4);</span>
+<span class="nc" id="L116">    int n = 0;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    for (int i = 0; i &lt; 4; i++) {</span>
+<span class="nc" id="L118">      n = ((n &lt;&lt; 8) | (reservoir[pos++] &amp; 0xff));</span>
     }
-<span class="nc" id="L100">    return n &amp; (0xffffffff &gt;&gt; (32 - nbits));</span>
+<span class="nc" id="L120">    return n &amp; (0xffffffff &gt;&gt; (32 - nbits));</span>
   }
 
+  /**
+   * Overrides {@link java.lang.AutoCloseable#close()}. Closes the OS stream.
+   */
   @Override
   synchronized public void close() {
-<span class="fc bfc" id="L105" title="All 2 branches covered.">    if (stream != null) {</span>
-<span class="fc" id="L106">      IOUtils.cleanup(LOG, stream);</span>
-<span class="fc" id="L107">      stream = null;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">    if (stream != null) {</span>
+<span class="fc" id="L129">      IOUtils.cleanup(LOG, stream);</span>
+<span class="fc" id="L130">      stream = null;</span>
     }
-<span class="fc" id="L109">  }</span>
+<span class="fc" id="L132">  }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

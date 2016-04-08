@@ -1,7 +1,7 @@
 com.intel.chimera.cipher
 com.intel.chimera.conf
-com.intel.chimera.input
-com.intel.chimera.output
 com.intel.chimera.random
 com.intel.chimera.stream
+com.intel.chimera.stream.input
+com.intel.chimera.stream.output
 com.intel.chimera.utils

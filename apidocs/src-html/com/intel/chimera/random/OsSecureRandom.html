@@ -66,56 +66,79 @@
 <span class="sourceLineNo">058</span>    }<a name="line.58"></a>
 <span class="sourceLineNo">059</span>  }<a name="line.59"></a>
 <span class="sourceLineNo">060</span><a name="line.60"></a>
-<span class="sourceLineNo">061</span>  public OsSecureRandom(Properties props) {<a name="line.61"></a>
-<span class="sourceLineNo">062</span>    randomDevPath = Utils.getRandomDevPath(props);<a name="line.62"></a>
-<span class="sourceLineNo">063</span>    File randomDevFile = new File(randomDevPath);<a name="line.63"></a>
-<span class="sourceLineNo">064</span><a name="line.64"></a>
-<span class="sourceLineNo">065</span>    try {<a name="line.65"></a>
-<span class="sourceLineNo">066</span>      close();<a name="line.66"></a>
-<span class="sourceLineNo">067</span>      this.stream = new FileInputStream(randomDevFile);<a name="line.67"></a>
-<span class="sourceLineNo">068</span>    } catch (IOException e) {<a name="line.68"></a>
-<span class="sourceLineNo">069</span>      throw new RuntimeException(e);<a name="line.69"></a>
-<span class="sourceLineNo">070</span>    }<a name="line.70"></a>
-<span class="sourceLineNo">071</span><a name="line.71"></a>
-<span class="sourceLineNo">072</span>    try {<a name="line.72"></a>
-<span class="sourceLineNo">073</span>      fillReservoir(0);<a name="line.73"></a>
-<span class="sourceLineNo">074</span>    } catch (RuntimeException e) {<a name="line.74"></a>
-<span class="sourceLineNo">075</span>      close();<a name="line.75"></a>
-<span class="sourceLineNo">076</span>      throw e;<a name="line.76"></a>
-<span class="sourceLineNo">077</span>    }<a name="line.77"></a>
-<span class="sourceLineNo">078</span>  }<a name="line.78"></a>
-<span class="sourceLineNo">079</span><a name="line.79"></a>
-<span class="sourceLineNo">080</span>  @Override<a name="line.80"></a>
-<span class="sourceLineNo">081</span>  synchronized public void nextBytes(byte[] bytes) {<a name="line.81"></a>
-<span class="sourceLineNo">082</span>    int off = 0;<a name="line.82"></a>
-<span class="sourceLineNo">083</span>    int n = 0;<a name="line.83"></a>
-<span class="sourceLineNo">084</span>    while (off &lt; bytes.length) {<a name="line.84"></a>
-<span class="sourceLineNo">085</span>      fillReservoir(0);<a name="line.85"></a>
-<span class="sourceLineNo">086</span>      n = Math.min(bytes.length - off, reservoir.length - pos);<a name="line.86"></a>
-<span class="sourceLineNo">087</span>      System.arraycopy(reservoir, pos, bytes, off, n);<a name="line.87"></a>
-<span class="sourceLineNo">088</span>      off += n;<a name="line.88"></a>
-<span class="sourceLineNo">089</span>      pos += n;<a name="line.89"></a>
-<span class="sourceLineNo">090</span>    }<a name="line.90"></a>
-<span class="sourceLineNo">091</span>  }<a name="line.91"></a>
-<span class="sourceLineNo">092</span><a name="line.92"></a>
-<span class="sourceLineNo">093</span>  @Override<a name="line.93"></a>
-<span class="sourceLineNo">094</span>  synchronized protected int next(int nbits) {<a name="line.94"></a>
-<span class="sourceLineNo">095</span>    fillReservoir(4);<a name="line.95"></a>
-<span class="sourceLineNo">096</span>    int n = 0;<a name="line.96"></a>
-<span class="sourceLineNo">097</span>    for (int i = 0; i &lt; 4; i++) {<a name="line.97"></a>
-<span class="sourceLineNo">098</span>      n = ((n &lt;&lt; 8) | (reservoir[pos++] &amp; 0xff));<a name="line.98"></a>
-<span class="sourceLineNo">099</span>    }<a name="line.99"></a>
-<span class="sourceLineNo">100</span>    return n &amp; (0xffffffff &gt;&gt; (32 - nbits));<a name="line.100"></a>
-<span class="sourceLineNo">101</span>  }<a name="line.101"></a>
-<span class="sourceLineNo">102</span><a name="line.102"></a>
-<span class="sourceLineNo">103</span>  @Override<a name="line.103"></a>
-<span class="sourceLineNo">104</span>  synchronized public void close() {<a name="line.104"></a>
-<span class="sourceLineNo">105</span>    if (stream != null) {<a name="line.105"></a>
-<span class="sourceLineNo">106</span>      IOUtils.cleanup(LOG, stream);<a name="line.106"></a>
-<span class="sourceLineNo">107</span>      stream = null;<a name="line.107"></a>
-<span class="sourceLineNo">108</span>    }<a name="line.108"></a>
-<span class="sourceLineNo">109</span>  }<a name="line.109"></a>
-<span class="sourceLineNo">110</span>}<a name="line.110"></a>
+<span class="sourceLineNo">061</span>  /**<a name="line.61"></a>
+<span class="sourceLineNo">062</span>   * Constructs a {@link com.intel.chimera.random.OsSecureRandom}.<a name="line.62"></a>
+<span class="sourceLineNo">063</span>   *<a name="line.63"></a>
+<span class="sourceLineNo">064</span>   * @param props the configuration properties.<a name="line.64"></a>
+<span class="sourceLineNo">065</span>   */<a name="line.65"></a>
+<span class="sourceLineNo">066</span>  public OsSecureRandom(Properties props) {<a name="line.66"></a>
+<span class="sourceLineNo">067</span>    randomDevPath = Utils.getRandomDevPath(props);<a name="line.67"></a>
+<span class="sourceLineNo">068</span>    File randomDevFile = new File(randomDevPath);<a name="line.68"></a>
+<span class="sourceLineNo">069</span><a name="line.69"></a>
+<span class="sourceLineNo">070</span>    try {<a name="line.70"></a>
+<span class="sourceLineNo">071</span>      close();<a name="line.71"></a>
+<span class="sourceLineNo">072</span>      this.stream = new FileInputStream(randomDevFile);<a name="line.72"></a>
+<span class="sourceLineNo">073</span>    } catch (IOException e) {<a name="line.73"></a>
+<span class="sourceLineNo">074</span>      throw new RuntimeException(e);<a name="line.74"></a>
+<span class="sourceLineNo">075</span>    }<a name="line.75"></a>
+<span class="sourceLineNo">076</span><a name="line.76"></a>
+<span class="sourceLineNo">077</span>    try {<a name="line.77"></a>
+<span class="sourceLineNo">078</span>      fillReservoir(0);<a name="line.78"></a>
+<span class="sourceLineNo">079</span>    } catch (RuntimeException e) {<a name="line.79"></a>
+<span class="sourceLineNo">080</span>      close();<a name="line.80"></a>
+<span class="sourceLineNo">081</span>      throw e;<a name="line.81"></a>
+<span class="sourceLineNo">082</span>    }<a name="line.82"></a>
+<span class="sourceLineNo">083</span>  }<a name="line.83"></a>
+<span class="sourceLineNo">084</span><a name="line.84"></a>
+<span class="sourceLineNo">085</span>  /**<a name="line.85"></a>
+<span class="sourceLineNo">086</span>   * Overrides {@link com.intel.chimera.random.SecureRandom#nextBytes(byte[])}.<a name="line.86"></a>
+<span class="sourceLineNo">087</span>   * Generates random bytes and places them into a user-supplied byte array.<a name="line.87"></a>
+<span class="sourceLineNo">088</span>   * The number of random bytes produced is equal to the length of the byte array.<a name="line.88"></a>
+<span class="sourceLineNo">089</span>   *<a name="line.89"></a>
+<span class="sourceLineNo">090</span>   * @param bytes the array to be filled in with random bytes.<a name="line.90"></a>
+<span class="sourceLineNo">091</span>   */<a name="line.91"></a>
+<span class="sourceLineNo">092</span>  @Override<a name="line.92"></a>
+<span class="sourceLineNo">093</span>  synchronized public void nextBytes(byte[] bytes) {<a name="line.93"></a>
+<span class="sourceLineNo">094</span>    int off = 0;<a name="line.94"></a>
+<span class="sourceLineNo">095</span>    int n = 0;<a name="line.95"></a>
+<span class="sourceLineNo">096</span>    while (off &lt; bytes.length) {<a name="line.96"></a>
+<span class="sourceLineNo">097</span>      fillReservoir(0);<a name="line.97"></a>
+<span class="sourceLineNo">098</span>      n = Math.min(bytes.length - off, reservoir.length - pos);<a name="line.98"></a>
+<span class="sourceLineNo">099</span>      System.arraycopy(reservoir, pos, bytes, off, n);<a name="line.99"></a>
+<span class="sourceLineNo">100</span>      off += n;<a name="line.100"></a>
+<span class="sourceLineNo">101</span>      pos += n;<a name="line.101"></a>
+<span class="sourceLineNo">102</span>    }<a name="line.102"></a>
+<span class="sourceLineNo">103</span>  }<a name="line.103"></a>
+<span class="sourceLineNo">104</span><a name="line.104"></a>
+<span class="sourceLineNo">105</span>  /**<a name="line.105"></a>
+<span class="sourceLineNo">106</span>   * Overrides {@link java.util.Random# next()}. Generates the next pseudorandom number.<a name="line.106"></a>
+<span class="sourceLineNo">107</span>   * Subclasses should override this, as this is used by all other methods.<a name="line.107"></a>
+<span class="sourceLineNo">108</span>   *<a name="line.108"></a>
+<span class="sourceLineNo">109</span>   * @param  nbits random bits.<a name="line.109"></a>
+<span class="sourceLineNo">110</span>   * @return the next pseudorandom value from this random number<a name="line.110"></a>
+<span class="sourceLineNo">111</span>   *         generator's sequence.<a name="line.111"></a>
+<span class="sourceLineNo">112</span>   */<a name="line.112"></a>
+<span class="sourceLineNo">113</span>  @Override<a name="line.113"></a>
+<span class="sourceLineNo">114</span>  synchronized protected int next(int nbits) {<a name="line.114"></a>
+<span class="sourceLineNo">115</span>    fillReservoir(4);<a name="line.115"></a>
+<span class="sourceLineNo">116</span>    int n = 0;<a name="line.116"></a>
+<span class="sourceLineNo">117</span>    for (int i = 0; i &lt; 4; i++) {<a name="line.117"></a>
+<span class="sourceLineNo">118</span>      n = ((n &lt;&lt; 8) | (reservoir[pos++] &amp; 0xff));<a name="line.118"></a>
+<span class="sourceLineNo">119</span>    }<a name="line.119"></a>
+<span class="sourceLineNo">120</span>    return n &amp; (0xffffffff &gt;&gt; (32 - nbits));<a name="line.120"></a>
+<span class="sourceLineNo">121</span>  }<a name="line.121"></a>
+<span class="sourceLineNo">122</span><a name="line.122"></a>
+<span class="sourceLineNo">123</span>  /**<a name="line.123"></a>
+<span class="sourceLineNo">124</span>   * Overrides {@link java.lang.AutoCloseable#close()}. Closes the OS stream.<a name="line.124"></a>
+<span class="sourceLineNo">125</span>   */<a name="line.125"></a>
+<span class="sourceLineNo">126</span>  @Override<a name="line.126"></a>
+<span class="sourceLineNo">127</span>  synchronized public void close() {<a name="line.127"></a>
+<span class="sourceLineNo">128</span>    if (stream != null) {<a name="line.128"></a>
+<span class="sourceLineNo">129</span>      IOUtils.cleanup(LOG, stream);<a name="line.129"></a>
+<span class="sourceLineNo">130</span>      stream = null;<a name="line.130"></a>
+<span class="sourceLineNo">131</span>    }<a name="line.131"></a>
+<span class="sourceLineNo">132</span>  }<a name="line.132"></a>
+<span class="sourceLineNo">133</span>}<a name="line.133"></a>
 
 
 

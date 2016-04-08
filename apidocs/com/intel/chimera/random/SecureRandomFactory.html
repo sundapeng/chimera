@@ -97,7 +97,7 @@
 <br>
 <pre>public class <a href="../../../../src-html/com/intel/chimera/random/SecureRandomFactory.html#line.34">SecureRandomFactory</a>
 extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
-<div class="block">The Factory for SecureRandom.</div>
+<div class="block">This is the factory class used for <a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random"><code>SecureRandom</code></a>.</div>
 </li>
 </ul>
 </div>
@@ -154,7 +154,9 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random">SecureRandom</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/SecureRandomFactory.html#getSecureRandom(java.util.Properties)">getSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/random/SecureRandomFactory.html#getSecureRandom(java.util.Properties)">getSecureRandom</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</code>
+<div class="block">Gets a SecureRandom instance for specified props.</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -218,7 +220,11 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getSecureRandom</h4>
-<pre>public static&nbsp;<a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random">SecureRandom</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/random/SecureRandomFactory.html#line.38">getSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<pre>public static&nbsp;<a href="../../../../com/intel/chimera/random/SecureRandom.html" title="interface in com.intel.chimera.random">SecureRandom</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/random/SecureRandomFactory.html#line.45">getSecureRandom</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;props)</pre>
+<div class="block">Gets a SecureRandom instance for specified props.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>props</code> - the configuration properties.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>SecureRandom the secureRandom object.Null value will be returned if no
+         SecureRandom classes with props.</dd></dl>
 </li>
 </ul>
 </li>

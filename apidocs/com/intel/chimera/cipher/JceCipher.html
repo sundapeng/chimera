@@ -102,7 +102,7 @@
 <pre>public class <a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.37">JceCipher</a>
 extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>
 implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></pre>
-<div class="block">Implement the <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JCE provider.</div>
+<div class="block">Implements the <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher"><code>Cipher</code></a> using JCE provider.</div>
 </li>
 </ul>
 </div>
@@ -185,12 +185,14 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <tr class="rowColor">
 <td class="colFirst"><code><a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a></code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/JceCipher.html#getProperties()">getProperties</a></strong>()</code>
-<div class="block">Get the properties for this cipher.</div>
+<div class="block">Gets the properties for the jce cipher.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code><a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/JceCipher.html#getTransformation()">getTransformation</a></strong>()</code>&nbsp;</td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/cipher/JceCipher.html#getTransformation()">getTransformation</a></strong>()</code>
+<div class="block">Gets the CipherTransformation for the jce cipher.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -269,11 +271,12 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>getTransformation</h4>
-<pre>public&nbsp;<a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.63">getTransformation</a>()</pre>
+<pre>public&nbsp;<a href="../../../../com/intel/chimera/cipher/CipherTransformation.html" title="enum in com.intel.chimera.cipher">CipherTransformation</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.68">getTransformation</a>()</pre>
+<div class="block">Gets the CipherTransformation for the jce cipher.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getTransformation()">getTransformation</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
-<dt><span class="strong">Returns:</span></dt><dd>the CipherTransformation for this cipher.</dd></dl>
+<dt><span class="strong">Returns:</span></dt><dd>the CipherTransformation for this cipher</dd></dl>
 </li>
 </ul>
 <a name="getProperties()">
@@ -282,13 +285,12 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>getProperties</h4>
-<pre>public&nbsp;<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.68">getProperties</a>()</pre>
-<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getProperties()">Cipher</a></code></strong></div>
-<div class="block">Get the properties for this cipher.</div>
+<pre>public&nbsp;<a href="http://download.oracle.com/javase/6/docs/api/java/util/Properties.html?is-external=true" title="class or interface in java.util">Properties</a>&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.78">getProperties</a>()</pre>
+<div class="block">Gets the properties for the jce cipher.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../com/intel/chimera/cipher/Cipher.html#getProperties()">getProperties</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/intel/chimera/cipher/Cipher.html" title="interface in com.intel.chimera.cipher">Cipher</a></code></dd>
-</dl>
+<dt><span class="strong">Returns:</span></dt><dd>the properties for this cipher.</dd></dl>
 </li>
 </ul>
 <a name="init(int, byte[], byte[])">
@@ -297,7 +299,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>init</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.85">init</a>(int&nbsp;mode,
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.96">init</a>(int&nbsp;mode,
         byte[]&nbsp;key,
         byte[]&nbsp;iv)
           throws <a href="http://download.oracle.com/javase/6/docs/api/java/security/InvalidKeyException.html?is-external=true" title="class or interface in java.security">InvalidKeyException</a>,
@@ -325,7 +327,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.108">update</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.120">update</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
          <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
            throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a></pre>
 <div class="block">Continues a multiple-part encryption/decryption operation. The data
@@ -346,7 +348,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.126">update</a>(byte[]&nbsp;input,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.138">update</a>(byte[]&nbsp;input,
          int&nbsp;inputOffset,
          int&nbsp;inputLen,
          byte[]&nbsp;output,
@@ -369,7 +371,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>doFinal</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.152">doFinal</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.165">doFinal</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;inBuffer,
           <a href="http://download.oracle.com/javase/6/docs/api/java/nio/ByteBuffer.html?is-external=true" title="class or interface in java.nio">ByteBuffer</a>&nbsp;outBuffer)
             throws <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/ShortBufferException.html?is-external=true" title="class or interface in javax.crypto">ShortBufferException</a>,
                    <a href="http://download.oracle.com/javase/6/docs/api/javax/crypto/IllegalBlockSizeException.html?is-external=true" title="class or interface in javax.crypto">IllegalBlockSizeException</a>,
@@ -401,7 +403,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockList">
 <li class="blockList">
 <h4>doFinal</h4>
-<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.180">doFinal</a>(byte[]&nbsp;input,
+<pre>public&nbsp;int&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.193">doFinal</a>(byte[]&nbsp;input,
           int&nbsp;inputOffset,
           int&nbsp;inputLen,
           byte[]&nbsp;output,
@@ -435,7 +437,7 @@ implements <a href="../../../../com/intel/chimera/cipher/Cipher.html" title="int
 <ul class="blockListLast">
 <li class="blockList">
 <h4>close</h4>
-<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.191">close</a>()</pre>
+<pre>public&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/cipher/JceCipher.html#line.204">close</a>()</pre>
 <div class="block">Closes Jce cipher.</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>

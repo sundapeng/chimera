@@ -93,15 +93,19 @@ public final class Openssl {
 <span class="pc" id="L93">    }</span>
 <span class="fc" id="L94">  }</span>
 
+  /**
+   * Gets the failure reason when loading Openssl native.
+   * @return the failure reason.
+   */
   public static String getLoadingFailureReason() {
-<span class="fc" id="L97">    return loadingFailureReason;</span>
+<span class="fc" id="L101">    return loadingFailureReason;</span>
   }
 
-<span class="fc" id="L100">  private Openssl(long context, int algorithm, int padding) {</span>
-<span class="fc" id="L101">    this.context = context;</span>
-<span class="fc" id="L102">    this.algorithm = algorithm;</span>
-<span class="fc" id="L103">    this.padding = padding;</span>
-<span class="fc" id="L104">  }</span>
+<span class="fc" id="L104">  private Openssl(long context, int algorithm, int padding) {</span>
+<span class="fc" id="L105">    this.context = context;</span>
+<span class="fc" id="L106">    this.algorithm = algorithm;</span>
+<span class="fc" id="L107">    this.padding = padding;</span>
+<span class="fc" id="L108">  }</span>
 
   /**
    * Return an &lt;code&gt;OpensslCipher&lt;code&gt; object that implements the specified
@@ -118,11 +122,11 @@ public final class Openssl {
    */
   public static final Openssl getInstance(String transformation)
       throws NoSuchAlgorithmException, NoSuchPaddingException {
-<span class="fc" id="L121">    Transform transform = tokenizeTransformation(transformation);</span>
-<span class="fc" id="L122">    int algorithmMode = AlgorithmMode.get(transform.algorithm, transform.mode);</span>
-<span class="fc" id="L123">    int padding = Padding.get(transform.padding);</span>
-<span class="fc" id="L124">    long context = OpensslNative.initContext(algorithmMode, padding);</span>
-<span class="fc" id="L125">    return new Openssl(context, algorithmMode, padding);</span>
+<span class="fc" id="L125">    Transform transform = tokenizeTransformation(transformation);</span>
+<span class="fc" id="L126">    int algorithmMode = AlgorithmMode.get(transform.algorithm, transform.mode);</span>
+<span class="fc" id="L127">    int padding = Padding.get(transform.padding);</span>
+<span class="fc" id="L128">    long context = OpensslNative.initContext(algorithmMode, padding);</span>
+<span class="fc" id="L129">    return new Openssl(context, algorithmMode, padding);</span>
   }
 
   /** Nested class for algorithm, mode and padding. */
@@ -131,17 +135,17 @@ public final class Openssl {
     final String mode;
     final String padding;
 
-<span class="fc" id="L134">    public Transform(String algorithm, String mode, String padding) {</span>
-<span class="fc" id="L135">      this.algorithm = algorithm;</span>
-<span class="fc" id="L136">      this.mode = mode;</span>
-<span class="fc" id="L137">      this.padding = padding;</span>
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L138">    public Transform(String algorithm, String mode, String padding) {</span>
+<span class="fc" id="L139">      this.algorithm = algorithm;</span>
+<span class="fc" id="L140">      this.mode = mode;</span>
+<span class="fc" id="L141">      this.padding = padding;</span>
+<span class="fc" id="L142">    }</span>
   }
 
   private static Transform tokenizeTransformation(String transformation)
       throws NoSuchAlgorithmException {
-<span class="pc bpc" id="L143" title="1 of 2 branches missed.">    if (transformation == null) {</span>
-<span class="nc" id="L144">      throw new NoSuchAlgorithmException(&quot;No transformation given.&quot;);</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">    if (transformation == null) {</span>
+<span class="nc" id="L148">      throw new NoSuchAlgorithmException(&quot;No transformation given.&quot;);</span>
     }
 
     /*
@@ -151,17 +155,17 @@ public final class Openssl {
      * index 1: mode (e.g., CTR)
      * index 2: padding (e.g., NoPadding)
      */
-<span class="fc" id="L154">    String[] parts = new String[3];</span>
-<span class="fc" id="L155">    int count = 0;</span>
-<span class="fc" id="L156">    StringTokenizer parser = new StringTokenizer(transformation, &quot;/&quot;);</span>
-<span class="pc bpc" id="L157" title="1 of 4 branches missed.">    while (parser.hasMoreTokens() &amp;&amp; count &lt; 3) {</span>
-<span class="fc" id="L158">      parts[count++] = parser.nextToken().trim();</span>
+<span class="fc" id="L158">    String[] parts = new String[3];</span>
+<span class="fc" id="L159">    int count = 0;</span>
+<span class="fc" id="L160">    StringTokenizer parser = new StringTokenizer(transformation, &quot;/&quot;);</span>
+<span class="pc bpc" id="L161" title="1 of 4 branches missed.">    while (parser.hasMoreTokens() &amp;&amp; count &lt; 3) {</span>
+<span class="fc" id="L162">      parts[count++] = parser.nextToken().trim();</span>
     }
-<span class="pc bpc" id="L160" title="2 of 4 branches missed.">    if (count != 3 || parser.hasMoreTokens()) {</span>
-<span class="nc" id="L161">      throw new NoSuchAlgorithmException(&quot;Invalid transformation format: &quot; +</span>
+<span class="pc bpc" id="L164" title="2 of 4 branches missed.">    if (count != 3 || parser.hasMoreTokens()) {</span>
+<span class="nc" id="L165">      throw new NoSuchAlgorithmException(&quot;Invalid transformation format: &quot; +</span>
           transformation);
     }
-<span class="fc" id="L164">    return new Transform(parts[0], parts[1], parts[2]);</span>
+<span class="fc" id="L168">    return new Transform(parts[0], parts[1], parts[2]);</span>
   }
 
   /**
@@ -172,8 +176,8 @@ public final class Openssl {
    * @param iv crypto iv
    */
   public void init(int mode, byte[] key, byte[] iv) {
-<span class="fc" id="L175">    context = OpensslNative.init(context, mode, algorithm, padding, key, iv);</span>
-<span class="fc" id="L176">  }</span>
+<span class="fc" id="L179">    context = OpensslNative.init(context, mode, algorithm, padding, key, iv);</span>
+<span class="fc" id="L180">  }</span>
 
   /**
    * Continues a multiple-part encryption or decryption operation. The data
@@ -202,14 +206,14 @@ public final class Openssl {
    */
   public int update(ByteBuffer input, ByteBuffer output)
       throws ShortBufferException {
-<span class="fc" id="L205">    checkState();</span>
-<span class="pc bpc" id="L206" title="1 of 4 branches missed.">    Utils.checkArgument(input.isDirect() &amp;&amp; output.isDirect(),</span>
+<span class="fc" id="L209">    checkState();</span>
+<span class="pc bpc" id="L210" title="1 of 4 branches missed.">    Utils.checkArgument(input.isDirect() &amp;&amp; output.isDirect(),</span>
         &quot;Direct buffers are required.&quot;);
-<span class="fc" id="L208">    int len = OpensslNative.update(context, input, input.position(),</span>
+<span class="fc" id="L212">    int len = OpensslNative.update(context, input, input.position(),</span>
         input.remaining(), output, output.position(), output.remaining());
-<span class="fc" id="L210">    input.position(input.limit());</span>
-<span class="fc" id="L211">    output.position(output.position() + len);</span>
-<span class="fc" id="L212">    return len;</span>
+<span class="fc" id="L214">    input.position(input.limit());</span>
+<span class="fc" id="L215">    output.position(output.position() + len);</span>
+<span class="fc" id="L216">    return len;</span>
   }
 
   /**
@@ -227,8 +231,8 @@ public final class Openssl {
   public int update(byte[] input, int inputOffset, int inputLen,
       byte[] output, int outputOffset)
       throws ShortBufferException {
-<span class="fc" id="L230">    checkState();</span>
-<span class="fc" id="L231">    return OpensslNative.updateByteArray(context, input, inputOffset, inputLen,</span>
+<span class="fc" id="L234">    checkState();</span>
+<span class="fc" id="L235">    return OpensslNative.updateByteArray(context, input, inputOffset, inputLen,</span>
         output, outputOffset, output.length - outputOffset);
   }
 
@@ -263,11 +267,11 @@ public final class Openssl {
   public int doFinal(ByteBuffer output)
       throws ShortBufferException, IllegalBlockSizeException,
       BadPaddingException {
-<span class="fc" id="L266">    checkState();</span>
-<span class="fc" id="L267">    Utils.checkArgument(output.isDirect(), &quot;Direct buffer is required.&quot;);</span>
-<span class="fc" id="L268">    int len = OpensslNative.doFinal(context, output, output.position(), output.remaining());</span>
-<span class="fc" id="L269">    output.position(output.position() + len);</span>
-<span class="fc" id="L270">    return len;</span>
+<span class="fc" id="L270">    checkState();</span>
+<span class="fc" id="L271">    Utils.checkArgument(output.isDirect(), &quot;Direct buffer is required.&quot;);</span>
+<span class="fc" id="L272">    int len = OpensslNative.doFinal(context, output, output.position(), output.remaining());</span>
+<span class="fc" id="L273">    output.position(output.position() + len);</span>
+<span class="fc" id="L274">    return len;</span>
   }
 
   /**
@@ -290,28 +294,28 @@ public final class Openssl {
    */
   public int doFinal(byte[] output, int outputOffset)
       throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
-<span class="fc" id="L293">    checkState();</span>
-<span class="fc" id="L294">    return OpensslNative.doFinalByteArray(context,</span>
+<span class="fc" id="L297">    checkState();</span>
+<span class="fc" id="L298">    return OpensslNative.doFinalByteArray(context,</span>
         output, outputOffset, output.length - outputOffset);
   }
 
   /** Forcibly clean the context. */
   public void clean() {
-<span class="pc bpc" id="L300" title="1 of 2 branches missed.">    if (context != 0) {</span>
-<span class="fc" id="L301">      OpensslNative.clean(context);</span>
-<span class="fc" id="L302">      context = 0;</span>
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">    if (context != 0) {</span>
+<span class="fc" id="L305">      OpensslNative.clean(context);</span>
+<span class="fc" id="L306">      context = 0;</span>
     }
-<span class="fc" id="L304">  }</span>
+<span class="fc" id="L308">  }</span>
 
-  /** Check whether context is initialized. */
+  /** Checks whether context is initialized. */
   private void checkState() {
-<span class="pc bpc" id="L308" title="1 of 2 branches missed.">    Utils.checkState(context != 0);</span>
-<span class="fc" id="L309">  }</span>
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">    Utils.checkState(context != 0);</span>
+<span class="fc" id="L313">  }</span>
 
   @Override
   protected void finalize() throws Throwable {
-<span class="nc" id="L313">    clean();</span>
-<span class="nc" id="L314">  }</span>
+<span class="nc" id="L317">    clean();</span>
+<span class="nc" id="L318">  }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

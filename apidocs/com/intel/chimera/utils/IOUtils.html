@@ -95,7 +95,7 @@
 <li class="blockList">
 <hr>
 <br>
-<pre>public class <a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.25">IOUtils</a>
+<pre>public class <a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.26">IOUtils</a>
 extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a></pre>
 </li>
 </ul>
@@ -142,6 +142,16 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static void</code></td>
+<td class="colLast"><code><strong><a href="../../../../com/intel/chimera/utils/IOUtils.html#readFully(com.intel.chimera.stream.input.Input, long, byte[], int, int)">readFully</a></strong>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;in,
+                  long&nbsp;position,
+                  byte[]&nbsp;buffer,
+                  int&nbsp;offset,
+                  int&nbsp;length)</code>
+<div class="block">Do the readFully based on Input's positioned read.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static void</code></td>
 <td class="colLast"><code><strong><a href="../../../../com/intel/chimera/utils/IOUtils.html#readFully(java.io.InputStream, byte[], int, int)">readFully</a></strong>(<a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
                   byte[]&nbsp;buf,
                   int&nbsp;off,
@@ -175,7 +185,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>IOUtils</h4>
-<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.25">IOUtils</a>()</pre>
+<pre>public&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.26">IOUtils</a>()</pre>
 </li>
 </ul>
 </li>
@@ -192,11 +202,29 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockList">
 <li class="blockList">
 <h4>readFully</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.26">readFully</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.27">readFully</a>(<a href="http://download.oracle.com/javase/6/docs/api/java/io/InputStream.html?is-external=true" title="class or interface in java.io">InputStream</a>&nbsp;in,
              byte[]&nbsp;buf,
              int&nbsp;off,
              int&nbsp;len)
                       throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
+</li>
+</ul>
+<a name="readFully(com.intel.chimera.stream.input.Input, long, byte[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>readFully</h4>
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.44">readFully</a>(<a href="../../../../com/intel/chimera/stream/input/Input.html" title="interface in com.intel.chimera.stream.input">Input</a>&nbsp;in,
+             long&nbsp;position,
+             byte[]&nbsp;buffer,
+             int&nbsp;offset,
+             int&nbsp;length)
+                      throws <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></pre>
+<div class="block">Do the readFully based on Input's positioned read.
+ This does not change the current offset of the stream and is thread-safe.</div>
 <dl><dt><span class="strong">Throws:</span></dt>
 <dd><code><a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io">IOException</a></code></dd></dl>
 </li>
@@ -207,7 +235,7 @@ extends <a href="http://download.oracle.com/javase/6/docs/api/java/lang/Object.h
 <ul class="blockListLast">
 <li class="blockList">
 <h4>cleanup</h4>
-<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.46">cleanup</a>(org.apache.commons.logging.Log&nbsp;log,
+<pre>public static&nbsp;void&nbsp;<a href="../../../../src-html/com/intel/chimera/utils/IOUtils.html#line.63">cleanup</a>(org.apache.commons.logging.Log&nbsp;log,
            <a href="http://download.oracle.com/javase/6/docs/api/java/io/Closeable.html?is-external=true" title="class or interface in java.io">Closeable</a>...&nbsp;closeables)</pre>
 <div class="block">Close the Closeable objects and <b>ignore</b> any <a href="http://download.oracle.com/javase/6/docs/api/java/io/IOException.html?is-external=true" title="class or interface in java.io"><code>IOException</code></a> or 
  null pointers. Must only be used for cleanup in exception handlers.</div>

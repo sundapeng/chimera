@@ -29,38 +29,45 @@ import static com.intel.chimera.conf.ConfigurationKeys
     .CHIMERA_CRYPTO_SECURE_RANDOM_CLASSES_KEY;
 
 /**
- * The Factory for SecureRandom.
+ * This is the factory class used for {@link SecureRandom}.
  */
 <span class="nc" id="L34">public class SecureRandomFactory {</span>
 <span class="fc" id="L35">  public final static Logger LOG = LoggerFactory</span>
       .getLogger(SecureRandomFactory.class);
 
+  /**
+   * Gets a SecureRandom instance for specified props.
+   *
+   * @param props the configuration properties.
+   * @return SecureRandom the secureRandom object.Null value will be returned if no
+   *         SecureRandom classes with props.
+   */
   public static SecureRandom getSecureRandom(Properties props) {
-<span class="fc" id="L39">    String secureRandomClasses = props.getProperty(</span>
+<span class="fc" id="L46">    String secureRandomClasses = props.getProperty(</span>
         CHIMERA_CRYPTO_SECURE_RANDOM_CLASSES_KEY);
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    if (secureRandomClasses == null) {</span>
-<span class="nc" id="L42">      secureRandomClasses = System.getProperty(</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">    if (secureRandomClasses == null) {</span>
+<span class="nc" id="L49">      secureRandomClasses = System.getProperty(</span>
           CHIMERA_CRYPTO_SECURE_RANDOM_CLASSES_KEY);
     }
 
-<span class="fc" id="L46">    SecureRandom random = null;</span>
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    if (secureRandomClasses != null) {</span>
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">      for (String klassName : Utils.splitClassNames(secureRandomClasses, &quot;,&quot;)) {</span>
+<span class="fc" id="L53">    SecureRandom random = null;</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">    if (secureRandomClasses != null) {</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">      for (String klassName : Utils.splitClassNames(secureRandomClasses, &quot;,&quot;)) {</span>
         try {
-<span class="fc" id="L50">          final Class klass = ReflectionUtils.getClassByName(klassName);</span>
-<span class="fc" id="L51">          random = (SecureRandom) ReflectionUtils.newInstance(klass, props);</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">          if (random != null) {</span>
-<span class="fc" id="L53">            break;</span>
+<span class="fc" id="L57">          final Class&lt;?&gt; klass = ReflectionUtils.getClassByName(klassName);</span>
+<span class="fc" id="L58">          random = (SecureRandom) ReflectionUtils.newInstance(klass, props);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">          if (random != null) {</span>
+<span class="fc" id="L60">            break;</span>
           }
-<span class="nc" id="L55">        } catch (ClassCastException e) {</span>
-<span class="nc" id="L56">          LOG.error(&quot;Class {} is not a Cipher.&quot;, klassName);</span>
-<span class="nc" id="L57">        } catch (ClassNotFoundException e) {</span>
-<span class="nc" id="L58">          LOG.error(&quot;Cipher {} not found.&quot;, klassName);</span>
-<span class="nc" id="L59">        }</span>
-<span class="nc" id="L60">      }</span>
+<span class="nc" id="L62">        } catch (ClassCastException e) {</span>
+<span class="nc" id="L63">          LOG.error(&quot;Class {} is not a Cipher.&quot;, klassName);</span>
+<span class="nc" id="L64">        } catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L65">          LOG.error(&quot;Cipher {} not found.&quot;, klassName);</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">      }</span>
     }
 
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    return (random == null) ? new JavaSecureRandom(props) : random;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    return (random == null) ? new JavaSecureRandom(props) : random;</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

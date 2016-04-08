@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>CryptoInputStream.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Apache Commons Crypto</a> &gt; <a href="index.source.html" class="el_package">com.intel.chimera.stream.input</a> &gt; <span class="el_source">CryptoInputStream.java</span></div><h1>CryptoInputStream.java</h1><pre class="source lang-java linenums">/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * &quot;License&quot;); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.intel.chimera.stream.input;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.ReadableByteChannel;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.util.Properties;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.ShortBufferException;
+
+import com.intel.chimera.cipher.Cipher;
+import com.intel.chimera.cipher.CipherTransformation;
+import com.intel.chimera.stream.input.ChannelInput;
+import com.intel.chimera.stream.input.Input;
+import com.intel.chimera.stream.input.StreamInput;
+import com.intel.chimera.utils.Utils;
+
+/**
+ * CryptoInputStream reads input data and decrypts data in stream manner. It supports
+ * any mode of operations such as AES CBC/CTR/GCM mode in concept.It is not thread-safe.
+ *
+ */
+
+public class CryptoInputStream extends InputStream implements
+    ReadableByteChannel {
+<span class="fc" id="L46">  private final byte[] oneByteBuf = new byte[1];</span>
+
+  protected final Cipher cipher;
+  protected final int bufferSize;
+
+  protected final byte[] key;
+  protected final byte[] initIV;
+  protected byte[] iv;
+
+  protected boolean closed;
+<span class="fc" id="L56">  protected boolean finalDone = false;</span>
+
+  protected Input input;
+
+  /**
+   * Input data buffer. The data starts at inBuffer.position() and ends at
+   * to inBuffer.limit().
+   */
+  protected ByteBuffer inBuffer;
+
+  /**
+   * The decrypted data buffer. The data starts at outBuffer.position() and
+   * ends at outBuffer.limit();
+   */
+  protected ByteBuffer outBuffer;
+
+  public CryptoInputStream(CipherTransformation transformation,
+      Properties props, InputStream in, byte[] key, byte[] iv)
+      throws IOException {
+<span class="nc" id="L75">    this(in, Utils.getCipherInstance(transformation, props),</span>
+        Utils.getBufferSize(props), key, iv);
+<span class="nc" id="L77">  }</span>
+
+  public CryptoInputStream(CipherTransformation transformation,
+      Properties props, ReadableByteChannel in, byte[] key, byte[] iv)
+      throws IOException {
+<span class="nc" id="L82">    this(in, Utils.getCipherInstance(transformation, props),</span>
+        Utils.getBufferSize(props), key, iv);
+<span class="nc" id="L84">  }</span>
+
+  public CryptoInputStream(InputStream in, Cipher cipher, int bufferSize,
+      byte[] key, byte[] iv) throws IOException {
+<span class="fc" id="L88">    this(new StreamInput(in, bufferSize), cipher, bufferSize, key, iv);</span>
+<span class="fc" id="L89">  }</span>
+
+  public CryptoInputStream(ReadableByteChannel in, Cipher cipher,
+      int bufferSize, byte[] key, byte[] iv) throws IOException {
+<span class="fc" id="L93">    this(new ChannelInput(in), cipher, bufferSize, key, iv);</span>
+<span class="fc" id="L94">  }</span>
+
+  public CryptoInputStream(
+      Input input,
+      Cipher cipher,
+      int bufferSize,
+      byte[] key,
+<span class="fc" id="L101">      byte[] iv) throws IOException {</span>
+<span class="fc" id="L102">    this.input = input;</span>
+<span class="fc" id="L103">    this.cipher = cipher;</span>
+<span class="fc" id="L104">    this.bufferSize = Utils.checkBufferSize(cipher, bufferSize);</span>
+<span class="fc" id="L105">    this.key = key.clone();</span>
+<span class="fc" id="L106">    this.initIV = iv.clone();</span>
+<span class="fc" id="L107">    this.iv = iv.clone();</span>
+
+<span class="fc" id="L109">    inBuffer = ByteBuffer.allocateDirect(this.bufferSize);</span>
+<span class="fc" id="L110">    outBuffer = ByteBuffer.allocateDirect(this.bufferSize +</span>
+        cipher.getTransformation().getAlgorithmBlockSize());
+<span class="fc" id="L112">    outBuffer.limit(0);</span>
+
+<span class="fc" id="L114">    initCipher();</span>
+<span class="fc" id="L115">  }</span>
+
+  @Override
+  public int read() throws IOException {
+    int n;
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    while ((n = read(oneByteBuf, 0, 1)) == 0) ;</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">    return (n == -1) ? -1 : oneByteBuf[0] &amp; 0xff;</span>
+  }
+
+  /**
+   * Decryption is buffer based.
+   * If there is data in {@link #outBuffer}, then read it out of this buffer.
+   * If there is no data in {@link #outBuffer}, then read more from the
+   * underlying stream and do the decryption.
+   * @param b the buffer into which the decrypted data is read.
+   * @param off the buffer offset.
+   * @param len the maximum number of decrypted data bytes to read.
+   * @return int the total number of decrypted data bytes read into the buffer.
+   * @throws IOException
+   */
+  @Override
+  public int read(byte[] b, int off, int len) throws IOException {
+<span class="fc" id="L137">    checkStream();</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">    if (b == null) {</span>
+<span class="nc" id="L139">      throw new NullPointerException();</span>
+<span class="pc bpc" id="L140" title="3 of 6 branches missed.">    } else if (off &lt; 0 || len &lt; 0 || len &gt; b.length - off) {</span>
+<span class="nc" id="L141">      throw new IndexOutOfBoundsException();</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">    } else if (len == 0) {</span>
+<span class="nc" id="L143">      return 0;</span>
+    }
+
+<span class="fc" id="L146">    int remaining = outBuffer.remaining();</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">    if (remaining &gt; 0) {</span>
+      // Satisfy the read with the existing data
+<span class="fc" id="L149">      int n = Math.min(len, remaining);</span>
+<span class="fc" id="L150">      outBuffer.get(b, off, n);</span>
+<span class="fc" id="L151">      return n;</span>
+    } else {
+      // No data in the out buffer, try read new data and decrypt it
+<span class="fc" id="L154">      int nd = decryptMore();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">      if(nd &lt;= 0)</span>
+<span class="fc" id="L156">        return nd;</span>
+
+<span class="fc" id="L158">      int n = Math.min(len, outBuffer.remaining());</span>
+<span class="fc" id="L159">      outBuffer.get(b, off, n);</span>
+<span class="fc" id="L160">      return n;</span>
+    }
+  }
+
+  @Override
+  public long skip(long n) throws IOException {
+<span class="fc bfc" id="L166" title="All 2 branches covered.">    Utils.checkArgument(n &gt;= 0, &quot;Negative skip length.&quot;);</span>
+<span class="fc" id="L167">    checkStream();</span>
+
+<span class="pc bpc" id="L169" title="1 of 2 branches missed.">    if (n == 0) {</span>
+<span class="nc" id="L170">      return 0;</span>
+    }
+
+<span class="fc" id="L173">    long remaining = n;</span>
+    int nd;
+
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">    while (remaining &gt; 0) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">      if(remaining &lt;= outBuffer.remaining()) {</span>
+        // Skip in the remaining buffer
+<span class="fc" id="L179">        int pos = outBuffer.position() + (int) remaining;</span>
+<span class="fc" id="L180">        outBuffer.position(pos);</span>
+
+<span class="fc" id="L182">        remaining = 0;</span>
+<span class="fc" id="L183">        break;</span>
+      } else {
+<span class="fc" id="L185">        remaining -= outBuffer.remaining();</span>
+<span class="fc" id="L186">        outBuffer.clear();</span>
+      }
+
+<span class="fc" id="L189">      nd = decryptMore();</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">      if (nd &lt; 0) {</span>
+<span class="fc" id="L191">        break;</span>
+      }
+    }
+
+<span class="fc" id="L195">    return n - remaining;</span>
+  }
+
+  @Override
+  public int available() throws IOException {
+<span class="fc" id="L200">    checkStream();</span>
+
+<span class="fc" id="L202">    return input.available() + outBuffer.remaining();</span>
+  }
+
+  @Override
+  public void close() throws IOException {
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">    if (closed) {</span>
+<span class="nc" id="L208">      return;</span>
+    }
+
+<span class="fc" id="L211">    input.close();</span>
+<span class="fc" id="L212">    freeBuffers();</span>
+<span class="fc" id="L213">    cipher.close();</span>
+<span class="fc" id="L214">    super.close();</span>
+<span class="fc" id="L215">    closed = true;</span>
+<span class="fc" id="L216">  }</span>
+
+  @Override
+  public void mark(int readlimit) {
+<span class="nc" id="L220">  }</span>
+
+  @Override
+  public void reset() throws IOException {
+<span class="nc" id="L224">    throw new IOException(&quot;Mark/reset not supported&quot;);</span>
+  }
+
+  @Override
+  public boolean markSupported() {
+<span class="nc" id="L229">    return false;</span>
+  }
+
+  @Override
+  public boolean isOpen() {
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">    return !closed;</span>
+  }
+
+  @Override
+  public int read(ByteBuffer dst) throws IOException {
+<span class="fc" id="L239">    checkStream();</span>
+<span class="fc" id="L240">    int remaining = outBuffer.remaining();</span>
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">    if (remaining &lt;= 0) {</span>
+      // Decrypt more data
+<span class="fc" id="L243">      int nd = decryptMore();</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">      if(nd &lt; 0) {</span>
+<span class="nc" id="L245">        return -1;</span>
+      }
+    }
+
+    // Copy decrypted data from outBuffer to dst
+<span class="fc" id="L250">    remaining = outBuffer.remaining();</span>
+<span class="fc" id="L251">    final int toRead = dst.remaining();</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">    if (toRead &lt;= remaining) {</span>
+<span class="nc" id="L253">      final int limit = outBuffer.limit();</span>
+<span class="nc" id="L254">      outBuffer.limit(outBuffer.position() + toRead);</span>
+<span class="nc" id="L255">      dst.put(outBuffer);</span>
+<span class="nc" id="L256">      outBuffer.limit(limit);</span>
+<span class="nc" id="L257">      return toRead;</span>
+    } else {
+<span class="fc" id="L259">      dst.put(outBuffer);</span>
+<span class="fc" id="L260">      return remaining;</span>
+    }
+  }
+
+  /**
+   * Get the buffer size
+   */
+  protected int getBufferSize() {
+<span class="fc" id="L268">    return bufferSize;</span>
+  }
+
+  /**
+   * Get the key
+   */
+  protected byte[] getKey() {
+<span class="fc" id="L275">    return key;</span>
+  }
+
+  /**
+   * Get the initialization vector
+   */
+  protected byte[] getInitIV() {
+<span class="fc" id="L282">    return initIV;</span>
+  }
+
+  /**
+   * Get the internal Cipher
+   */
+  protected Cipher getCipher() {
+<span class="fc" id="L289">    return cipher;</span>
+  }
+
+  /** Initialize the cipher. */
+  protected void initCipher()
+      throws IOException {
+    try {
+<span class="fc" id="L296">      cipher.init(Cipher.DECRYPT_MODE, key, iv);</span>
+<span class="nc" id="L297">    } catch (InvalidKeyException e) {</span>
+<span class="nc" id="L298">      throw new IOException(e);</span>
+<span class="nc" id="L299">    } catch(InvalidAlgorithmParameterException e) {</span>
+<span class="nc" id="L300">      throw new IOException(e);</span>
+<span class="fc" id="L301">    }</span>
+<span class="fc" id="L302">  }</span>
+
+  /**
+   * Decrypt more data by reading the under layer stream. The decrypted data will
+   * be put in the output buffer. If the end of the under stream reached, we will
+   * do final of the cipher to finish all the decrypting of data.
+   *
+   * @return The number of decrypted data. -1 if end of the decrypted stream
+   */
+  protected int decryptMore() throws IOException {
+<span class="fc bfc" id="L312" title="All 2 branches covered.">    if(finalDone) {</span>
+<span class="fc" id="L313">      return -1;</span>
+    }
+
+<span class="fc" id="L316">    int n = input.read(inBuffer);</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">    if (n &lt; 0) {</span>
+      // The stream is end, finalize the cipher stream
+<span class="fc" id="L319">      decryptFinal();</span>
+
+      // Satisfy the read with the remaining
+<span class="fc" id="L322">      int remaining = outBuffer.remaining();</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">      if (remaining &gt; 0) {</span>
+<span class="nc" id="L324">        return remaining;</span>
+      }
+
+      // End of the stream
+<span class="fc" id="L328">      return -1;</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">    } else if(n == 0) {</span>
+      // No data is read, but the stream is not end yet
+<span class="nc" id="L331">      return 0;</span>
+    } else {
+<span class="fc" id="L333">      decrypt();</span>
+<span class="fc" id="L334">      return outBuffer.remaining();</span>
+    }
+  }
+
+  /**
+   * Do the decryption using inBuffer as input and outBuffer as output.
+   * Upon return, inBuffer is cleared; the decrypted data starts at
+   * outBuffer.position() and ends at outBuffer.limit();
+   */
+  protected void decrypt() throws IOException {
+    // Prepare the input buffer and clear the out buffer
+<span class="fc" id="L345">    inBuffer.flip();</span>
+<span class="fc" id="L346">    outBuffer.clear();</span>
+
+    try {
+<span class="fc" id="L349">      cipher.update(inBuffer, outBuffer);</span>
+<span class="nc" id="L350">    } catch (ShortBufferException e) {</span>
+<span class="nc" id="L351">      throw new IOException(e);</span>
+<span class="fc" id="L352">    }</span>
+
+    // Clear the input buffer and prepare out buffer
+<span class="fc" id="L355">    inBuffer.clear();</span>
+<span class="fc" id="L356">    outBuffer.flip();</span>
+<span class="fc" id="L357">  }</span>
+
+  /**
+   * Do final of the cipher to end the decrypting stream
+   */
+  protected void decryptFinal() throws IOException {
+    // Prepare the input buffer and clear the out buffer
+<span class="fc" id="L364">    inBuffer.flip();</span>
+<span class="fc" id="L365">    outBuffer.clear();</span>
+
+    try {
+<span class="fc" id="L368">      cipher.doFinal(inBuffer, outBuffer);</span>
+<span class="fc" id="L369">      finalDone = true;</span>
+<span class="nc" id="L370">    } catch (ShortBufferException e) {</span>
+<span class="nc" id="L371">      throw new IOException(e);</span>
+<span class="nc" id="L372">    } catch (IllegalBlockSizeException e) {</span>
+<span class="nc" id="L373">      throw new IOException(e);</span>
+<span class="nc" id="L374">    } catch( BadPaddingException e) {</span>
+<span class="nc" id="L375">      throw new IOException(e);</span>
+<span class="fc" id="L376">    }</span>
+
+    // Clear the input buffer and prepare out buffer
+<span class="fc" id="L379">    inBuffer.clear();</span>
+<span class="fc" id="L380">    outBuffer.flip();</span>
+<span class="fc" id="L381">  }</span>
+
+  protected void checkStream() throws IOException {
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">    if (closed) {</span>
+<span class="nc" id="L385">      throw new IOException(&quot;Stream closed&quot;);</span>
+    }
+<span class="fc" id="L387">  }</span>
+
+  /** Forcibly free the direct buffers. */
+  protected void freeBuffers() {
+<span class="fc" id="L391">    Utils.freeDirectBuffer(inBuffer);</span>
+<span class="fc" id="L392">    Utils.freeDirectBuffer(outBuffer);</span>
+<span class="fc" id="L393">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
